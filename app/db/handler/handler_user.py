@@ -11,6 +11,8 @@ def add_user(req):
     '''
     DB Connection
     '''
+
+
 def modify_user(req):
     id = req["id"]
     password = req["password"]
@@ -23,7 +25,8 @@ def modify_user(req):
     DB Connection
     '''
 
-def delete_user(id):
+
+def delete_user(no):
     '''
     DB Connection
     '''
