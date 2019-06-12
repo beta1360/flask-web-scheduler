@@ -1,7 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 from message import response
 from message.config import code
-from db.handler.user_handler import add_user, modify_user, delete_user
+from db.handler.user_handler import add_user, modify_user, delete_user, is_registed_user
 from db.handler.todo_handler import add_todo, modify_todo, delete_todo
 from db.dbconn import DBconn
 
@@ -13,6 +13,22 @@ conn = dbcon.build()
 @app.route("/", methods=["GET"])
 def home():
     return render_template("index.html"), 200
+
+
+@app.route("/user/check", methods=["GET"])
+def check_registed_user_route():
+    id = request.args.get("id")
+
+    if is_registed_user(conn, id):
+        return jsonify(
+            response.build(code_num=code.SUCCESS,
+                           code_message=code.REGISTED_USER)
+        ), 200
+    else:
+        return jsonify(
+            response.build(code_num=code.SUCCESS,
+                           code_message=code.NOT_REGISTED_USER)
+        ), 200
 
 
 @app.route("/user/add", methods=["POST"])

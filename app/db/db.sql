@@ -44,3 +44,5 @@ set title='PPAP', date_y=2019, date_m=6, date_d=12, body='pen&apple', level=2
 where no=1;
 
 delete from todo where no=2;
+
+select id from user where id="beta1360";

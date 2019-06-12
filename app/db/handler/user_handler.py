@@ -26,3 +26,7 @@ def delete_user(conn, id):
     delete_user_cursor(conn, id)
 
 
+def is_registed_user(conn, id):
+    return is_registed_user_id(conn, id)
+
+

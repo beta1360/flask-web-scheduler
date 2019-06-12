@@ -16,3 +16,7 @@ def update_user_tuple(pw, name, rank, id):
 
 def delete_user_tuple(id):
     return "delete from user where id='%s';" %(id)
+
+
+def select_registed_user(id):
+    return "select id from user where id='%s';" %(id)

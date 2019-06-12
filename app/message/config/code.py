@@ -20,3 +20,7 @@ FAIL_MODIFY_TODO = "Fail to modify todo"
 FAIL_DELETE_TODO = "Fail to delete todo"
 
 DUPLICATE_USER_CODE = "Registed user. Please check user information."
+
+REGISTED_USER = "Sorry.. This ID was registed.\nPlease use other ID."
+NOT_REGISTED_USER = "OK! You can use this ID."
+

@@ -1,6 +1,7 @@
 import pymysql
 from data import user
-from db.query.user_table import insert_user_tuple, update_user_tuple, delete_user_tuple
+from db.query.user_table import insert_user_tuple, update_user_tuple\
+    , delete_user_tuple, select_registed_user
 
 
 def add_user_cursor(conn, user):
@@ -22,3 +23,14 @@ def delete_user_cursor(conn, id):
         query = delete_user_tuple(id)
         cursor.execute(query)
         conn.commit()
+
+
+def is_registed_user_id(conn, id):
+    with conn.cursor() as cursor:
+        query = select_registed_user(id)
+        cursor.execute(query)
+
+        if len(cursor.fetchall()) != 0:
+            return True
+
+        return False
