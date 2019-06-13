@@ -3,7 +3,7 @@ NOT_FOUND = 400
 DUPLICATE_USER = 600
 FAIL = 500
 
-SUCCESS_ADD_USER = "Success to regist user"
+SUCCESS_ADD_USER = "Success to regist user.\nPlease log in this account."
 SUCCESS_MODIFY_USER = "Success to modify user"
 SUCCESS_DELETE_USER = "Success to delete user"
 

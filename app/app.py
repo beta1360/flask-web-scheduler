@@ -15,13 +15,13 @@ def home():
     return render_template("index.html"), 200
 
 
-@app.route("/user/check", methods=["GET"])
+@app.route("/user/check", methods=["POST"])
 def check_registed_user_route():
-    id = request.args.get("id")
+    id = request.get_json()["user_id"]
 
     if is_registed_user(conn, id):
         return jsonify(
-            response.build(code_num=code.SUCCESS,
+            response.build(code_num=code.DUPLICATE_USER,
                            code_message=code.REGISTED_USER)
         ), 200
     else:
@@ -36,11 +36,16 @@ def post_add_user():
     req = request.get_json()
 
     try:
-        add_user(conn, req)
-        return jsonify(
-            response.build(code_num=code.SUCCESS,
-                            code_message=code.SUCCESS_ADD_USER)
-        ), 200
+        if add_user(conn, req):
+            return jsonify(
+                response.build(code_num=code.SUCCESS,
+                               code_message=code.SUCCESS_ADD_USER)
+            ), 200
+        else:
+            return jsonify(
+                response.build(code_num=code.DUPLICATE_USER,
+                               code_message=code.REGISTED_USER)
+            ), 200
 
     except:
         return jsonify(

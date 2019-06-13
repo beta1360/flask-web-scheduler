@@ -1,5 +1,5 @@
 from data.user import User
-from db.cursor.user_cursor import add_user_cursor, modify_user_cursor, delete_user_cursor
+from db.cursor.user_cursor import add_user_cursor, modify_user_cursor, delete_user_cursor, is_registed_user_id
 
 
 def add_user(conn, req):
@@ -9,7 +9,12 @@ def add_user(conn, req):
     rank = req["rank"]
 
     user = User(id, password, name, rank)
-    add_user_cursor(conn, user)
+    if not is_registed_user(conn, id):
+        add_user_cursor(conn, user)
+        return True
+
+    else:
+        return False
 
 
 def modify_user(conn, req):
