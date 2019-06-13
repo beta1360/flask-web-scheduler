@@ -1,18 +1,24 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, flash
 from message import response
 from message.config import code
 from db.handler.user_handler import add_user, modify_user, delete_user, is_registed_user
 from db.handler.todo_handler import add_todo, modify_todo, delete_todo
 from db.dbconn import DBconn
+from util.timestamp import build_timestamp
+from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 
 app = Flask('__name__')
+app.secret_key = 'ab7a06b8ea0cb4436c8b4b4816c724db82c8c375d2a48c7ae37a2e8e3b938238'
 dbcon = DBconn()
 conn = dbcon.build()
+login_manager = LoginManager()
+login_manager.init_app(app)
+USERS = {}
 
 
 @app.route("/", methods=["GET"])
 def home():
-    return render_template("index.html"), 200
+    return render_template("index.html", t=build_timestamp()), 200
 
 
 @app.route("/user/check", methods=["POST"])
@@ -88,6 +94,37 @@ def delete_user_id():
             response.build(code_num=code.FAIL,
                            code_message=code.FAIL_DELETE_USER)
         ), 500
+
+
+@app.route("/api/login", methods=["GET", "POST"])
+def login():
+    user_id = request.json['user_id']
+    user_pw = request.json['user_pw']
+
+    if user_id not in USERS:
+        return jsonify(
+            response.build(code_num=code.NOT_VALID_USER,
+                           code_message=code.NOT_VALID_USER_MSG)
+        ), 200
+    else:
+        USERS[user_id].is_authenticated = True
+        login_user(USERS[user_id], remember=True)
+        return jsonify(
+            response.build(code_num=code.SUCCESS,
+                           code_message=response.success_to_login(id))
+        ), 200
+
+
+@app.route('/api/logout', methods=["POST"])
+@login_required
+def logout():
+    user = current_user
+    user.is_authenticated = False
+    logout_user()
+    return jsonify(
+        response.build(code_num=code.SUCCESS,
+                       code_message=code.LOGOUT_MESSAGE)
+    ), 200
 
 
 @app.route("/todo/add", methods=["POST"])
