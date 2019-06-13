@@ -46,3 +46,5 @@ where no=1;
 delete from todo where no=2;
 
 select id from user where id="beta1360";
+
+select * from user where id='beta1360' and password=HEX(AES_ENCRYPT('qpxksla147', MD5('test')));

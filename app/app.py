@@ -1,7 +1,8 @@
 from flask import Flask, render_template, jsonify, request, flash
+from data.user import User
 from message import response
 from message.config import code
-from db.handler.user_handler import add_user, modify_user, delete_user, is_registed_user
+from db.handler.user_handler import add_user, modify_user, delete_user, is_registed_user, get_login_user, provide_user_instance
 from db.handler.todo_handler import add_todo, modify_todo, delete_todo
 from db.dbconn import DBconn
 from util.timestamp import build_timestamp
@@ -96,22 +97,29 @@ def delete_user_id():
         ), 500
 
 
-@app.route("/api/login", methods=["GET", "POST"])
+@login_manager.user_loader
+def user_loader(user_id):
+    return provide_user_instance(conn, user_id)
+
+
+@app.route("/api/login", methods=["POST"])
 def login():
     user_id = request.json['user_id']
     user_pw = request.json['user_pw']
+    user = get_login_user(conn, user_id, user_pw)
 
-    if user_id not in USERS:
+    if not user:
         return jsonify(
             response.build(code_num=code.NOT_VALID_USER,
                            code_message=code.NOT_VALID_USER_MSG)
         ), 200
+
     else:
-        USERS[user_id].is_authenticated = True
-        login_user(USERS[user_id], remember=True)
+        user.is_authenticated = True
+        login_user(user, remember=True)
         return jsonify(
             response.build(code_num=code.SUCCESS,
-                           code_message=response.success_to_login(id))
+                           code_message=response.success_to_login(user.name))
         ), 200
 
 
@@ -119,7 +127,7 @@ def login():
 @login_required
 def logout():
     user = current_user
-    user.is_authenticated = False
+    user.is_authenticated = False #Check
     logout_user()
     return jsonify(
         response.build(code_num=code.SUCCESS,

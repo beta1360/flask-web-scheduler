@@ -1,6 +1,7 @@
 SUCCESS = 200
 NOT_FOUND = 400
 DUPLICATE_USER = 600
+NOT_VALID_USER = 601
 FAIL = 500
 
 SUCCESS_ADD_USER = "Success to regist user.\nPlease log in this account."
@@ -23,4 +24,7 @@ DUPLICATE_USER_CODE = "Registed user. Please check user information."
 
 REGISTED_USER = "Sorry.. This ID was registed.\nPlease use other ID."
 NOT_REGISTED_USER = "OK! You can use this ID."
+
+LOGOUT_MESSAGE = "Success to log out.\nSee you later."
+NOT_VALID_USER_MSG = "Invaild user id or password.\nPlease check them."
 
