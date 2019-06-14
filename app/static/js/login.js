@@ -34,6 +34,7 @@ $(document).ready(function(){
                 if(status_code == 200) {
                     alert(message);
                     initLogInForm();
+                    location.replace("http://localhost:8000/main");
                 } else if(status_code == 601)
                     alert(message);
                 else
