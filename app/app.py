@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, flash
+from flask import Flask, render_template, jsonify, request, flash, redirect, url_for
 from data.user import User
 from message import response
 from message.config import code
@@ -18,8 +18,22 @@ USERS = {}
 
 
 @app.route("/", methods=["GET"])
-def home():
-    return render_template("index.html", t=build_timestamp()), 200
+def auth_home():
+    user = current_user
+
+    if not user.is_authenticated:
+        return render_template("index.html", t=build_timestamp()), 200
+
+    else:
+        return redirect(url_for("main_home"), code=302)
+
+
+@app.route("/main", methods=["GET"])
+@login_required
+def main_home():
+    user = current_user
+    return render_template("main.html",
+                           t=build_timestamp(), user=user.name), 200
 
 
 @app.route("/user/check", methods=["POST"])
@@ -127,7 +141,7 @@ def login():
 @login_required
 def logout():
     user = current_user
-    user.is_authenticated = False #Check
+    user.is_authenticated = False
     logout_user()
     return jsonify(
         response.build(code_num=code.SUCCESS,
@@ -184,6 +198,11 @@ def delete_todo_no():
             response.build(code_num=code.FAIL,
                            code_message=code.FAIL_DELETE_TODO)
         ), 500
+
+
+@app.errorhandler(401)
+def not_auth_user(error):
+    return redirect(url_for("auth_home"), code=302)
 
 
 if __name__ == '__main__':
