@@ -11,7 +11,59 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/logout.js', t=[t]) }}"></script>
 </head>
 <body>
-    <button id="logoutBtn">Logout</button>
+
+{{user}} <button id="logoutBtn">Logout</button>
+
+<hr/>
+
+<div class="container" id="todoTable">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>no</th>
+                <th>title</th>
+                <th>name</th>
+                <th>date</th>
+                <th>level</th>
+            </tr>
+        </thead>
+        <tbody id="todoList">
+            <tr>
+                <td>165</td>
+                <td>Bootstrap Hello</td>
+                <td>Lee Geonhee</td>
+                <td>2019.06.14</td>
+            </tr>
+            <tr>
+                <td>164</td>
+                <td>jQuery Hello</td>
+                <td>Lee hello</td>
+                <td>2019.06.14</td>
+            </tr>
+                <tr>
+                <td>163</td>
+                <td>Javascript Hello</td>
+                <td>Lee world</td>
+                <td>2019.06.12</td>
+            </tr>
+            <tr>
+                <td>162</td>
+                <td>Flask Hello</td>
+                <td>Lee flask</td>
+                <td>2019.06.11</td>
+            </tr>
+            <tr>
+                <td>161</td>
+                <td>Python Hello</td>
+                <td>Lee python</td>
+                <td>2019.06.10</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr/>
+    <a class="btn btn-default pull-right" id="addTodo">Write</a>
+</div>
 
 </body>
 </html>

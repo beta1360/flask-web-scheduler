@@ -16,6 +16,7 @@ FAIL_ADD_USER = "Fail to regist user"
 FAIL_MODIFY_USER = "Fail to modify user"
 FAIL_DELETE_USER = "Fail to delete user"
 
+FAIL_SELECT_TODO = "Fail to get todo list."
 FAIL_ADD_TODO = "Fail to regist todo"
 FAIL_MODIFY_TODO = "Fail to modify todo"
 FAIL_DELETE_TODO = "Fail to delete todo"

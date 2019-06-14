@@ -1,5 +1,6 @@
 class Todo:
-    def __init__(self, name, title, date_y, date_m, date_d, body, level):
+    def __init__(self, id, name, title, date_y, date_m, date_d, body, level):
+        self.__id = id
         self.__name = name
         self.__title = title
         self.__date_y = date_y
@@ -7,6 +8,10 @@ class Todo:
         self.__date_d = date_d
         self.__body = body
         self.__level = level
+
+    @property
+    def id(self):
+        return self.__id
 
     @property
     def name(self):
@@ -35,6 +40,10 @@ class Todo:
     @property
     def level(self):
         return self.__level
+
+    @id.setter
+    def id(self, id):
+        self.__id = id
 
     @name.setter
     def name(self, name):

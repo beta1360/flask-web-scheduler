@@ -33,7 +33,8 @@ create table todo (
 	date_d int NOT NULL,
 	body text,
 	level int NOT NULL,
-	FOREIGN KEY(name) REFERENCES user (name),
+	id varchar(50) NOT NULL,
+	FOREIGN KEY(id) REFERENCES user (id),
 	PRIMARY KEY(no)
 );
 
@@ -48,3 +49,5 @@ delete from todo where no=2;
 select id from user where id="beta1360";
 
 select * from user where id='beta1360' and password=HEX(AES_ENCRYPT('qpxksla147', MD5('test')));
+
+select no, name, title, date_y, date_m, date_d, level, id from todo order by no desc;

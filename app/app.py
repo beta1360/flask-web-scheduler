@@ -1,9 +1,8 @@
-from flask import Flask, render_template, jsonify, request, flash, redirect, url_for
-from data.user import User
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 from message import response
 from message.config import code
 from db.handler.user_handler import add_user, modify_user, delete_user, is_registed_user, get_login_user, provide_user_instance
-from db.handler.todo_handler import add_todo, modify_todo, delete_todo
+from db.handler.todo_handler import add_todo, modify_todo, delete_todo, select_todo_list
 from db.dbconn import DBconn
 from util.timestamp import build_timestamp
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
@@ -33,7 +32,7 @@ def auth_home():
 def main_home():
     user = current_user
     return render_template("main.html",
-                           t=build_timestamp(), user=user.name), 200
+                           t=build_timestamp(), user=user.name, user_id=user.id), 200
 
 
 @app.route("/user/check", methods=["POST"])
@@ -147,6 +146,22 @@ def logout():
         response.build(code_num=code.SUCCESS,
                        code_message=code.LOGOUT_MESSAGE)
     ), 200
+
+
+@app.route("/todo/list", methods=["GET"])
+@login_required
+def get_todo_list_in_main():
+    id = request.args.get("id")
+
+    try:
+        list = select_todo_list(conn, id)
+        return jsonify({"todos": list}), 200
+
+    except:
+        return jsonify(
+            response.build(code_num=code.FAIL,
+                           code_message=code.FAIL_SELECT_TODO)
+        ), 500
 
 
 @app.route("/todo/add", methods=["POST"])
