@@ -17,17 +17,16 @@ def add_todo(conn, req, user):
     add_todo_cursor(conn, todo)
 
 
-def modify_todo(conn, req):
-    name = req["name"]
-    title = req["title"]
-    date_y = req["date_y"]
-    date_m = req["date_m"]
-    date_d = req["date_d"]
-    body = req["body"]
-    level = req["level"]
-    no = req["no"]
+def modify_todo(conn, req, user):
+    title = req[u"title"]
+    date_y = req[u"date_y"]
+    date_m = req[u"date_m"]
+    date_d = req[u"date_d"]
+    body = req[u"body"]
+    level = req[u"level"]
+    no = req[u"no"]
 
-    todo = Todo(name, title, date_y, date_m, date_d, body, level)
+    todo = Todo(user.id, user.name, title, date_y, date_m, date_d, body, level)
     modify_todo_cursor(conn, todo, no)
 
 

@@ -202,9 +202,10 @@ def post_add_todo():
 @app.route("/todo/modify", methods=["POST"])
 def post_modify_todo():
     req = request.get_json()
+    user = current_user
 
     try:
-        modify_todo(conn, req)
+        modify_todo(conn, req, user)
         return jsonify(
             response.build(code_num=code.SUCCESS,
                            code_message=code.SUCCESS_MODIFY_TODO)

@@ -1,9 +1,10 @@
+var board_no;
+
 function getTodoTable(user){
     $.ajax({
         type: "GET"
         , url:"http://localhost:8000/todo/list?id="+ user
         , dataType: "json"
-        //, async: false
         , success: function(data){
             var domView = "";
             var todoList = data.todos;
@@ -77,6 +78,8 @@ function getDate(year, month, day){
 }
 
 function getDetailTodo(no){
+    board_no = no;
+
     $.ajax({
         type: "GET"
         , url: "http://localhost:8000/todo/component?no=" + no
@@ -88,6 +91,14 @@ function getDetailTodo(no){
             document.getElementById('todoName').innerHTML = data.name;
             document.getElementById('todoDate').innerHTML = getDate(data.date_y, data.date_m, data.date_d);
             document.getElementById('todoBody').innerHTML = data.body;
+
+            $('#todoModify').click(function(){
+                getModifyTodoModal();
+            });
+
+            $('#todoDelete').click(function(){
+                deleteTodo();
+            });
         }
         , error: function(){
 
@@ -133,6 +144,25 @@ function addTodoForm(level){
     })
 }
 
+function deleteTodo(){
+    if(confirm("Do you want to delete this todo?")){
+        $.ajax({
+            type: "DELETE"
+            , async: false
+            , cache: false
+            , url: "http://localhost:8000/todo/delete?no=" + board_no
+            , dataType: "json"
+            , success: function(data){
+                alert(data.message);
+                location.reload();
+            }
+            , error: function(data){
+
+            }
+        });
+    }
+}
+
 function initAddTodoForm(){
     $("writeTodoName").val('');
     $("#writeDatePicker").val('');
@@ -147,4 +177,78 @@ function parseDate(date){
     parsedDate['date_d'] = Number(date.substring(8, 10));
 
     return parsedDate;
+}
+
+function getModifyTodoModal(){
+    var level;
+
+    $('#detailTodoModal').modal('hide');
+
+    $('#modifyTodoModal').modal('show');
+
+    $(function() {
+        $("#modifyDatePicker").datepicker({
+            dateFormat: "yy.mm.dd"
+        });
+    });
+
+    $('#modifyLevelBtn button').on('click', function(){
+        var thisBtn = $(this);
+
+        thisBtn.addClass('active').siblings().removeClass('active');
+        level = thisBtn.val();
+    });
+
+    $('#modifyTodo').click(function(){
+        onClickModifyTodo(level);
+    });
+
+    $('#modifyTodoClose').click(function(){
+        if(confirm("Do you want to stop to modify todo?"))
+            initModifyTodoForm();
+    });
+}
+
+function onClickModifyTodo(level){
+    var title = $('#modifyTodoTitle').val();
+    var date = parseDate($('#modifyDatePicker').val());
+    var body = $('#modifyTodoBody').val();
+
+    var date_y = Number(date['date_y']);
+    var date_m = Number(date['date_m']);
+    var date_d = Number(date['date_d']);
+
+    if(confirm('Do you want to modify this todo?')){
+        $.ajax({
+            type: "POST"
+            , url: "http://localhost:8000/todo/modify"
+            , contentType : 'application/json; charset=utf-8'
+            , async: false
+            , cache: false
+            , data: JSON.stringify({
+                no: Number(board_no),
+                title: title,
+                body: body,
+                date_y: date_y,
+                date_m: date_m,
+                date_d: date_d,
+                level: Number(level)
+            })
+            , dataType: "json"
+            , success: function(data){
+                alert(data.message);
+                initModifyTodoForm();
+                location.reload();
+            }
+            , error: function(data){
+
+            }
+        });
+    }
+}
+
+function initModifyTodoForm(){
+    $('#modifyTodoTitle').val('');
+    $('#modifyDatePicker').val('');
+    $('#modifyTodoBody').val('');
 }

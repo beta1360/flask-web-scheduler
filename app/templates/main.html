@@ -77,10 +77,10 @@
                 <p><label>Title: </label> <input type="text" id="writeTodoTitle"/></p>
                 <p>
                     <label>Date: </label>
-                    <input type="text" id="writeDatePicker">
+                    <input type="text" id="writeDatePicker" readonly="readonly">
                 </p>
                 <label>Content: </label></p>
-                <textarea id="writeTodoBody" rows="10" cols="70"></textarea>
+                <textarea id="writeTodoBody" rows="10" cols="85"></textarea>
                 <p>Priority Level: </p>
                 <div class="container">
 	                <div class="btn-group" role="group" aria-label="..." id="levelBtn">
@@ -95,6 +95,43 @@
             <div class="modal-footer">
                 <button type="button" id="writeTodo">Write</button>
                 <button type="button" id="writeTodoClose" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Write Todo Modal -->
+<div class="modal fade" id="modifyTodoModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modify your To-do!</h4>
+            </div>
+            <div class="modal-body">
+                <p><label>Title: </label> <input type="text" id="modifyTodoTitle"/></p>
+                <p>
+                    <label>Date: </label>
+                    <input type="text" id="modifyDatePicker" readonly="readonly">
+                </p>
+                <label>Content: </label></p>
+                <textarea id="modifyTodoBody" rows="10" cols="85"></textarea>
+                <p>Priority Level: </p>
+                <div class="container">
+	                <div class="btn-group" role="group" aria-label="..." id="modifyLevelBtn">
+	                    <button type="button" class="btn btn-default" value="1">1</button>
+	                    <button type="button" class="btn btn-default" value="2">2</button>
+	                    <button type="button" class="btn btn-default" value="3">3</button>
+                        <button type="button" class="btn btn-default" value="4">4</button>
+                        <button type="button" class="btn btn-default" value="5">5</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modifyTodo">Modify</button>
+                <button type="button" id="modifyTodoClose" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
