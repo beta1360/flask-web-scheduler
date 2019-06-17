@@ -4,6 +4,7 @@ class User:
         self.__password = password
         self.__name = name
         self.__rank = rank
+        self.authenticated = False
 
     @property
     def id(self):
@@ -36,3 +37,15 @@ class User:
     @rank.setter
     def rank(self, rank):
         self.__rank = rank
+
+    def is_authenticated(self):
+        return self.authenticated
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.__id

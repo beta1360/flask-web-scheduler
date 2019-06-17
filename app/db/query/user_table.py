@@ -16,3 +16,16 @@ def update_user_tuple(pw, name, rank, id):
 
 def delete_user_tuple(id):
     return "delete from user where id='%s';" %(id)
+
+
+def select_registed_user(id):
+    return "select id from user where id='%s';" %(id)
+
+
+def select_login(id, pw):
+    return "select * from user where id='%s' " \
+           "and password=HEX(AES_ENCRYPT('%s', MD5('test')))" %(id, pw)
+
+
+def select_user_instance(id):
+    return "select * from user where id='%s'" %id
