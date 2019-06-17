@@ -1,7 +1,7 @@
 import pymysql
 from data import todo
 from db.query.todo_table import insert_todo_tuple, \
-    update_todo_tuple, delete_todo_tuple, select_todo_list
+    update_todo_tuple, delete_todo_tuple, select_todo_list, select_todo_about_no
 
 
 def add_todo_cursor(conn, todo):
@@ -35,3 +35,11 @@ def select_todo_list_cursor(conn, id):
         cursor.execute(query)
 
         return cursor.fetchall()
+
+
+def select_todo_by_no(conn, no):
+    with conn.cursor() as cursor:
+        query = select_todo_about_no(no)
+        cursor.execute(query)
+
+        return cursor.fetchone()

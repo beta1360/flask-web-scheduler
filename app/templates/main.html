@@ -8,9 +8,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/logout.js', t=[t]) }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/todolist.js', t=[t]) }}"></script>
 </head>
-<body>
+<body onload="getTodoTable('{{user_id}}')">
 
 {{user}} <button id="logoutBtn">Logout</button>
 
@@ -28,41 +31,73 @@
             </tr>
         </thead>
         <tbody id="todoList">
-            <tr>
-                <td>165</td>
-                <td>Bootstrap Hello</td>
-                <td>Lee Geonhee</td>
-                <td>2019.06.14</td>
-            </tr>
-            <tr>
-                <td>164</td>
-                <td>jQuery Hello</td>
-                <td>Lee hello</td>
-                <td>2019.06.14</td>
-            </tr>
-                <tr>
-                <td>163</td>
-                <td>Javascript Hello</td>
-                <td>Lee world</td>
-                <td>2019.06.12</td>
-            </tr>
-            <tr>
-                <td>162</td>
-                <td>Flask Hello</td>
-                <td>Lee flask</td>
-                <td>2019.06.11</td>
-            </tr>
-            <tr>
-                <td>161</td>
-                <td>Python Hello</td>
-                <td>Lee python</td>
-                <td>2019.06.10</td>
-            </tr>
+
         </tbody>
     </table>
 
     <hr/>
     <a class="btn btn-default pull-right" id="addTodo">Write</a>
+</div>
+
+<!-- Detail Todo Modal -->
+<div class="modal fade" id="detailTodoModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" title="todoTitle" id="todoTitle"></h4>
+            </div>
+            <div class="modal-body">
+                <label>Name: </label> <p id="todoName"></p>
+                <label>Date: </label> <p id="todoDate"></p>
+                <label>Content: </label> <p id="todoBody"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="todoModify">Modify</button>
+                <button type="button" id="todoDelete">Delete</button>
+                <button type="button" id="todoClose" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Write Todo Modal -->
+<div class="modal fade" id="writeTodoModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Write your To-do!</h4>
+            </div>
+            <div class="modal-body">
+                <p><label>Title: </label> <input type="text" id="writeTodoTitle"/></p>
+                <p>
+                    <label>Date: </label>
+                    <input type="text" id="writeDatePicker">
+                </p>
+                <label>Content: </label></p>
+                <textarea id="writeTodoBody" rows="10" cols="70"></textarea>
+                <p>Priority Level: </p>
+                <div class="container">
+	                <div class="btn-group" role="group" aria-label="..." id="levelBtn">
+	                    <button type="button" class="btn btn-default" value="1">1</button>
+	                    <button type="button" class="btn btn-default" value="2">2</button>
+	                    <button type="button" class="btn btn-default" value="3">3</button>
+                        <button type="button" class="btn btn-default" value="4">4</button>
+                        <button type="button" class="btn btn-default" value="5">5</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="writeTodo">Write</button>
+                <button type="button" id="writeTodoClose" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>

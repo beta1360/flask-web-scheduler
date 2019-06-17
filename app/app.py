@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for
 from message import response
 from message.config import code
 from db.handler.user_handler import add_user, modify_user, delete_user, is_registed_user, get_login_user, provide_user_instance
-from db.handler.todo_handler import add_todo, modify_todo, delete_todo, select_todo_list
+from db.handler.todo_handler import add_todo, modify_todo, delete_todo, select_todo_list, get_todo_component_by_no
 from db.dbconn import DBconn
 from util.timestamp import build_timestamp
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
@@ -119,6 +119,7 @@ def user_loader(user_id):
 def login():
     user_id = request.json['user_id']
     user_pw = request.json['user_pw']
+
     user = get_login_user(conn, user_id, user_pw)
 
     if not user:
@@ -164,12 +165,29 @@ def get_todo_list_in_main():
         ), 500
 
 
+@app.route("/todo/component", methods=["GET"])
+@login_required
+def get_todo_component():
+    no = request.args.get("no")
+
+    try:
+        component = get_todo_component_by_no(conn, no)
+        return jsonify(component), 200
+
+    except:
+        return jsonify(
+            response.build(code_num=code.FAIL,
+                           code_message=code.FAIL_SELECT_TODO)
+        ), 500
+
+
 @app.route("/todo/add", methods=["POST"])
 def post_add_todo():
     req = request.get_json()
+    user = current_user
 
     try:
-        add_todo(conn, req)
+        add_todo(conn, req, user)
         return jsonify(
             response.build(code_num=code.SUCCESS,
                            code_message=code.SUCCESS_ADD_TODO)

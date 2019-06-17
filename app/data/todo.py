@@ -23,7 +23,7 @@ class Todo:
 
     @property
     def date_y(self):
-        return self.__date_d
+        return self.__date_y
 
     @property
     def date_m(self):

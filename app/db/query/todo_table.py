@@ -23,4 +23,8 @@ def delete_todo_tuple(no):
 
 def select_todo_list(id):
     return "select no, title, name, date_y, date_m, date_d, level, id " \
-           "from todo where id = '%s';" %id
+           "from todo where id = '%s' order by no desc;" %id
+
+
+def select_todo_about_no(no):
+    return "select * from todo where no=%d;" %int(no)
