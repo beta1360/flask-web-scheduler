@@ -8,7 +8,7 @@ $(document).ready(function(){
             $.ajax({
                 type:'POST'
                 , cache: false
-                , url:"http://localhost:8000/user/check"
+                , url:"http://localhost:13609/user/check"
                 , data: JSON.stringify({
                     user_id: id
                 })
@@ -49,7 +49,7 @@ $(document).ready(function(){
             if(pw == cpw){
                 $.ajax({
                     type:"POST"
-                    , url:"http://localhost:8000/user/add"
+                    , url:"http://localhost:13609/user/add"
                     , cache: false
                     , data: JSON.stringify({
                         id: user_id,

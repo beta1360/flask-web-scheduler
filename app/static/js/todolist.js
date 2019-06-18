@@ -7,7 +7,7 @@ var current_level;
 function getTodoTable(user){
     $.ajax({
         type: "GET"
-        , url:"http://localhost:8000/todo/list?id="+ user
+        , url:"http://localhost:13609/todo/list?id="+ user
         , dataType: "json"
         , success: function(data){
             var domView = "";
@@ -86,7 +86,7 @@ function getDetailTodo(no){
 
     $.ajax({
         type: "GET"
-        , url: "http://localhost:8000/todo/component?no=" + no
+        , url: "http://localhost:13609/todo/component?no=" + no
         , dataType: "JSON"
         , success: function(data){
             date = getDate(data.date_y, data.date_m, data.date_d);
@@ -128,7 +128,7 @@ function addTodoForm(level){
 
     $.ajax({
         type: "POST"
-        , url: "http://localhost:8000/todo/add"
+        , url: "http://localhost:13609/todo/add"
         , contentType : 'application/json; charset=utf-8'
         , async: false
         , cache: false
@@ -159,7 +159,7 @@ function deleteTodo(){
             type: "DELETE"
             , async: false
             , cache: false
-            , url: "http://localhost:8000/todo/delete?no=" + board_no
+            , url: "http://localhost:13609/todo/delete?no=" + board_no
             , dataType: "json"
             , success: function(data){
                 alert(data.message);
@@ -234,7 +234,7 @@ function onClickModifyTodo(level){
     if(confirm('Do you want to modify this todo?')){
         $.ajax({
             type: "POST"
-            , url: "http://localhost:8000/todo/modify"
+            , url: "http://localhost:13609/todo/modify"
             , contentType : 'application/json; charset=utf-8'
             , async: false
             , cache: false

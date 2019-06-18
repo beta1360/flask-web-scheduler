@@ -6,7 +6,7 @@ $(document).ready(function(){
             $.ajax({
                 type: "POST"
                 , cache: false
-                , url:"http://localhost:8000/api/logout"
+                , url:"http://localhost:13609/api/logout"
                 , async: false
                 , success: function(data){
                     alert("Complete to logout.");

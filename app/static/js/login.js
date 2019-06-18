@@ -15,7 +15,7 @@ $(document).ready(function(){
                 $.ajax({
                     type:'POST'
                     , cache: false
-                    , url:"http://localhost:8000/api/login"
+                    , url:"http://localhost:13609/api/login"
                     , data: JSON.stringify({
                         user_id: id,
                         user_pw: pwd
@@ -34,7 +34,7 @@ $(document).ready(function(){
                 if(status_code == 200) {
                     alert(message);
                     initLogInForm();
-                    location.replace("http://localhost:8000/main");
+                    location.replace("http://localhost:13609/main");
                 } else if(status_code == 601)
                     alert(message);
                 else
