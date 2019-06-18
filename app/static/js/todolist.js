@@ -1,4 +1,8 @@
 var board_no;
+var current_title;
+var current_body;
+var current_date;
+var current_level;
 
 function getTodoTable(user){
     $.ajax({
@@ -85,12 +89,19 @@ function getDetailTodo(no){
         , url: "http://localhost:8000/todo/component?no=" + no
         , dataType: "JSON"
         , success: function(data){
+            date = getDate(data.date_y, data.date_m, data.date_d);
             $('#detailTodoModal').modal('show');
 
             document.getElementById('todoTitle').innerHTML = data.title;
             document.getElementById('todoName').innerHTML = data.name;
-            document.getElementById('todoDate').innerHTML = getDate(data.date_y, data.date_m, data.date_d);
+            document.getElementById('todoDate').innerHTML = date;
             document.getElementById('todoBody').innerHTML = data.body;
+            document.getElementById('todoLevel').innerHTML = data.level;
+
+            current_title = data.title;
+            current_date = date;
+            current_body = data.body;
+            current_level = data.level;
 
             $('#todoModify').click(function(){
                 getModifyTodoModal();
@@ -114,8 +125,6 @@ function addTodoForm(level){
     var date_y = Number(date['date_y']);
     var date_m = Number(date['date_m']);
     var date_d = Number(date['date_d']);
-
-    alert(title);
 
     $.ajax({
         type: "POST"
@@ -185,6 +194,10 @@ function getModifyTodoModal(){
     $('#detailTodoModal').modal('hide');
 
     $('#modifyTodoModal').modal('show');
+
+    $('#modifyTodoTitle').val(current_title);
+    $('#modifyDatePicker').val(current_date);
+    $('#modifyTodoBody').val(current_body);
 
     $(function() {
         $("#modifyDatePicker").datepicker({
