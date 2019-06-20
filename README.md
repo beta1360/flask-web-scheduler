@@ -19,8 +19,14 @@ python app/app.py
 - ```python 2.7``` 이상의 버전을 권장합니다.
 
 ## Features
+### v0.50
 - 회원가입/ 로그인/ 로그아웃
 - Todo list 작성/수정/삭제/조회 (회원별 개인 관리)
+
+### v0.52 (Next Plan)
+- ORM 방식의 데이터베이스 이용(예정)
+- Blueprint 방식의 URL 라우트 나누기
+- 일부 UI 개선
 
 
 ## Next Plans...
