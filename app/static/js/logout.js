@@ -10,7 +10,7 @@ $(document).ready(function(){
                 , async: false
                 , success: function(data){
                     alert("Complete to logout.");
-                    location.replace("http://localhost:8000/main");
+                    location.replace("http://localhost:13609/");
                 }, error: function(data){
                     alert("Server error");
                 }
