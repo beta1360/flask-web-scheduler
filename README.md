@@ -27,7 +27,7 @@ python app/app.py
 - ORM 방식의 데이터베이스 이용
 - Blueprint 방식의 URL 라우트 나누기
 
-### v0.54
+### v0.54 (Next)
 - Logging 기능 추가
 - Bootstrap Style의 UI 교체
 - 검색기능 세부화
