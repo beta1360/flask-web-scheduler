@@ -13,7 +13,7 @@ signup_app = Blueprint('signup', __name__)
 def check_registed_user_route():
     id = request.get_json()["user_id"]
 
-    if is_registed_user(conn, id):
+    if is_registed_user(id):
         return jsonify(
             response.build(code_num=code.DUPLICATE_USER,
                            code_message=code.REGISTED_USER)
@@ -30,7 +30,7 @@ def post_add_user():
     req = request.get_json()
 
     try:
-        if add_user(conn, req):
+        if add_user(req):
             return jsonify(
                 response.build(code_num=code.SUCCESS,
                                code_message=code.SUCCESS_ADD_USER)

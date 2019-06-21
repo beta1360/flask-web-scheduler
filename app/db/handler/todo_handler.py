@@ -34,35 +34,37 @@ def delete_todo(conn, no):
     delete_todo_cursor(conn, no)
 
 
-def select_todo_list(conn, id):
+def select_todo_list(id):
     todo_table = []
-    list = select_todo_list_cursor(conn, id)
+    list = Todo.query.filter_by(id=id)\
+        .order_by(Todo.no.desc())\
+        .all()
 
     for todo in list:
         todo_table.append({
-            "no": todo[0],
-            "title": todo[1],
-            "name": todo[2],
-            "date_y": todo[3],
-            "date_m": todo[4],
-            "date_d": todo[5],
-            "level": todo[6],
-            "id": todo[7]
+            "no": todo.no,
+            "title": todo.title,
+            "name": todo.name,
+            "date_y": todo.date_y,
+            "date_m": todo.date_m,
+            "date_d": todo.date_d,
+            "level": todo.level,
+            "id": todo.id
         })
 
     return todo_table
 
 
-def get_todo_component_by_no(conn, no):
-    todo = select_todo_by_no(conn, no)
+def get_todo_component_by_no(no):
+    todo = Todo.query.filter_by(no=no).first()
     return {
-        "no": todo[0],
-        "name": todo[1],
-        "title": todo[2],
-        "date_y": todo[3],
-        "date_m": todo[4],
-        "date_d": todo[5],
-        "body": todo[6],
-        "level": todo[7],
-        "id": todo[8]
+        "no": todo.no,
+        "name": todo.name,
+        "title": todo.title,
+        "date_y": todo.date_y,
+        "date_m": todo.date_m,
+        "date_d": todo.date_d,
+        "body": todo.body,
+        "level": todo.level,
+        "id": todo.id
     }
