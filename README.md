@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # flask-web-scheduler
 > flask 복습을 위한 To-do 스케줄러 웹 어플리케이션<br>
 > 달력에서 자신의 일정과 팀원들의 일정을 관리할 수 있습니다.
@@ -82,8 +81,8 @@ python app/app.py
 - ```React.js``` 활용
 
 ### Back-end side
-- ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
-- UI 수정에 따른 서버 개선
-- Code Refactorying
-- ```logging``` 기능 추가하기
->>>>>>> 8be956b3d4364a12c50cd64f5946a83943ed576e
+-[x] ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
+-[ ] UI 수정에 따른 서버 개선
+-[ ] Code Refactorying
+-[ ] ```logging``` 기능 추가하기
+-[x] ```Blueprint``` 적용하기
