@@ -39,6 +39,8 @@ python app/app.py
 - [ ] Code Refactorying
 - [ ] 달력 방식의 Todo로 개선하기
 - [ ] ```React.js``` 활용
+- [ ] ```검색기능 세부화``` (테이블, 검색버튼)
+- [ ] ```css``` 적용해보기 (템플릿 정도만)
 
 ### Back-end side
 - [x] ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
