@@ -1,74 +1,24 @@
-class Todo:
+from home import database
+
+
+class Todo(database.Model):
+    __tablename__ = "todo"
+    no = database.Column(database.Integer, primary_key=True)
+    name = database.Column(database.String(30), nullable=False)
+    title = database.Column(database.String(200), nullable=False)
+    date_y = database.Column(database.Integer, nullable=False)
+    date_m = database.Column(database.Integer, nullable=False)
+    date_d = database.Column(database.Integer, nullable=False)
+    body = database.Column(database.Text, nullable=True)
+    level = database.Column(database.Integer, nullable=False)
+    id = database.Column(database.String(50), database.ForeignKey("user.id"), nullable=False)
+
     def __init__(self, id, name, title, date_y, date_m, date_d, body, level):
-        self.__id = id
-        self.__name = name
-        self.__title = title
-        self.__date_y = date_y
-        self.__date_m = date_m
-        self.__date_d = date_d
-        self.__body = body
-        self.__level = level
-
-    @property
-    def id(self):
-        return self.__id
-
-    @property
-    def name(self):
-        return self.__name
-
-    @property
-    def title(self):
-        return self.__title
-
-    @property
-    def date_y(self):
-        return self.__date_y
-
-    @property
-    def date_m(self):
-        return self.__date_m
-
-    @property
-    def date_d(self):
-        return self.__date_d
-
-    @property
-    def body(self):
-        return self.__body
-
-    @property
-    def level(self):
-        return self.__level
-
-    @id.setter
-    def id(self, id):
-        self.__id = id
-
-    @name.setter
-    def name(self, name):
-        self.__name = name
-
-    @title.setter
-    def title(self, title):
-        self.__title = title
-
-    @date_y.setter
-    def date_y(self, date_y):
-        self.__date_y = date_y
-
-    @date_m.setter
-    def date_m(self,date_m):
-        self.__date_m = date_m
-
-    @date_d.setter
-    def date_d(self, date_d):
-        self.__date_d = date_d
-
-    @body.setter
-    def body(self, body):
-        self.__body = body
-
-    @level.setter
-    def level(self, level):
-        self.__level = level
+        self.id = id
+        self.name = name
+        self.title = title
+        self.date_y = date_y
+        self.date_m = date_m
+        self.date_d = date_d
+        self.body = body
+        self.level = level

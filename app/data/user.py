@@ -1,45 +1,22 @@
-class User:
+from home import database
+
+
+class User(database.Model):
+    __tablename__ = "user"
+    id = database.Column(database.String(50), nullable=False, primary_key=True)
+    password = database.Column(database.String(100), nullable=False)
+    name = database.Column(database.String(30), nullable=False)
+    rank = database.Column(database.String(50), nullable=False)
+
     def __init__(self, id, password, name, rank):
-        self.__id = id
-        self.__password = password
-        self.__name = name
-        self.__rank = rank
-        self.authenticated = False
-
-    @property
-    def id(self):
-        return self.__id
-
-    @property
-    def password(self):
-        return self.__password
-
-    @property
-    def name(self):
-        return self.__name
-
-    @property
-    def rank(self):
-        return self.__rank
-
-    @id.setter
-    def id(self, id):
-        self.__id = id
-
-    @password.setter
-    def password(self, password):
-        self.__password = password
-
-    @name.setter
-    def name(self, name):
-        self.__name = name
-
-    @rank.setter
-    def rank(self, rank):
-        self.__rank = rank
+        self.id = id
+        self.password = password
+        self.name = name
+        self.rank = rank
+        self.is_authenticated = False
 
     def is_authenticated(self):
-        return self.authenticated
+        return self.is_authenticated
 
     def is_active(self):
         return True
@@ -48,4 +25,4 @@ class User:
         return False
 
     def get_id(self):
-        return self.__id
+        return self.id
