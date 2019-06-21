@@ -1,9 +1,8 @@
+from home import database
 from data.todo import Todo
-from db.cursor.todo_cursor import add_todo_cursor, \
-    modify_todo_cursor, delete_todo_cursor, select_todo_list_cursor, select_todo_by_no
 
 
-def add_todo(conn, req, user):
+def add_todo(req, user):
     title = req[u'title']
     date_y = req[u"date_y"]
     date_m = req[u"date_m"]
@@ -14,24 +13,26 @@ def add_todo(conn, req, user):
     name = user.name
 
     todo = Todo(id, name, title, date_y, date_m, date_d, body, level)
-    add_todo_cursor(conn, todo)
+    database.session.add(todo)
+    database.session.commit()
 
 
-def modify_todo(conn, req, user):
-    title = req[u"title"]
-    date_y = req[u"date_y"]
-    date_m = req[u"date_m"]
-    date_d = req[u"date_d"]
-    body = req[u"body"]
-    level = req[u"level"]
-    no = req[u"no"]
+def modify_todo(no, req):
+    todo = Todo.query.filter_by(no=no).first()
 
-    todo = Todo(user.id, user.name, title, date_y, date_m, date_d, body, level)
-    modify_todo_cursor(conn, todo, no)
+    todo.title = req[u"title"]
+    todo.date_y = req[u"date_y"]
+    todo.date_m = req[u"date_m"]
+    todo.date_d = req[u"date_d"]
+    todo.body = req[u"body"]
+    todo.level = req[u"level"]
+
+    database.session.commit()
 
 
-def delete_todo(conn, no):
-    delete_todo_cursor(conn, no)
+def delete_todo(no):
+    Todo.query.filter_by(no=no).delete()
+    database.session.commit()
 
 
 def select_todo_list(id):

@@ -66,7 +66,7 @@ def post_add_todo():
     user = current_user
 
     try:
-        add_todo(conn, req, user)
+        add_todo(req, user)
         return jsonify(
             response.build(code_num=code.SUCCESS,
                            code_message=code.SUCCESS_ADD_TODO)
@@ -82,10 +82,9 @@ def post_add_todo():
 @login_required
 def post_modify_todo():
     req = request.get_json()
-    user = current_user
 
     try:
-        modify_todo(conn, req, user)
+        modify_todo(req["no"], req)
         return jsonify(
             response.build(code_num=code.SUCCESS,
                            code_message=code.SUCCESS_MODIFY_TODO)
@@ -100,10 +99,8 @@ def post_modify_todo():
 @todolist_app.route("/todo/delete", methods=["DELETE"])
 @login_required
 def delete_todo_no():
-    no = int(request.args.get("no"))
-
     try:
-        delete_todo(conn, no)
+        delete_todo(int(request.args.get("no")))
         return jsonify(
             response.build(code_num=code.SUCCESS,
                            code_message=code.SUCCESS_DELETE_TODO)

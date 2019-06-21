@@ -1,4 +1,4 @@
-from home import conn, database, bcrypt
+from home import database, bcrypt
 from data.user import User
 
 
