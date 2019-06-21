@@ -75,14 +75,14 @@ python app/app.py
 
 ## Next Plans...
 ### Front-end side
-- ```Bootstrap```을 통한 UI 개선 작업
-- Code Refactorying
-- 달력 방식의 Todo로 개선하기
-- ```React.js``` 활용
+- [ ] ```Bootstrap```을 통한 UI 개선 작업
+- [ ] Code Refactorying
+- [ ] 달력 방식의 Todo로 개선하기
+- [ ] ```React.js``` 활용
 
 ### Back-end side
--[x] ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
--[ ] UI 수정에 따른 서버 개선
--[ ] Code Refactorying
--[ ] ```logging``` 기능 추가하기
--[x] ```Blueprint``` 적용하기
+- [x] ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
+- [ ] UI 수정에 따른 서버 개선
+- [ ] Code Refactorying
+- [ ] ```logging``` 기능 추가하기
+- [x] ```Blueprint``` 적용하기
