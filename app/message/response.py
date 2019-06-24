@@ -6,4 +6,4 @@ def build(code_num, code_message):
 
 
 def success_to_login(name):
-    return "Hello, %s!" % name
+    return "Hello, %s!"%name
