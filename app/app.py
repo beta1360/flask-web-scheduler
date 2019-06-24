@@ -1,7 +1,3 @@
-from home import conn, app
+from home import app
 
-try:
-    app.run('0.0.0.0', 13609, debug=True)
-
-finally:
-    conn.close()
+app.run('0.0.0.0', 13609, debug=True)
