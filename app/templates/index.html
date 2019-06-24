@@ -4,17 +4,17 @@
     <title>Todo Scheduler</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ url_for('static', filename='image/favicon.ico')}}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/lib/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery-latest.min.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/lib/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/logon.js', t=[t]) }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/login.js', t=[t])}}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/login.js', t=[t]) }}"></script>
 </head>
 
 <body>
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#signupModal">Sign up</button>
+<a class="btn btn-default" data-toggle="modal" data-target="#signupModal">Sign up</a>
 
     <!-- Signup Modal -->
     <div class="modal fade" id="signupModal" role="dialog">
@@ -28,7 +28,7 @@
                 </div>
                 <div class="modal-body">
                     <p>ID: <input type="text" id="ID"/>
-                        <button type="button" id="checkID">Check</button>
+                        <a class="btn btn-default" id="checkID">Check</a>
                     </p>
                     <p>Password: <input type="password" id="pwd"/></p>
                     <p>Password check: <input type="password" id="cpwd"/></p>
@@ -36,15 +36,14 @@
                     <p>Rank: <input type="text" id="rank"/></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="signup_ok">Sign up</button>
-                    <button type="button"
-                            id="signup_close" data-dismiss="modal" onclick="initSignUpForm()">Close</button>
+                    <a class="btn btn-default" id="signup_ok">Sign up</a>
+                    <a class="btn btn-default" data-dismiss="modal" onclick="initSignUpForm()">Close</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#logInModal">Log in</button>
+    <a class="btn btn-default" data-toggle="modal" data-target="#logInModal">Log in</a>
 
     <!-- Signin Modal -->
     <div class="modal fade" id="logInModal" role="dialog">
@@ -61,8 +60,8 @@
                     <p>Password: <input type="password" id="loginPwd"/></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="loginOK">Start</button>
-                    <button type="button" id="loginClose" data-dismiss="modal" onclick="initLogInForm()">Close</button>
+                    <a class="btn btn-default" id="loginOK">Start</a>
+                    <a class="btn btn-default" id="loginClose" data-dismiss="modal" onclick="initLogInForm()">Close</a>
                 </div>
             </div>
         </div>
