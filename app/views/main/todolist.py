@@ -5,108 +5,102 @@ from db.handler.user_handler import modify_user, delete_user
 from db.handler.todo_handler import select_todo_list, get_todo_component_by_no, add_todo, modify_todo, delete_todo
 from message import response
 from message.config import code
-from home import conn, login_manager
+from home import login_manager
+from logger import logger, logging_route
 
 todolist_app = Blueprint('todolist', __name__)
 
 
 @todolist_app.route("/user/modify", methods=["POST"])
+@logging_route(url="/user/modify", method="POST")
 @login_required
 def update_modify_user():
     modify_user(current_user.id)
+    '''
+    Not support, yet...
+    '''
     return 200
 
 
 @todolist_app.route("/user/delete", methods=["DELETE"])
+@logging_route(url="/user/delete", method="DELETE")
 @login_required
 def delete_user_id():
     user = current_user
     user.is_authenticated = False
     logout_user()
     delete_user(current_user.id)
+    '''
+    Not support, yet...
+    '''
     return 200
 
 
 @todolist_app.route("/todo/list", methods=["GET"])
+@logging_route(url="/user/list", method="GET")
 @login_required
 def get_todo_list_in_main():
     id = request.args.get("id")
+    logger.info(">> Request to select todo-list by user_id::%s" % id)
 
-    try:
-        list = select_todo_list(id)
-        return jsonify({"todos": list}), 200
-
-    except:
-        return jsonify(
-            response.build(code_num=code.FAIL,
-                           code_message=code.FAIL_SELECT_TODO)
-        ), 500
+    list = select_todo_list(id)
+    return jsonify({"todos": list})
 
 
 @todolist_app.route("/todo/component", methods=["GET"])
+@logging_route(url="/todo/component", method="GET")
 @login_required
 def get_todo_component():
-    no = request.args.get("no")
+    no = int(request.args.get("no"))
+    logger.info(">> Request to select todo(no: %d) by user_id::%s" % (no, id))
 
-    try:
-        component = get_todo_component_by_no(no)
-        return jsonify(component), 200
-
-    except:
-        return jsonify(
-            response.build(code_num=code.FAIL,
-                           code_message=code.FAIL_SELECT_TODO)
-        ), 500
+    component = get_todo_component_by_no(no)
+    logger.info(">> Todo component: %s" % str(component))
+    return jsonify(component)
 
 
 @todolist_app.route("/todo/add", methods=["POST"])
+@logging_route(url="/todo/add", method="POST")
 @login_required
 def post_add_todo():
     req = request.get_json()
     user = current_user
 
-    try:
-        add_todo(req, user)
-        return jsonify(
-            response.build(code_num=code.SUCCESS,
-                           code_message=code.SUCCESS_ADD_TODO)
-        ), 200
-    except:
-        return jsonify(
-            response.build(code_num=code.FAIL,
-                           code_message=code.FAIL_ADD_TODO)
-        ), 500
+    logger.info(">> Request to add todo by user_id::%s" % user.id)
+    add_todo(req, user)
+
+    logger.info(">> %d:: %s" % (code.SUCCESS, code.SUCCESS_ADD_TODO))
+    return jsonify(
+        response.build(code_num=code.SUCCESS,
+                       code_message=code.SUCCESS_ADD_TODO))
 
 
 @todolist_app.route("/todo/modify", methods=["POST"])
+@logging_route(url="/todo/modify", method="POST")
 @login_required
 def post_modify_todo():
     req = request.get_json()
+    no = int(req["no"])
+    logger.info(">> Request data: %s" % str(req))
+    logger.info(">> Request to modify todo(no: %d) by user_id::%s" % (no, current_user.id))
+    modify_todo(no, req)
 
-    try:
-        modify_todo(req["no"], req)
-        return jsonify(
-            response.build(code_num=code.SUCCESS,
-                           code_message=code.SUCCESS_MODIFY_TODO)
-        ), 200
-    except:
-        return jsonify(
-            response.build(code_num=code.FAIL,
-                           code_message=code.FAIL_MODIFY_TODO)
-        ), 500
+    logger.info(">> %d:: %s" % (code.SUCCESS, code.SUCCESS_MODIFY_TODO))
+    return jsonify(
+        response.build(code_num=code.SUCCESS,
+                       code_message=code.SUCCESS_MODIFY_TODO))
 
 
 @todolist_app.route("/todo/delete", methods=["DELETE"])
+@logging_route(url="/todo/delete", method="DELETE")
 @login_required
 def delete_todo_no():
-    try:
-        delete_todo(int(request.args.get("no")))
-        return jsonify(
-            response.build(code_num=code.SUCCESS,
-                           code_message=code.SUCCESS_DELETE_TODO)
-        ), 200
-    except:
-        return jsonify(
-            response.build(code_num=code.FAIL,
-                           code_message=code.FAIL_DELETE_TODO)
-        ), 500
+    no = int(request.args.get("no"))
+
+    logger.info(">> Request to delete todo(no: %d) by user_id::%s" % (no, current_user.id))
+    delete_todo(no, current_user.id)
+
+    logger.info(">> %d:: %s" % (code.SUCCESS, code.SUCCESS_DELETE_TODO))
+    return jsonify(
+        response.build(code_num=code.SUCCESS,
+                       code_message=code.SUCCESS_DELETE_TODO))
