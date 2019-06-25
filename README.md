@@ -23,15 +23,17 @@ python app/app.py
 - 회원가입/ 로그인/ 로그아웃
 - Todo list 작성/수정/삭제/조회 (회원별 개인 관리)
 
-### v0.52
+### v0.54
 - ORM 방식의 데이터베이스 이용
 - Blueprint 방식의 URL 라우트 나누기
 
-### v0.54 (Next)
+### v0.56
 - Logging 기능 추가
-- Bootstrap Style의 UI 교체
-- 검색기능 세부화
+- 한글 지원 추가
 
+### v0.58
+- UI 개선
+- 테이블 분리
 
 ## Next Plans...
 ### Front-end side
