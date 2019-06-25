@@ -2,14 +2,6 @@
 > flask 복습을 위한 To-do 스케줄러 웹 어플리케이션<br>
 > 달력에서 자신의 일정과 팀원들의 일정을 관리할 수 있습니다.
 
-## Install
-
-```bash
-
-```
-
-- 아직은 ```private``` Repository인 관계로 설치법이 없습니다.
-
 ## Usage
 ```bash
 python app/app.py
@@ -31,7 +23,7 @@ python app/app.py
 - Logging 기능 추가
 - 한글 지원 추가
 
-### v0.58
+### v0.58 (예정)
 - UI 개선
 - 테이블 분리
 
