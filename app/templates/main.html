@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>{{user}}'s Todo Scheduler</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/lib/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lib/jquery-latest.min.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/lib/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/jquery-ui.css') }}">
+    <script src="{{ url_for('static', filename='js/lib/jquery-ui.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/logout.js', t=[t]) }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/todolist.js', t=[t]) }}"></script>
 </head>
@@ -56,9 +57,9 @@
                 <label>Content: </label> <p id="todoBody"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" id="todoModify">Modify</button>
-                <button type="button" id="todoDelete">Delete</button>
-                <button type="button" id="todoClose" data-dismiss="modal">Close</button>
+                <a class="btn btn-default" id="todoModify">Modify</a>
+                <a class="btn btn-default" id="todoDelete">Delete</a>
+                <a class="btn btn-default" id="todoClose" data-dismiss="modal">Close</a>
             </div>
         </div>
     </div>
@@ -94,8 +95,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="writeTodo">Write</button>
-                <button type="button" id="writeTodoClose" data-dismiss="modal">Close</button>
+                <a class="btn btn-default" id="writeTodo">Write</a>
+                <a class="btn btn-default" id="writeTodoClose" data-dismiss="modal">Close</a>
             </div>
         </div>
     </div>
@@ -131,8 +132,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" id="modifyTodo">Modify</button>
-                <button type="button" id="modifyTodoClose" data-dismiss="modal">Close</button>
+                <a class="btn btn-default" id="modifyTodo">Modify</a>
+                <a class="btn btn-default" id="modifyTodoClose" data-dismiss="modal">Close</a>
             </div>
         </div>
     </div>

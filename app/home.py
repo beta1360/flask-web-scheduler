@@ -1,24 +1,42 @@
+# -*- coding: utf-8 -*-
+"""
+ url: https://github.com/KeonHeeLee/flask-web-scheduler
+ email: beta1360@naver.com
+"""
+
 from flask import Flask
 from flask_bcrypt import Bcrypt
-from db.dbconn import DBconn
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
-from db import dbcfg
+from logger import logger
+import sys, json
+
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
+logger.info("====================[Initializing Server...]===============")
+
+f = open('dbconfig.json', 'r')
+db_config = json.load(f)
+f.close()
 
 app = Flask('__name__')
+app.config.from_json('dbconfig.json')
 app.secret_key = 'ab7a06b8ea0cb4436c8b4b4816c724db82c8c375d2a48c7ae37a2e8e3b938238'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' + dbcfg.USER + ':' + dbcfg.PWD \
-                                        + '@' + dbcfg.HOST + '/' + dbcfg.DB
+app.config['SQLALCHEMY_DATABASE_URI'] = db_config['DBType']+'://' + db_config['DBuserID'] + ':' + db_config['DBuserPw']\
+                                        + '@' + db_config['DBhost'] + '/' + db_config['DBname']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['BCRYPT_LEVEL'] = 10
-conn = DBconn().build()
 database = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+logger.info(">> Flask, Flask-Login, Flask-SQLAlchemy setting.")
+logger.info(">> Database server URL: %s" % app.config['SQLALCHEMY_DATABASE_URI'])
 
-from db.handler.user_handler import provide_user_instance
+
+from db.user_handler import provide_user_instance
 
 
 @login_manager.user_loader
@@ -44,3 +62,5 @@ app.register_blueprint(todolist_app)
 from views.error.error import error_handler
 
 error_handler(app)
+logger.info(">> Blueprint setting.")
+logger.info("===========================================================")
