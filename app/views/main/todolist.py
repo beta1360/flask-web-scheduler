@@ -1,10 +1,15 @@
+# -*- coding: utf-8 -*-
+"""
+ url: https://github.com/KeonHeeLee/flask-web-scheduler
+ email: beta1360@naver.com
+"""
+
 from flask import Blueprint, jsonify, request
 from flask_login import login_user, login_required, current_user, logout_user
 from data.user import User
-from db.handler.user_handler import modify_user, delete_user
-from db.handler.todo_handler import select_todo_list, get_todo_component_by_no, add_todo, modify_todo, delete_todo
-from message import response
-from message.config import code
+from db.user_handler import modify_user, delete_user
+from db.todo_handler import select_todo_list, get_todo_component_by_no, add_todo, modify_todo, delete_todo
+from message import response, msg
 from home import login_manager
 from logger import logger, logging_route
 
@@ -69,10 +74,10 @@ def post_add_todo():
     logger.info(">> Request to add todo by user_id::%s" % user.id)
     add_todo(req, user)
 
-    logger.info(">> %d:: %s" % (code.SUCCESS, code.SUCCESS_ADD_TODO))
+    logger.info(">> %d:: %s" % (msg.SUCCESS, msg.SUCCESS_ADD_TODO))
     return jsonify(
-        response.build(code_num=code.SUCCESS,
-                       code_message=code.SUCCESS_ADD_TODO))
+        response.build(code_num=msg.SUCCESS,
+                       code_message=msg.SUCCESS_ADD_TODO))
 
 
 @todolist_app.route("/todo/modify", methods=["POST"])
@@ -85,10 +90,10 @@ def post_modify_todo():
     logger.info(">> Request to modify todo(no: %d) by user_id::%s" % (no, current_user.id))
     modify_todo(no, req)
 
-    logger.info(">> %d:: %s" % (code.SUCCESS, code.SUCCESS_MODIFY_TODO))
+    logger.info(">> %d:: %s" % (msg.SUCCESS, msg.SUCCESS_MODIFY_TODO))
     return jsonify(
-        response.build(code_num=code.SUCCESS,
-                       code_message=code.SUCCESS_MODIFY_TODO))
+        response.build(code_num=msg.SUCCESS,
+                       code_message=msg.SUCCESS_MODIFY_TODO))
 
 
 @todolist_app.route("/todo/delete", methods=["DELETE"])
@@ -100,7 +105,7 @@ def delete_todo_no():
     logger.info(">> Request to delete todo(no: %d) by user_id::%s" % (no, current_user.id))
     delete_todo(no, current_user.id)
 
-    logger.info(">> %d:: %s" % (code.SUCCESS, code.SUCCESS_DELETE_TODO))
+    logger.info(">> %d:: %s" % (msg.SUCCESS, msg.SUCCESS_DELETE_TODO))
     return jsonify(
-        response.build(code_num=code.SUCCESS,
-                       code_message=code.SUCCESS_DELETE_TODO))
+        response.build(code_num=msg.SUCCESS,
+                       code_message=msg.SUCCESS_DELETE_TODO))

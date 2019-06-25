@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+ url: https://github.com/KeonHeeLee/flask-web-scheduler
+ email: beta1360@naver.com
+"""
+
 from home import database
 from data.todo import Todo
 from logger import logger

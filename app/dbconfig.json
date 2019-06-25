@@ -1,0 +1,7 @@
+{
+  "DBType": "mysql",
+  "DBhost": "10.10.1.175",
+  "DBuserID": "root",
+  "DBuserPw": "webdev1!",
+  "DBname": "geonhee"
+}
