@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+ url: https://github.com/KeonHeeLee/flask-web-scheduler
+ email: beta1360@naver.com
+"""
+
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from data.user import User

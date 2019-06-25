@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+"""
+ url: https://github.com/KeonHeeLee/flask-web-scheduler
+ email: beta1360@naver.com
+"""
+
 from flask import Blueprint, url_for, flash, redirect, request
 from views.index.index_view import auth_home
 from home import app

@@ -1,9 +1,14 @@
+# -*- coding: utf-8 -*-
+"""
+ url: https://github.com/KeonHeeLee/flask-web-scheduler
+ email: beta1360@naver.com
+"""
+
 from flask import Blueprint, jsonify, request
 from flask_login import login_user, current_user
 from data.user import User
-from db.handler.user_handler import get_login_user
-from message import response
-from message.config import code
+from db.user_handler import get_login_user
+from message import response, msg
 from home import login_manager
 from logger import logger, logging_route
 
@@ -20,17 +25,17 @@ def login():
     user = get_login_user(user_id, user_pw)
 
     if user is None:
-        logger.info(">> %d:: %s" % (code.NOT_VALID_USER, code.NOT_VALID_USER_MSG))
+        logger.info(">> %d:: %s" % (msg.NOT_VALID_USER, msg.NOT_VALID_USER_MSG))
         return jsonify(
-            response.build(code_num=code.NOT_VALID_USER,
-                           code_message=code.NOT_VALID_USER_MSG))
+            response.build(code_num=msg.NOT_VALID_USER,
+                           code_message=msg.NOT_VALID_USER_MSG))
 
     else:
         logger.info(">> Connect user session with user_id::%s" % user.id)
         user.is_authenticated = True
         login_user(user, remember=True)
 
-        logger.info(">> %d:: %s" % (code.SUCCESS, response.success_to_login(user.name)))
+        logger.info(">> %d:: %s" % (msg.SUCCESS, response.success_to_login(user.name)))
         return jsonify(
-            response.build(code_num=code.SUCCESS,
+            response.build(code_num=msg.SUCCESS,
                            code_message=response.success_to_login(user.name)))
