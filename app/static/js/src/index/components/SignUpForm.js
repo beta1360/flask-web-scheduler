@@ -20,7 +20,6 @@ class SignUpForm extends Component {
         this.isEqualPasswords = this.isEqualPasswords.bind(this);
         this.checkValidate = this.checkValidate.bind(this);
         this.submitSignForm = this.submitSignForm.bind(this);
-        this.initSignUpForm = this.initSignUpForm.bind(this);
 
         this.state = {
             show: false,
@@ -71,25 +70,21 @@ class SignUpForm extends Component {
     }
 
     onClickIdCheckBtn(){
-        this.checkValidId();
+        this.checkValidId()
+            .then((response)=>{
+                let code = response.data.code;
+                let message = response.data.message;
 
-        if(Boolean(this.state.idPass))
-            alert("이 ID는 사용하실 수 있습니다.");
-        else
-            alert("이 ID는 사용하실 수 없습니다.\n중복되었거나 잘못된 ID입니다.");
+                this.setState({idPass: code});
+                alert(message);
+        });
     }
 
     checkValidId(){
-        axios.post('http://localhost:13609/user/check', {
-            user_id: this.state.id
-        }).then((response)=>{
-            let status_code = response.data.code;
-            
-            if(status_code == 200)
-                this.handleIdCheckPass;
-            else
-                this.handleIdCheckNotPass;
-        });
+        return Promise.resolve( 
+            axios.post(
+            'http://localhost:13609/user/check', 
+            {user_id: this.state.id} ));
     }
 
     isEqualPasswords(){
@@ -125,22 +120,11 @@ class SignUpForm extends Component {
                 rank: this.state.rank
             }).then((response)=>{
                 alert(response.data.message);
-                this.initSignUpForm;
+                this.handleClose();
             }).catch((error)=>{
                 alert("에러:" + error);
             });
         } 
-    }
-
-    initSignUpForm(){
-        this.setState({
-            id: '',
-            pw: '',
-            cpw: '',
-            isPassed: false,
-            rank: '사원'
-        });
-        this.handleClose;
     }
 
     render(){
