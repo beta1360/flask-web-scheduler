@@ -1,43 +1,32 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import { Table } from 'react-bootstrap';
 import TodoItem from './TodoItem';
+import WriteTodoBtn from './WriteTodoBtn';
 
 class TodoTable extends Component {
     constructor(props, context){
         super(props, context);
 
-        this.getUserIDnName = this.getUserIDnName.bind(this);
         this.getTodoList = this.getTodoList.bind(this);
+        this.getUserInformation = this.getUserInformation.bind(this);
 
         this.state = {
-            user_id: '',
-            user_name: '',
+            userId: '',
+            userName: '',
             todoList: []
         };
-
-        this.getUserIDnName()
-        .then(()=>{
-            this.getTodoList();
-        });
-    }
-
-    getUserIDnName(){
-        return Promise.resolve(
-            axios.get('http://localhost:13609/user/whoami')
-            .then((response)=>{
-                this.setState({
-                    user_id: response.data.user_id,
-                    user_name: response.data.user_name
-                });
-            })
-        );
+        this.getUserInformation()
+            .then(()=>{
+                this.getTodoList()
+            });
+        
     }
 
     getTodoList(){
         return Promise.resolve(
             axios.get('http://localhost:13609/todo/list', {
-                params: {id: this.state.user_id}
+                params: {id: this.state.userId}
             }).then((response)=> {
                 let todos = response.data;
                 const tmp  = this.state.todoList;
@@ -47,31 +36,49 @@ class TodoTable extends Component {
         );
     }
 
+    getUserInformation(){
+        return Promise.resolve(
+            axios.get('http://localhost:13609/user/whoami')
+            .then((response)=>{
+                this.setState({
+                    userId: response.data.user_id,
+                    userName: response.data.user_name
+                });
+            })
+        );
+    }
+
     render(){
         const list = this.state.todoList.map(todo=>{
                         return <TodoItem no={todo["no"]} title={todo["title"]} name={todo["name"]}
                             date_y={todo["date_y"]} date_m={todo["date_m"]} 
-                            date_d={todo["date_d"]} level={todo["level"]} key={todo["no"]}/>
+                            date_d={todo["date_d"]} level={todo["level"]} 
+                            id={this.state.userId} key={todo["no"]}/>
                     });
 
         return(
-            <div>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>no</th>
-                            <th>제목</th>
-                            <th>작성자</th>
-                            <th>작성일</th>
-                            <th>우선순위</th>
-                            <th> - </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { list }
-                    </tbody>
-                </Table>
-            </div>
+            <Fragment>
+                <div>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>no</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성일</th>
+                                <th>우선순위</th>
+                                <th> - </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            { list }
+                        </tbody>
+                    </Table>
+                </div>
+                <div>
+                    <WriteTodoBtn userId={this.state.userId} userName={this.state.userName}/>
+                </div>
+            </Fragment>
         );
     }
 }

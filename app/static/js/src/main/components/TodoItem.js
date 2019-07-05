@@ -14,7 +14,8 @@ class TodoItem extends Component {
             date_y: 2000,
             date_m: 1,
             date_d: 1,
-            level: 0
+            level: 0,
+            id: ''
         };
     }
 
