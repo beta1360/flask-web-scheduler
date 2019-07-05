@@ -31,7 +31,6 @@ def logging_route(url, method):
                 logger.error("###############################################[[  EXCEPTION  ]]###################")
                 logger.error(">=>=>" + str(e))
                 logger.error("#####################################################################################")
-                raise e
 
         return wrapper
     return set_logging

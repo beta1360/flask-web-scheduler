@@ -10,28 +10,28 @@ DUPLICATE_USER = 600
 NOT_VALID_USER = 601
 FAIL = 500
 
-SUCCESS_ADD_USER = "Success to regist user.\nPlease log in this account."
-SUCCESS_MODIFY_USER = "Success to modify user"
-SUCCESS_DELETE_USER = "Success to delete user"
+SUCCESS_ADD_USER = "회원가입에 성공하였습니다.\n 로그인해주세요."
+SUCCESS_MODIFY_USER = "유저정보를 수정하였습니다."
+SUCCESS_DELETE_USER = "회원탈퇴를 하였습니다."
 
-SUCCESS_ADD_TODO = "Success to regist todo"
-SUCCESS_MODIFY_TODO = "Success to modify todo"
-SUCCESS_DELETE_TODO = "Success to delete todo"
+SUCCESS_ADD_TODO = "Todo를 등록하였습니다."
+SUCCESS_MODIFY_TODO = "해당 Todo 수정에 성공하였습니다."
+SUCCESS_DELETE_TODO = "해당 Todo를 삭제하였습니다."
 
-FAIL_ADD_USER = "Fail to regist user"
-FAIL_MODIFY_USER = "Fail to modify user"
-FAIL_DELETE_USER = "Fail to delete user"
+FAIL_ADD_USER = "유저 등록 실패"
+FAIL_MODIFY_USER = "회원정보 수정 실패"
+FAIL_DELETE_USER = "회원탈퇴 실패"
 
-FAIL_SELECT_TODO = "Fail to get todo list."
-FAIL_ADD_TODO = "Fail to regist todo"
-FAIL_MODIFY_TODO = "Fail to modify todo"
-FAIL_DELETE_TODO = "Fail to delete todo"
+FAIL_SELECT_TODO = "Todo 리스트를 불러오는데 실패하였습니다."
+FAIL_ADD_TODO = "Todo를 등록하는데 실패하였습니다."
+FAIL_MODIFY_TODO = "Todo를 수정하는데 실패하였습니다."
+FAIL_DELETE_TODO = "Todo를 삭제하는데 실패하였습니다."
 
-DUPLICATE_USER_CODE = "Registed user. Please check user information."
+DUPLICATE_USER_CODE = "이미 등록된 유저입니다. ID를 확인해주세요."
 
-REGISTED_USER = "Sorry.. This ID was registed.\nPlease use other ID."
-NOT_REGISTED_USER = "OK! You can use this ID."
+REGISTED_USER = "이미 등록된 유저입니다. ID를 확인해주세요."
+NOT_REGISTED_USER = "이 ID는 사용하실 수 있습니다."
 
-LOGOUT_MESSAGE = "Success to log out.\nSee you later."
-NOT_VALID_USER_MSG = "Invaild user id or password.\nPlease check them."
+LOGOUT_MESSAGE = "로그아웃에 성공하였습니다."
+NOT_VALID_USER_MSG = "ID 혹은 비밀번호가 일치하지 않습니다.\n 다시 확인해주세요."
 

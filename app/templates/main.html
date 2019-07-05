@@ -9,8 +9,11 @@
     <link rel="icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
 </head>
 <body>
-    <div id="logoutBtn"></div>
+    {{user}}님의 Todo-List<div id="logoutBtn"></div>
+    <hr/>
+
     <div id="todoTable"></div>
     <script src="{{ url_for('static', filename='js/dist/main.js', t=[t])}}"></script>
+
 </body>
 </html>
