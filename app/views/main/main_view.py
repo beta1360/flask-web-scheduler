@@ -4,7 +4,7 @@
  email: beta1360@naver.com
 """
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 from flask_login import login_required, current_user
 from data.user import User
 from util.timestamp import build_timestamp
@@ -22,3 +22,14 @@ def main_home():
     logger.info(">> Render \"/main\"(\"main.html\") about user::%s" % user.id)
     return render_template("main.html",
                            t=build_timestamp(), user=user.name, user_id=user.id)
+
+
+@main_view_app.route("/user/whoami", methods=["GET"])
+@logging_route(url="/user/whoami", method="GET")
+@login_required
+def who_am_i():
+    user = current_user
+    return jsonify({
+        "user_id": user.id,
+        "user_name": user.name
+    })

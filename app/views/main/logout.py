@@ -24,8 +24,8 @@ def logout():
     user.is_authenticated = False
     logout_user()
 
-    logger.info(">> %d:: %s" % (code.SUCCESS, code.LOGOUT_MESSAGE))
+    logger.info(">> %d:: %s" % (msg.SUCCESS, msg.LOGOUT_MESSAGE))
     return jsonify(
         response.build(code_num=msg.SUCCESS,
-                       code_message=msgLOGOUT_MESSAGE))
+                       code_message=msg.LOGOUT_MESSAGE))
 
