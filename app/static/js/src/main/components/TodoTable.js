@@ -5,6 +5,7 @@ import TodoItem from './TodoItem';
 import WriteTodoBtn from './WriteTodoBtn';
 
 class TodoTable extends Component {
+
     constructor(props, context){
         super(props, context);
 
@@ -16,11 +17,11 @@ class TodoTable extends Component {
             userName: '',
             todoList: []
         };
+
         this.getUserInformation()
-            .then(()=>{
-                this.getTodoList()
-            });
-        
+        .then(()=>{
+            this.getTodoList()
+        });
     }
 
     getTodoList(){
@@ -56,9 +57,9 @@ class TodoTable extends Component {
                             id={this.state.userId} key={todo["no"]}/>
                     });
 
-        return(
-            <Fragment>
-                <div>
+        return (
+            <div>
+                <Fragment>
                     <Table striped bordered hover>
                         <thead>
                             <tr>
@@ -74,11 +75,9 @@ class TodoTable extends Component {
                             { list }
                         </tbody>
                     </Table>
-                </div>
-                <div>
-                    <WriteTodoBtn userId={this.state.userId} userName={this.state.userName}/>
-                </div>
-            </Fragment>
+                    <WriteTodoBtn/>
+                </Fragment>
+            </div>
         );
     }
 }
