@@ -1,22 +1,28 @@
-import React from 'react'; 
-
-import { Button, Form, Modal, ButtonGroup } from 'react-bootstrap';
+import { Button, Modal, ButtonGroup, Form } from 'react-bootstrap';
+import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Axios from 'axios';
 
-
-class WriteTodoBtn extends React.Component {
+class ModifyTodoModal extends Component {
 
     constructor(props, context){
         super(props, context);
 
-        this.state = {
-            show: false,
+        this.defaultProps = {
+            no: '',
             title: '',
             startDate: '',
             content: '',
             level: ''
+        }
+
+        this.state = {
+            show: false,
+            title: this.props.title,
+            startDate: this.startDate,
+            content: this.props.content,
+            level: this.props.level
         };
 
         this.handleClose = this.handleClose.bind(this);
@@ -25,7 +31,7 @@ class WriteTodoBtn extends React.Component {
         this.handleDateChange = this.handleDateChange.bind(this);
         this.handleContentChange = this.handleContentChange.bind(this);
         this.handleToggleChange = this.handleToggleChange.bind(this);
-        this.submitWritingTodoForm = this.submitWritingTodoForm.bind(this);
+        this.submitModifyingTodoForm = this.submitModifyingTodoForm.bind(this);
     }
 
     handleClose(){
@@ -52,7 +58,7 @@ class WriteTodoBtn extends React.Component {
         this.setState({ level: event.target.value });
     }
 
-    submitWritingTodoForm(){
+    submitModifyingTodoForm(){
         const thisDate = new Date(this.state.startDate);
 
         const date_y = Number(thisDate.getFullYear());
@@ -63,7 +69,8 @@ class WriteTodoBtn extends React.Component {
         const body = this.state.content;
         const level = Number(this.state.level);
 
-        Axios.post('http://localhost:13609/todo/add', {
+        Axios.post('http://localhost:13609/todo/modify', {
+            no: this.props.no,
             title: title,
             date_y: date_y,
             date_m: date_m,
@@ -80,16 +87,16 @@ class WriteTodoBtn extends React.Component {
     render(){
         return (
             <div>
-                <Button variant="primary" onClick={this.handleShow}>추가</Button>
+                <Button variant="primary" onClick={this.handleShow}>수정</Button>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Todo 쓰기</Modal.Title>
+                        <Modal.Title>Todo#{this.props.no} 수정하기</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>제목</Form.Label>
-                            <Form.Control type="text" placeholder="제목을 작성해주세요." onChange={this.handleTitleChange}/>
+                            <Form.Control type="text" placeholder="제목을 작성해주세요." onChange={this.handleTitleChange} value={this.props.title}/>
                         </Form.Group>
 
                         <Form.Group>
@@ -100,13 +107,14 @@ class WriteTodoBtn extends React.Component {
                                     selected={this.state.startDate}
                                     onChange={this.handleDateChange}
                                     isClearable={true}
+                                    value={this.props.startDate}
                                     placeholderText="Click to select a date"/>   
                             </p>                        
                         </Form.Group>
 
                         <Form.Group controlId="exampleForm.ControlTextarea1">
                             <Form.Label>내용</Form.Label>
-                            <Form.Control as="textarea" rows="5" onChange={this.handleContentChange}/>
+                            <Form.Control as="textarea" rows="5" onChange={this.handleContentChange} value={this.props.content}/>
                         </Form.Group>
 
                         <Form.Group controlId="exampleForm.ControlButtonGroup">
@@ -124,7 +132,7 @@ class WriteTodoBtn extends React.Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="primary" onClick={this.submitWritingTodoForm}>
+                        <Button variant="primary" onClick={this.submitModifyingTodoForm}>
                             작성완료
                         </Button>
                         <Button variant="secondary" onClick={this.handleClose}>
@@ -137,4 +145,4 @@ class WriteTodoBtn extends React.Component {
     }
 }
 
-export default WriteTodoBtn;
+export default ModifyTodoModal;
