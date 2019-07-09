@@ -23,15 +23,23 @@ python app/app.py
 - Logging 기능 추가
 - 한글 지원 추가
 
-### v0.58 (예정)
-- UI 개선
+### v0.58 
+- React.js 적용
+- UI의 Bootstrap화 (React-bootstrap)
+
+### v0.60 (예정)
+- Redux 적용
+- immutable.js 적용
 - 테이블 분리
 
 ## Next Plans...
 ### Front-end side
-- [ ] ```Bootstrap```을 통한 UI 개선 작업
-- [ ] Code Refactorying
+- [x] ```Bootstrap```을 통한 UI 개선 작업
+- [x] Code Refactorying
 - [ ] 세 테이블의 Todo로 개선하기
+- [ ] ```Redux``` 적용
+- [ ] ```immutable.js``` 적용
+- [ ] ```Duck Pattern``` 적용
 
 ### Back-end side
 - [x] ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
@@ -39,3 +47,4 @@ python app/app.py
 - [x] Code Refactorying
 - [x] ```logging``` 기능 추가하기
 - [x] ```Blueprint``` 적용하기
+- [ ] ```Doing, Todo Done``` 테이블 추가
