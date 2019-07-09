@@ -13,4 +13,4 @@ def build(code_num, code_message):
 
 
 def success_to_login(name):
-    return "Hello, %s!"% name
+    return "안녕하세요, %s님!"% name

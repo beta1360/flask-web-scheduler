@@ -1,71 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <title>Todo Scheduler</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"/>
     <link rel="icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/bootstrap.min.css') }}">
-    <script src="{{ url_for('static', filename='js/lib/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/lib/jquery-latest.min.js') }}" ></script>
-    <script src="{{ url_for('static', filename='js/lib/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/logon.js', t=[t]) }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/login.js', t=[t]) }}"></script>
 </head>
-
 <body>
-<a class="btn btn-default" data-toggle="modal" data-target="#signupModal">Sign up</a>
-
-    <!-- Signup Modal -->
-    <div class="modal fade" id="signupModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Sign up</h4>
-                </div>
-                <div class="modal-body">
-                    <p>ID: <input type="text" id="ID"/>
-                        <a class="btn btn-default" id="checkID">Check</a>
-                    </p>
-                    <p>Password: <input type="password" id="pwd"/></p>
-                    <p>Password check: <input type="password" id="cpwd"/></p>
-                    <p>Name: <input type="text" id="name"/></p>
-                    <p>Rank: <input type="text" id="rank"/></p>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-default" id="signup_ok">Sign up</a>
-                    <a class="btn btn-default" data-dismiss="modal" onclick="initSignUpForm()">Close</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <a class="btn btn-default" data-toggle="modal" data-target="#logInModal">Log in</a>
-
-    <!-- Signin Modal -->
-    <div class="modal fade" id="logInModal" role="dialog">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Log In</h4>
-                </div>
-                <div class="modal-body">
-                    <p>ID: <input type="text" id="loginID"/></p>
-                    <p>Password: <input type="password" id="loginPwd"/></p>
-                </div>
-                <div class="modal-footer">
-                    <a class="btn btn-default" id="loginOK">Start</a>
-                    <a class="btn btn-default" id="loginClose" data-dismiss="modal" onclick="initLogInForm()">Close</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <div id="signUpBtn"></div>
+    <div id="logInBtn"></div>
+    <script src="{{ url_for('static', filename='js/dist/index.js', t=[t])}}"></script>
 </body>
 </html>

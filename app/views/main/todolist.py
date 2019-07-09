@@ -42,7 +42,7 @@ def delete_user_id():
 
 
 @todolist_app.route("/todo/list", methods=["GET"])
-@logging_route(url="/user/list", method="GET")
+@logging_route(url="/todo/list", method="GET")
 @login_required
 def get_todo_list_in_main():
     id = request.args.get("id")

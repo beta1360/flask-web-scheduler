@@ -1,143 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>{{user}}'s Todo Scheduler</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8"/>
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"/>
     <link rel="icon" href="{{ url_for('static', filename='image/favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/bootstrap.min.css') }}">
-    <script src="{{ url_for('static', filename='js/lib/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/lib/jquery-latest.min.js') }}" ></script>
-    <script src="{{ url_for('static', filename='js/lib/bootstrap.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/lib/jquery-ui.css') }}">
-    <script src="{{ url_for('static', filename='js/lib/jquery-ui.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/logout.js', t=[t]) }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/todolist.js', t=[t]) }}"></script>
 </head>
-<body onload="getTodoTable('{{user_id}}')">
+<body>
+    {{user}}님의 Todo-List<div id="logoutBtn"></div>
+    <hr/>
 
-{{user}} <button id="logoutBtn">Logout</button>
-
-<hr/>
-
-<div class="container" id="todoTable">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>no</th>
-                <th>title</th>
-                <th>name</th>
-                <th>date</th>
-                <th>level</th>
-            </tr>
-        </thead>
-        <tbody id="todoList">
-
-        </tbody>
-    </table>
+    <div id="todoTable"></div>
 
     <hr/>
-    <a class="btn btn-default pull-right" id="addTodo">Write</a>
-</div>
-
-<!-- Detail Todo Modal -->
-<div class="modal fade" id="detailTodoModal" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" title="todoTitle" id="todoTitle"></h4>
-            </div>
-            <div class="modal-body">
-                <label>Name: </label> <p id="todoName"></p>
-                <label>Date: </label> <p id="todoDate"></p>
-                <label>Priority Level: </label><p id="todoLevel"></p>
-                <label>Content: </label> <p id="todoBody"></p>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-default" id="todoModify">Modify</a>
-                <a class="btn btn-default" id="todoDelete">Delete</a>
-                <a class="btn btn-default" id="todoClose" data-dismiss="modal">Close</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Write Todo Modal -->
-<div class="modal fade" id="writeTodoModal" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Write your To-do!</h4>
-            </div>
-            <div class="modal-body">
-                <p><label>Title: </label> <input type="text" id="writeTodoTitle"/></p>
-                <p>
-                    <label>Date: </label>
-                    <input type="text" id="writeDatePicker" readonly="readonly">
-                </p>
-                <label>Content: </label></p>
-                <textarea id="writeTodoBody" rows="10" cols="72"></textarea>
-                <p>Priority Level: </p>
-                <div class="container">
-	                <div class="btn-group" role="group" aria-label="..." id="levelBtn">
-	                    <button type="button" class="btn btn-default" value="1">1</button>
-	                    <button type="button" class="btn btn-default" value="2">2</button>
-	                    <button type="button" class="btn btn-default" value="3">3</button>
-                        <button type="button" class="btn btn-default" value="4">4</button>
-                        <button type="button" class="btn btn-default" value="5">5</button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-default" id="writeTodo">Write</a>
-                <a class="btn btn-default" id="writeTodoClose" data-dismiss="modal">Close</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Write Todo Modal -->
-<div class="modal fade" id="modifyTodoModal" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modify your To-do!</h4>
-            </div>
-            <div class="modal-body">
-                <p><label>Title: </label> <input type="text" id="modifyTodoTitle"/></p>
-                <p>
-                    <label>Date: </label>
-                    <input type="text" id="modifyDatePicker" readonly="readonly">
-                </p>
-                <label>Content: </label></p>
-                <textarea id="modifyTodoBody" rows="10" cols="72"></textarea>
-                <p>Priority Level: </p>
-                <div class="container">
-	                <div class="btn-group" role="group" aria-label="..." id="modifyLevelBtn">
-	                    <button type="button" class="btn btn-default" value="1">1</button>
-	                    <button type="button" class="btn btn-default" value="2">2</button>
-	                    <button type="button" class="btn btn-default" value="3">3</button>
-                        <button type="button" class="btn btn-default" value="4">4</button>
-                        <button type="button" class="btn btn-default" value="5">5</button>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-default" id="modifyTodo">Modify</a>
-                <a class="btn btn-default" id="modifyTodoClose" data-dismiss="modal">Close</a>
-            </div>
-        </div>
-    </div>
-</div>
+    <div id="writeTodoBtn"></div>
+    <script src="{{ url_for('static', filename='js/dist/main.js', t=[t])}}"></script>
 
 </body>
 </html>

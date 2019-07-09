@@ -25,5 +25,5 @@ def auth_home():
         return render_template("index.html", t=build_timestamp())
 
     else:
-        logger.info(">> Redirect to \"/main\"(\"main.html\"):: user_id = %d", user.id)
+        logger.info(">> Redirect to \"/main\"(\"main.html\"):: user_id = %s", user.id)
         return redirect(url_for("main_view.main_home"), code=302)
