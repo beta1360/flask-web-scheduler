@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import DetailTodoModal from './DetailTodoModal';
+import DeleteTodoAlert from './DeleteTodoAlert';
 
 class TodoItem extends Component {
     constructor(props, context){
         super(props, context);
 
         this.setDateToString = this.setDateToString.bind(this);
+
+        this.state = {
+            deleteAlertVisible: false
+        };
 
         this.defaultProps = {
             no: 0,
@@ -34,7 +39,7 @@ class TodoItem extends Component {
 
         return str;
     }
-
+    
     render(){
 
         return(
@@ -45,14 +50,12 @@ class TodoItem extends Component {
                 <th>{this.setDateToString()}</th>
                 <th>{this.props.level}</th>
                 <th>
-                    <Button variant="primary">상세보기</Button>
-                    <Button variant="success">수정</Button>
-                    <Button variant="danger">삭제</Button>
+                    <DetailTodoModal no={this.props.no}/>
+                    <DeleteTodoAlert no={this.props.no}/>
                 </th>
             </tr>
         );
     }
-
 }
 
 export default TodoItem;

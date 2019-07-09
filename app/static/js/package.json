@@ -17,7 +17,6 @@
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/preset-env": "^7.4.5",
     "@babel/preset-es2016": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0",
     "axios": "^0.19.0",
@@ -32,9 +31,13 @@
     "react-dates": "^20.2.5",
     "react-datetimepicker-bootstrap": "^1.1.2",
     "react-dom": "^16.8.6",
-    "reactstrap": "^8.0.0"
+    "react-redux": "^7.1.0",
+    "reactstrap": "^8.0.0",
+    "redux": "^4.0.1",
+    "redux-action": "^1.2.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.5.0",
     "css-loader": "^3.0.0",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.3",
