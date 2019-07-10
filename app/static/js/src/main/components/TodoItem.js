@@ -13,6 +13,7 @@ class TodoItem extends Component {
         };
 
         this.defaultProps = {
+            todo: undefined,
             no: 0,
             name: 'None',
             title: '(제목 없음)',
@@ -25,9 +26,9 @@ class TodoItem extends Component {
     }
 
     setDateToString(){
-        let date_y = this.props.date_y;
-        let date_m = this.props.date_m;
-        let date_d = this.props.date_d;
+        let date_y = this.props.todo.date_y;
+        let date_m = this.props.todo.date_m;
+        let date_d = this.props.todo.date_d;
 
         let str = date_y + ".";
 
@@ -39,20 +40,22 @@ class TodoItem extends Component {
 
         return str;
     }
+
+    shouldComponentUpdate(nextProps, nextState){
+        return (nextProps.todo !== this.props.todo);
+    }
     
     render(){
 
         return(
             <tr>
-                <th>{this.props.no}</th>
-                <th>{this.props.title}</th>
-                <th>{this.props.name}</th>
+                <th>{this.props.todo.no}</th>
+                <th>{this.props.todo.title}</th>
+                <th>{this.props.todo.name}</th>
                 <th>{this.setDateToString()}</th>
-                <th>{this.props.level}</th>
-                <th>
-                    <DetailTodoModal no={this.props.no}/>
-                    <DeleteTodoAlert no={this.props.no}/>
-                </th>
+                <th>{this.props.todo.level}</th>
+                <th><DetailTodoModal no={this.props.todo.no}/></th>
+                <th><DeleteTodoAlert no={this.props.todo.no}/></th>
             </tr>
         );
     }
