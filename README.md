@@ -38,7 +38,7 @@ python app/app.py
 - [x] Code Refactorying
 - [ ] 세 테이블의 Todo로 개선하기
 - [ ] ```Redux``` 적용
-- [ ] ```immutable.js``` 적용
+- [x] ```immutable.js``` 적용
 - [ ] ```Duck Pattern``` 적용
 
 ### Back-end side
