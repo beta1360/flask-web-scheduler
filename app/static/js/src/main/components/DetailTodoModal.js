@@ -68,10 +68,8 @@ class DetailTodoModal extends Component {
                     </Modal.Header>
                     <Modal.Body>
                         <p><label><b>우선 순위: </b> {this.state.level}</label></p>
-                        <p><label><b>해야될 날짜: </b></label></p>
-                            {this.state.date_y}.{this.state.date_m}.{this.state.date_d}
-                        <p><label><b>상세 내용: </b></label></p>
-                        {this.state.body}
+                        <p><label><b>해야될 날짜: </b> {this.state.date_y}.{this.state.date_m}.{this.state.date_d}</label></p>
+                        <p><label><b>상세 내용: </b></label></p>{this.state.body}
                     </Modal.Body>
                     <Modal.Footer>
                         <ModifyTodoModal no={this.props.no} title={this.state.title} 
