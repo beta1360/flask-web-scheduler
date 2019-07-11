@@ -74,7 +74,7 @@ class ModifyTodoModal extends Component {
             
         alert(response.data.message);
         this.handleClose();
-        location.reload();
+        //location.reload();
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {

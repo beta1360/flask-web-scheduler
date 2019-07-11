@@ -7,18 +7,6 @@ class TodoItem extends Component {
 
     constructor(props, context){
         super(props, context);
-
-        this.defaultProps = {
-            todo: undefined,
-            no: 0,
-            name: 'None',
-            title: '(제목 없음)',
-            date_y: 2000,
-            date_m: 1,
-            date_d: 1,
-            level: 0,
-            id: ''
-        };
     }
 
     setDateToString = () => {
@@ -38,19 +26,21 @@ class TodoItem extends Component {
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
-        return (nextProps.todo !== this.props.todo);
+        return (nextProps !== this.props);
     }
     
     render = () => {
+        const todo = this.props.todo;
+
         return(
             <tr>
-                <th>{this.props.todo.no}</th>
-                <th>{this.props.todo.title}</th>
-                <th>{this.props.todo.name}</th>
+                <th>{todo.no}</th>
+                <th>{todo.title}</th>
+                <th>{todo.name}</th>
                 <th>{this.setDateToString()}</th>
-                <th>{this.props.todo.level}</th>
-                <th><DetailTodoModal no={this.props.todo.no}/></th>
-                <th><DeleteTodoAlert no={this.props.todo.no}/></th>
+                <th>{todo.level}</th>
+                <th><DetailTodoModal todo={todo}/></th>
+                <th><DeleteTodoAlert no={todo.no}/></th>
             </tr>
         );
     }
