@@ -19,15 +19,13 @@ class DeleteTodoAlert extends Component {
                                 , {params: {no: this.props.no}});
                     
             alert(response.data.message);
-            location.reload();
+            //location.reload();
         }
     }
 
     render = () => {
         return(
-            <div>
-                <Button variant="danger" onClick={this.deleteTodo}>삭제</Button>
-            </div>
+            <Button variant="danger" onClick={this.deleteTodo}>삭제</Button>
         );
     }
 }

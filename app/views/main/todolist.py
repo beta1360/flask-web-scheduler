@@ -52,18 +52,6 @@ def get_todo_list_in_main():
     return jsonify({"todos": list})
 
 
-@todolist_app.route("/todo/component", methods=["GET"])
-@logging_route(url="/todo/component", method="GET")
-@login_required
-def get_todo_component():
-    no = int(request.args.get("no"))
-    logger.info(">> Request to select todo(no: %d) by user_id::%s" % (no, id))
-
-    component = get_todo_component_by_no(no)
-    logger.info(">> Todo component: %s" % str(component))
-    return jsonify(component)
-
-
 @todolist_app.route("/todo/add", methods=["POST"])
 @logging_route(url="/todo/add", method="POST")
 @login_required

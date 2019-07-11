@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { List, Map } from 'immutable';
 
 const GET_TODOLIST = "todo/TODOLIST"
 const GET_TODO = "todo/TODOCOMPONENT"
@@ -8,48 +8,38 @@ const DELETE_TODO = "todo/DELETE";
 
 export const getTodoList = (userId) => ({type: GET_TODOLIST, userId});
 export const getTodoComponent = (no) => ({type: GET_TODO, no});
-export const addTodo = () => ({type: ADD_TODO});
-export const modifyTodo = () => ({type: MODIFY_TODO});
-export const deleteTodo = () => ({type: DELETE_TODO});
+export const addTodo = (todo) => ({type: ADD_TODO, todo});
+export const modifyTodo = (no) => ({type: MODIFY_TODO, no});
+export const deleteTodo = (no) => ({type: DELETE_TODO, no});
 
 const initialState = {
-    todoList: [],
+    todoList: List([]),
 }
 
 export default function manageTodoTable(state = initialState, action) {
     switch(action.type){
         case GET_TODOLIST:
             return {
-                ...state,
-                todoList: (()=>{
-                    axios.get('http://localhost:13609/todo/list', {
-                        params: {id: this.state.userId}
-                    }).then((response)=> {
-                        let todos = response.data;
-                        const tmp = state.todoList;
-        
-                        return tmp.concat(todos["todos"]);
-                    });
-                })
+                
             };
         case GET_TODO:
             return {
-
+                ...state,
             };
         case ADD_TODO:
             return {
                 ...state,
-                job: ADD_TODO
+                
             };
         case MODIFY_TODO:
             return {
                 ...state,
-                job: MODIFY_TODO
+                
             };
         case DELETE_TODO:
             return {
                 ...state,
-                job: DELETE_TODO
+                
             };
         default:
             return state;

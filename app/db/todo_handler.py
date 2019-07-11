@@ -65,25 +65,10 @@ def select_todo_list(id):
             "date_y": todo.date_y,
             "date_m": todo.date_m,
             "date_d": todo.date_d,
+            "body": todo.body,
             "level": todo.level,
             "id": todo.id
         })
 
     logger.info(">>>> Selected todo-list::%s (user_id::%s)" % (str(todo_table), id))
     return todo_table
-
-
-def get_todo_component_by_no(no):
-    todo = Todo.query.filter_by(no=no).first()
-    logger.info(">>>> Select todo(no: %d) by user_id::%s" % (no, todo.id))
-    return {
-        "no": todo.no,
-        "name": todo.name,
-        "title": todo.title,
-        "date_y": todo.date_y,
-        "date_m": todo.date_m,
-        "date_d": todo.date_d,
-        "body": todo.body,
-        "level": todo.level,
-        "id": todo.id
-    }

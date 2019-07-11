@@ -66,7 +66,6 @@ class WriteTodoBtn extends React.Component {
         
         alert(response.data.message);
         this.handleClose();
-        location.reload();
     }
 
     render = () => {
