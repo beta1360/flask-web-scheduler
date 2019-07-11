@@ -1,4 +1,4 @@
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Badge } from 'react-bootstrap';
 import React, { Component } from 'react';
 import DeleteTodoAlert from './DeleteTodoAlert'
 import ModifyTodoModal from './ModifyTodoModal'
@@ -41,6 +41,17 @@ class DetailTodoModal extends Component {
         return str;
     }
 
+    getBadgeColorByProgress = () => {
+        switch(this.props.progress){
+            case "TODO":
+                return "danger";
+            case "DOING":
+                return "primary";
+            default:
+                return "success";
+        }
+    }
+
     shouldComponentUpdate = (nextProps, nextState) => {
         return ( nextProps !== this.props
             || nextState !== this.state );
@@ -55,7 +66,9 @@ class DetailTodoModal extends Component {
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>#{todo.no} <b>{todo.title}</b></Modal.Title>
+                        <Modal.Title>
+                            <Badge variant={this.getBadgeColorByProgress()}>{todo.progress}</Badge>#{todo.no} <b>{todo.title}</b>
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <p><label><b>우선 순위: </b> {todo.level}</label></p>

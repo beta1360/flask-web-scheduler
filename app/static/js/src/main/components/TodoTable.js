@@ -54,6 +54,7 @@ class TodoTable extends Component {
                                     <th>작성자</th>
                                     <th>작성일</th>
                                     <th>우선순위</th>
+                                    <th>진행상황</th>
                                     <th>상세보기</th>
                                     <th>삭제</th>
                                 </tr>
