@@ -18,7 +18,7 @@ class TodoList extends Component {
         this.state = {
             data: Map({
                 todoList: List([]),
-                isShown: false
+                visible: false
             })
         }
     }
@@ -26,14 +26,14 @@ class TodoList extends Component {
     handleToBeVisibleTodoTable = () => {
         const { data } = this.state;
         this.setState({
-            data: data.set('isShown', true)
+            data: data.set('visible', true)
         });
     }
 
     handleToBeInvisibleTodoTable = () => {
         const { data } = this.state;
         this.setState({
-            data: data.set('isShown', false)
+            data: data.set('visible', false)
         });
     }
 
@@ -73,9 +73,9 @@ class TodoList extends Component {
     }
 
     render = () => {
-        let isShown = this.state.data.get('isShown');
+        let visible = this.state.data.get('visible');
 
-        if(isShown){
+        if(visible){
             return this.drawTodoTable();
         } else {
             return <Spinner animation="border"/>;

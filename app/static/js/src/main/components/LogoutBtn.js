@@ -1,12 +1,14 @@
+import '@babel/polyfill'
 import React, {Component} from 'react';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
 
 class LogoutBtn extends Component {
-    onClickLogoutBtn(){
+    
+    onClickLogoutBtn = () => {
         axios.post('http://localhost:13609/api/logout')
         .then( (response) =>{
-            let message = response.data.message;
+            const message = response.data.message;
             alert(message);
             location.replace("http://localhost:13609");
         }).catch( (error) => {
@@ -14,7 +16,7 @@ class LogoutBtn extends Component {
         });
     }
 
-    render(){
+    render = () => {
         return(
             <div>
                 <Button variant="primary" onClick={this.onClickLogoutBtn}>

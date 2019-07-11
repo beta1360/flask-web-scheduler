@@ -1,3 +1,4 @@
+import '@babel/polyfill';
 import { Button, Modal, ButtonGroup, Form } from 'react-bootstrap';
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
@@ -24,41 +25,33 @@ class ModifyTodoModal extends Component {
             content: this.props.content,
             level: this.props.level
         };
-
-        this.handleClose = this.handleClose.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleContentChange = this.handleContentChange.bind(this);
-        this.handleToggleChange = this.handleToggleChange.bind(this);
-        this.submitModifyingTodoForm = this.submitModifyingTodoForm.bind(this);
     }
 
-    handleClose(){
+    handleClose = () => {
         this.setState({ show: false });
     }
 
-    handleShow(){
+    handleShow = () => {
         this.setState({ show: true });
     }
 
-    handleTitleChange(event){
-        this.setState({ title: event.target.value });
+    handleTitleChange = (e) => {
+        this.setState({ title: e.target.value });
     }
 
-    handleDateChange(date) {
+    handleDateChange = (date) => {
         this.setState({ startDate: date });
     }
 
-    handleContentChange(event){
-        this.setState({ content: event.target.value });
+    handleContentChange = (e) => {
+        this.setState({ content: e.target.value });
     }
 
-    handleToggleChange(event){
-        this.setState({ level: event.target.value });
+    handleToggleChange = (e) => {
+        this.setState({ level: e.target.value });
     }
 
-    submitModifyingTodoForm(){
+    submitModifyingTodoForm = async () => {
         const thisDate = new Date(this.state.startDate);
 
         const date_y = Number(thisDate.getFullYear());
@@ -69,7 +62,7 @@ class ModifyTodoModal extends Component {
         const body = this.state.content;
         const level = Number(this.state.level);
 
-        Axios.post('http://localhost:13609/todo/modify', {
+        const response = await Axios.post('http://localhost:13609/todo/modify', {
             no: this.props.no,
             title: title,
             date_y: date_y,
@@ -77,14 +70,19 @@ class ModifyTodoModal extends Component {
             date_d: date_d,
             body: body,
             level: level
-        }).then((response)=>{
-            alert(response.data.message);
-            this.handleClose();
-            location.reload();
         });
+            
+        alert(response.data.message);
+        this.handleClose();
+        location.reload();
     }
 
-    render(){
+    shouldComponentUpdate = (nextProps, nextState) => {
+        return ( nextProps !== this.props
+            || nextState !== this.state );
+    }
+
+    render = () => {
         return (
             <div>
                 <Button variant="primary" onClick={this.handleShow}>수정</Button>
@@ -96,7 +94,11 @@ class ModifyTodoModal extends Component {
                     <Modal.Body>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>제목</Form.Label>
-                            <Form.Control type="text" placeholder="제목을 작성해주세요." onChange={this.handleTitleChange} value={this.props.title}/>
+                            <Form.Control 
+                                type="text" 
+                                placeholder="제목을 작성해주세요." 
+                                onChange={this.handleTitleChange} 
+                                value={this.state.title}/>
                         </Form.Group>
 
                         <Form.Group>
@@ -107,14 +109,18 @@ class ModifyTodoModal extends Component {
                                     selected={this.state.startDate}
                                     onChange={this.handleDateChange}
                                     isClearable={true}
-                                    value={this.props.startDate}
+                                    value={this.state.startDate}
                                     placeholderText="Click to select a date"/>   
                             </p>                        
                         </Form.Group>
 
                         <Form.Group controlId="exampleForm.ControlTextarea1">
                             <Form.Label>내용</Form.Label>
-                            <Form.Control as="textarea" rows="5" onChange={this.handleContentChange} value={this.props.content}/>
+                            <Form.Control 
+                                as="textarea" 
+                                rows="5" 
+                                onChange={this.handleContentChange} 
+                                value={this.state.content}/>
                         </Form.Group>
 
                         <Form.Group controlId="exampleForm.ControlButtonGroup">

@@ -1,16 +1,12 @@
+import '@babel/polyfill';
 import React, { Component } from 'react';
 import DetailTodoModal from './DetailTodoModal';
 import DeleteTodoAlert from './DeleteTodoAlert';
 
 class TodoItem extends Component {
+
     constructor(props, context){
         super(props, context);
-
-        this.setDateToString = this.setDateToString.bind(this);
-
-        this.state = {
-            deleteAlertVisible: false
-        };
 
         this.defaultProps = {
             todo: undefined,
@@ -25,7 +21,7 @@ class TodoItem extends Component {
         };
     }
 
-    setDateToString(){
+    setDateToString = () => {
         let date_y = this.props.todo.date_y;
         let date_m = this.props.todo.date_m;
         let date_d = this.props.todo.date_d;
@@ -41,12 +37,11 @@ class TodoItem extends Component {
         return str;
     }
 
-    shouldComponentUpdate(nextProps, nextState){
+    shouldComponentUpdate = (nextProps, nextState) => {
         return (nextProps.todo !== this.props.todo);
     }
     
-    render(){
-
+    render = () => {
         return(
             <tr>
                 <th>{this.props.todo.no}</th>
