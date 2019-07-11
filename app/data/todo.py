@@ -18,8 +18,9 @@ class Todo(database.Model):
     body = database.Column(database.Text, nullable=True)
     level = database.Column(database.Integer, nullable=False)
     id = database.Column(database.String(50), database.ForeignKey("user.id"), nullable=False)
+    progress = database.Column(database.Integer, nullable=False)
 
-    def __init__(self, id, name, title, date_y, date_m, date_d, body, level):
+    def __init__(self, id, name, title, date_y, date_m, date_d, body, level, progress):
         self.id = id
         self.name = name
         self.title = title
@@ -28,3 +29,4 @@ class Todo(database.Model):
         self.date_d = date_d
         self.body = body
         self.level = level
+        self.progress = progress
