@@ -1,18 +1,12 @@
+import '@babel/polyfill';
 import React, { Component, Fragment } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
 class LogInForm extends Component {
+
     constructor(props, context){
         super(props, context);
-
-        this.handleChangeID = this.handleChangeID.bind(this);
-        this.handleChangePwd = this.handleChangePwd.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.onClickLogInBtn = this.onClickLogInBtn.bind(this);
-        this.getMessageByStatusCode = this.getMessageByStatusCode.bind(this);
-        this.initLogInForm = this.initLogInForm.bind(this);
 
         this.state = {
             show: false,
@@ -21,24 +15,24 @@ class LogInForm extends Component {
         };
     }
 
-    handleChangeID(event){
-        this.setState({id: event.target.value});
+    handleChangeID = (e) => {
+        this.setState({id: e.target.value});
     }
 
-    handleChangePwd(event){
-        this.setState({pwd: event.target.value});
+    handleChangePwd = (e) => {
+        this.setState({pwd: e.target.value});
     }
 
-    handleClose(){
+    handleClose = () => {
         this.setState({ show: false });
         this.initLogInForm;
     }
 
-    handleShow(){
+    handleShow = () => {
         this.setState({ show: true });
     }
 
-    onClickLogInBtn(){
+    onClickLogInBtn = () => {
         let loginId = this.state.id;
         let loginPwd = this.state.pwd;
 
@@ -58,7 +52,7 @@ class LogInForm extends Component {
         }
     }
 
-    getMessageByStatusCode(response){
+    getMessageByStatusCode = (response) => {
         let status_code = response.data.code;
         let message = response.data.message;
 
@@ -72,12 +66,12 @@ class LogInForm extends Component {
             alert("로그인 에러입니다.");
     }
 
-    initLogInForm(){
+    initLogInForm = () => {
         this.setState({id: '', pwd: ''});
         this.handleClose;
     }
 
-    render(){
+    render = () => {
         return (
             <Fragment>
                 <div>
