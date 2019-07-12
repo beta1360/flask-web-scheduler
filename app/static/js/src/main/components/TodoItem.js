@@ -27,7 +27,7 @@ class TodoItem extends Component {
     }
 
     getBadgeColorByProgress = () => {
-        switch(this.props.progress){
+        switch(this.props.todo.progress){
             case "TODO":
                 return "danger";
             case "DOING":

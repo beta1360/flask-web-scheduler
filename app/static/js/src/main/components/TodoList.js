@@ -75,11 +75,11 @@ class TodoList extends Component {
     render = () => {
         let visible = this.state.data.get('visible');
 
-        if(visible){
+        if(visible)
             return this.drawTodoTable();
-        } else {
+            
+        else 
             return <Spinner animation="border"/>;
-        }
     }
 }
 

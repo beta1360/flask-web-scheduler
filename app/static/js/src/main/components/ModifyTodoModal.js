@@ -69,7 +69,8 @@ class ModifyTodoModal extends Component {
             date_m: date_m,
             date_d: date_d,
             body: body,
-            level: level
+            level: level,
+            progress: this.props.progress
         });
             
         alert(response.data.message);
