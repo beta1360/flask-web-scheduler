@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import { Table, Spinner } from 'react-bootstrap';
+import { Table, Spinner, ProgressBar } from 'react-bootstrap';
 import { Map } from 'immutable';
 
 import WriteTodoBtn from './WriteTodoBtn';
@@ -33,6 +33,17 @@ class TodoTable extends Component {
         });
     }
 
+    getProgressBar = () => {
+
+        return(
+            <ProgressBar>
+                <ProgressBar animated variant="danger" now={35} key={1} label={`${35}%`}/>
+                <ProgressBar animated variant="primary" now={20} key={2} label={`${20}%`}/>
+                <ProgressBar animated variant="success" now={10} key={3} label={`${10}%`}/>
+            </ProgressBar>
+        );
+    }
+
     componentDidMount = () => {
         this.setUserInformation();
     }
@@ -46,6 +57,7 @@ class TodoTable extends Component {
             return (
                 <div>
                     <Fragment>
+                        {this.getProgressBar()}
                         <Table striped bordered hover>
                             <thead>
                                 <tr>

@@ -42,7 +42,7 @@ class DetailTodoModal extends Component {
     }
 
     getBadgeColorByProgress = () => {
-        switch(this.props.progress){
+        switch(this.props.todo.progress){
             case "TODO":
                 return "danger";
             case "DOING":
@@ -78,7 +78,8 @@ class DetailTodoModal extends Component {
                     <Modal.Footer>
                         <ModifyTodoModal no={todo.no} title={todo.title} 
                             startDate={this.setDateToString()} 
-                            content={todo.body} level = {todo.level}/>
+                            content={todo.body} level = {todo.level}
+                            progress={todo.progress}/>
                         <DeleteTodoAlert no={todo.no}/>
                         <Button variant="dark" onClick={this.handleClose}>닫기</Button>
                     </Modal.Footer>
