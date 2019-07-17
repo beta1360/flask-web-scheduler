@@ -31,7 +31,7 @@ python app/app.py
 - Redux 적용
 - immutable.js 적용
 
-### v0.62
+### v0.62 (예정)
 - ProgressBar 적용
 - Todo 라벨 적용
 
