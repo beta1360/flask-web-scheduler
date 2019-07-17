@@ -1,8 +1,11 @@
 import '@babel/polyfill';
 import React, { Component } from 'react';
-import { Badge } from 'react-bootstrap';
-import DetailTodoModal from './DetailTodoModal';
-import DeleteTodoAlert from './DeleteTodoAlert';
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
+import TodoDropDownBtn from './TodoDropDownBtn'
+import DetailTodoModalContainer from './DetailTodoModal';
+import DeleteTodoAlertContainer from './DeleteTodoAlert';
 
 class TodoItem extends Component {
 
@@ -11,10 +14,7 @@ class TodoItem extends Component {
     }
 
     setDateToString = () => {
-        let date_y = this.props.todo.date_y;
-        let date_m = this.props.todo.date_m;
-        let date_d = this.props.todo.date_d;
-
+        const { date_y, date_m, date_d } = this.props.todo;
         let str = date_y + ".";
 
         if(date_m < 10) str += "0";
@@ -42,25 +42,29 @@ class TodoItem extends Component {
     }
     
     render = () => {
-        const todo = this.props.todo;
+        const { todo } = this.props;
 
         return(
             <tr>
-                <th>{todo.no}</th>
+                <th><TodoDropDownBtn no={todo.no} progress={todo.progress}/></th>
                 <th>{todo.title}</th>
                 <th>{todo.name}</th>
                 <th>{this.setDateToString()}</th>
                 <th>{todo.level}</th>
-                <th>
-                    <Badge variant={this.getBadgeColorByProgress()}>
-                        {todo.progress}
-                    </Badge>
-                </th>
-                <th><DetailTodoModal todo={todo}/></th>
-                <th><DeleteTodoAlert no={todo.no}/></th>
+                <th><DetailTodoModalContainer todo={todo}/></th>
+                <th><DeleteTodoAlertContainer no={todo.no}/></th>
             </tr>
         );
     }
 }
 
-export default TodoItem;
+const TodoItemContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList')
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(TodoItem);
+
+export default TodoItemContainer;

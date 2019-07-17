@@ -1,10 +1,11 @@
 import '@babel/polyfill';
 import React, { Component } from 'react';
-import axios from 'axios';
-import { List, Map } from 'immutable';
+import { List } from 'immutable';
 import { Spinner } from 'react-bootstrap';
-
-import TodoItem from './TodoItem';
+import TodoItemContainer from './TodoItem';
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
 
 class TodoList extends Component {
 
@@ -16,71 +17,85 @@ class TodoList extends Component {
         }
 
         this.state = {
-            data: Map({
-                todoList: List([]),
-                visible: false
-            })
+            visible: false,
+            todoList: List([])
         }
     }
 
     handleToBeVisibleTodoTable = () => {
-        const { data } = this.state;
-        this.setState({
-            data: data.set('visible', true)
-        });
+        this.setState({ visible: true });
     }
 
     handleToBeInvisibleTodoTable = () => {
-        const { data } = this.state;
-        this.setState({
-            data: data.set('visible', false)
-        });
+        this.setState({ visible: false });
     }
 
     getTodoList = async () => {
+        const { userId, TodoActions } = this.props;
+        await TodoActions.getTodoList(userId);
+
+        this.getStateFromProps();
+    }
+
+    getStateFromProps = () => {
         this.handleToBeInvisibleTodoTable();
 
-        const res = await axios.get('http://localhost:13609/todo/list', {
-            params: {id: this.props.userId}});
+        const { todoList } = this.props;
 
-        const todos = res.data.todos;
-        const { data } = this.state;
-        
-        this.setState({
-            data: data.set('todoList', List(
-                todos.map(todo=>Map(todo))
-            ))
-        });
+        this.setState({todoList: todoList})
 
         this.handleToBeVisibleTodoTable();
     }
 
-    drawTodoTable = () =>{
-        const list = this.state.data.get('todoList');
+    drawTodoTable = () => {
+        const { todoList } = this.state;
 
-        return list.map((todo) => {
+        return todoList.map((todo) => {
             const todoComp = todo.toJS();
-            return <TodoItem todo={todoComp} key={todo.get("no")}/>
+            return <TodoItemContainer todo={todoComp} key={todo.get("no")}/>
         });
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
-        return nextState !== this.state;
+        return nextProps !== this.props
+                || nextState !== this.state;
     }
 
     componentDidMount = () =>{
         this.getTodoList();
     }
 
+    componentDidUpdate = (prevProps, prevState) => {
+        const { TodoActions, rerender } = this.props;
+        const prevRerender = prevProps.rerender;
+        const pending = prevProps.pending;
+
+        if(prevRerender && !rerender && !pending){
+            this.getTodoList();
+            TodoActions.todoRerender();
+        }
+    }
+
     render = () => {
-        let visible = this.state.data.get('visible');
+        const { visible } = this.state;
 
         if(visible)
             return this.drawTodoTable();
-            
+
         else 
             return <Spinner animation="border"/>;
     }
 }
 
-export default TodoList;
+const TodoListContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList'),
+        rerender: state.todo.get('rerender'),
+        pending: state.todo.get('pending')
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(TodoList);
+
+export default TodoListContainer;

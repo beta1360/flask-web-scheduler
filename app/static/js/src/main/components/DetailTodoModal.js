@@ -1,7 +1,10 @@
 import { Modal, Button, Badge } from 'react-bootstrap';
 import React, { Component } from 'react';
-import DeleteTodoAlert from './DeleteTodoAlert'
-import ModifyTodoModal from './ModifyTodoModal'
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
+import DeleteTodoAlertContainer from './DeleteTodoAlert'
+import ModifyTodoModalContainer from './ModifyTodoModal'
 
 class DetailTodoModal extends Component {
 
@@ -58,7 +61,7 @@ class DetailTodoModal extends Component {
     }
 
     render = () => {
-        const todo = this.props.todo;
+        const { todo } = this.props;
 
         return(
             <div>
@@ -76,11 +79,11 @@ class DetailTodoModal extends Component {
                         <p><label><b>상세 내용: </b></label></p>{todo.body}
                     </Modal.Body>
                     <Modal.Footer>
-                        <ModifyTodoModal no={todo.no} title={todo.title} 
+                        <ModifyTodoModalContainer no={todo.no} title={todo.title} 
                             startDate={this.setDateToString()} 
                             content={todo.body} level = {todo.level}
                             progress={todo.progress}/>
-                        <DeleteTodoAlert no={todo.no}/>
+                        <DeleteTodoAlertContainer no={todo.no}/>
                         <Button variant="dark" onClick={this.handleClose}>닫기</Button>
                     </Modal.Footer>
                 </Modal>
@@ -89,4 +92,13 @@ class DetailTodoModal extends Component {
     }
 };
 
-export default DetailTodoModal;
+const DetailTodoModalContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList'),
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(DetailTodoModal);
+
+export default DetailTodoModalContainer;

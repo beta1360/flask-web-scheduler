@@ -3,9 +3,12 @@ import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import { Table, Spinner, ProgressBar } from 'react-bootstrap';
 import { Map } from 'immutable';
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
 
-import WriteTodoBtn from './WriteTodoBtn';
-import TodoList from './TodoList';
+import WriteTodoBtnContainer from './WriteTodoBtn';
+import TodoListContainer from './TodoList';
 
 class TodoTable extends Component {
 
@@ -15,12 +18,12 @@ class TodoTable extends Component {
         this.state = {
             data: Map({
                 userId: '',
-                userName: '',
+                userName: ''
             })
         };
     }
 
-    setUserInformation = async () => {
+    setTodoTableInformation = async () => {
         const res = await axios.get('http://localhost:13609/user/whoami');
                 
         const userId = res.data.user_id;
@@ -34,7 +37,6 @@ class TodoTable extends Component {
     }
 
     getProgressBar = () => {
-
         return(
             <ProgressBar>
                 <ProgressBar animated variant="danger" now={35} key={1} label={`${35}%`}/>
@@ -45,15 +47,18 @@ class TodoTable extends Component {
     }
 
     componentDidMount = () => {
-        this.setUserInformation();
+        this.setTodoTableInformation();
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
-        return (nextState !== this.state);
+        return (nextState !== this.state)
+                || ( nextProps !== this.props );
     }
 
     render = () => {
-        if(this.state.data.get('userId')){
+        const userId = this.state.data.get('userId');
+
+        if(userId){
             return (
                 <div>
                     <Fragment>
@@ -61,21 +66,20 @@ class TodoTable extends Component {
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
-                                    <th>no</th>
+                                    <th>진행상황</th>
                                     <th>제목</th>
                                     <th>작성자</th>
                                     <th>작성일</th>
                                     <th>우선순위</th>
-                                    <th>진행상황</th>
                                     <th>상세보기</th>
                                     <th>삭제</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <TodoList userId={this.state.data.get('userId')}/>
+                                <TodoListContainer userId={userId}/>
                             </tbody>
                         </Table>
-                        <WriteTodoBtn/>
+                        <WriteTodoBtnContainer userId={userId}/>
                     </Fragment>
                 </div>
             );
@@ -85,4 +89,13 @@ class TodoTable extends Component {
     }
 }
 
-export default TodoTable;
+const TodoTableContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList')
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(TodoTable);
+
+export default TodoTableContainer;

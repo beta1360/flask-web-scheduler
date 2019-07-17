@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import manageTodoTable from './modules/TodoStore';
+import todo from './modules/reducers/TodoActions';
 
-const todoReducer = combineReducers({
-    manageTodoTable,
+const reducers = combineReducers({
+    todo,
 
 });
 
-export default todoReducer;
+export default reducers;
