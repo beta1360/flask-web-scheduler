@@ -1,83 +1,89 @@
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Badge } from 'react-bootstrap';
 import React, { Component } from 'react';
-import DeleteTodoAlert from './DeleteTodoAlert'
-import ModifyTodoModal from './ModifyTodoModal'
-
-import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
+import DeleteTodoAlertContainer from './DeleteTodoAlert'
+import ModifyTodoModalContainer from './ModifyTodoModal'
 
 class DetailTodoModal extends Component {
+
     constructor(props, context){
         super(props, context);
 
         this.state = {
-            show: false,
-            name: 'None',
-            title: '(제목 없음)',
-            date_y: 2000,
-            date_m: 1,
-            date_d: 1,
-            body: '',
-            level: 0
+            show: false
         }
 
         this.defaultProps = {
-            no: 0,
+            todo: undefined
         };
-
-        this.handleClose = this.handleClose.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.showDetailTodo = this.showDetailTodo.bind(this);
     }
 
-    showDetailTodo(){
-        axios.get('http://localhost:13609/todo/component', {
-                params: {no: this.props.no}
-            }).then((response)=>{
-                const todoComp = response.data;
-
-                this.setState({
-                    name: todoComp.name,
-                    title: todoComp.title,
-                    date_y: todoComp.date_y,
-                    date_m: todoComp.date_m,
-                    date_d: todoComp.date_d,
-                    body: todoComp.body,
-                    level: todoComp.level
-                });
-                this.handleShow();
-            });
-        
-    }
-
-    handleClose(){
+    handleClose = () => {
         this.setState({show: false});
     }
 
-    handleShow(){
+    handleShow = () => {
         this.setState({show: true});
     }
 
-    render(){
+    setDateToString = () => {
+        const date_y = this.props.todo.date_y;
+        const date_m = this.props.todo.date_m;
+        const date_d = this.props.todo.date_d;
+
+        let str = date_y + ".";
+
+        if(date_m < 10) str += "0";
+        str += date_m + ".";
+
+        if(date_d < 10) str += "0";
+        str += date_d;
+
+        return str;
+    }
+
+    getBadgeColorByProgress = () => {
+        switch(this.props.todo.progress){
+            case "TODO":
+                return "danger";
+            case "DOING":
+                return "primary";
+            default:
+                return "success";
+        }
+    }
+
+    shouldComponentUpdate = (nextProps, nextState) => {
+        return ( nextProps !== this.props
+            || nextState !== this.state );
+    }
+
+    render = () => {
+        const { todo } = this.props;
+
         return(
             <div>
-                <Button variant="primary" onClick={this.showDetailTodo}>상세보기</Button>
+                <Button variant="primary" onClick={this.handleShow}>상세보기</Button>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>#{this.props.no} <b>{this.state.title}</b></Modal.Title>
+                        <Modal.Title>
+                            <Badge variant={this.getBadgeColorByProgress()}>{todo.progress}</Badge>#{todo.no} <b>{todo.title}</b>
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p><label><b>우선 순위: </b> {this.state.level}</label></p>
-                        <p><label><b>해야될 날짜: </b></label></p>
-                            {this.state.date_y}.{this.state.date_m}.{this.state.date_d}
-                        <p><label><b>상세 내용: </b></label></p>
-                        {this.state.body}
+                        <p><label><b>우선 순위: </b> {todo.level}</label></p>
+                        <p><label><b>해야될 날짜: </b> {this.setDateToString()}</label></p>
+                        <p><label><b>상세 내용: </b></label></p>{todo.body}
                     </Modal.Body>
                     <Modal.Footer>
-                        <ModifyTodoModal no={this.props.no} title={this.state.title} 
-                            startDate={this.state.date_y + "." + this.state.date_m + "." + this.state.date_d} 
-                            content={this.state.body} level = {this.state.level}/>
-                        <DeleteTodoAlert no={this.props.no}/>
+                        <ModifyTodoModalContainer no={todo.no} title={todo.title} 
+                            startDate={this.setDateToString()} 
+                            content={todo.body} level = {todo.level}
+                            progress={todo.progress}/>
+                        <DeleteTodoAlertContainer no={todo.no}/>
                         <Button variant="dark" onClick={this.handleClose}>닫기</Button>
                     </Modal.Footer>
                 </Modal>
@@ -86,4 +92,13 @@ class DetailTodoModal extends Component {
     }
 };
 
-export default DetailTodoModal;
+const DetailTodoModalContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList'),
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(DetailTodoModal);
+
+export default DetailTodoModalContainer;

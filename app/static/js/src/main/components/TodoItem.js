@@ -1,34 +1,20 @@
+import '@babel/polyfill';
 import React, { Component } from 'react';
-import DetailTodoModal from './DetailTodoModal';
-import DeleteTodoAlert from './DeleteTodoAlert';
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
+import TodoDropDownBtn from './TodoDropDownBtn'
+import DetailTodoModalContainer from './DetailTodoModal';
+import DeleteTodoAlertContainer from './DeleteTodoAlert';
 
 class TodoItem extends Component {
+
     constructor(props, context){
         super(props, context);
-
-        this.setDateToString = this.setDateToString.bind(this);
-
-        this.state = {
-            deleteAlertVisible: false
-        };
-
-        this.defaultProps = {
-            no: 0,
-            name: 'None',
-            title: '(제목 없음)',
-            date_y: 2000,
-            date_m: 1,
-            date_d: 1,
-            level: 0,
-            id: ''
-        };
     }
 
-    setDateToString(){
-        let date_y = this.props.date_y;
-        let date_m = this.props.date_m;
-        let date_d = this.props.date_d;
-
+    setDateToString = () => {
+        const { date_y, date_m, date_d } = this.props.todo;
         let str = date_y + ".";
 
         if(date_m < 10) str += "0";
@@ -39,23 +25,46 @@ class TodoItem extends Component {
 
         return str;
     }
+
+    getBadgeColorByProgress = () => {
+        switch(this.props.todo.progress){
+            case "TODO":
+                return "danger";
+            case "DOING":
+                return "primary";
+            default:
+                return "success";
+        }
+    }
+
+    shouldComponentUpdate = (nextProps, nextState) => {
+        return (nextProps !== this.props);
+    }
     
-    render(){
+    render = () => {
+        const { todo } = this.props;
 
         return(
             <tr>
-                <th>{this.props.no}</th>
-                <th>{this.props.title}</th>
-                <th>{this.props.name}</th>
+                <th><TodoDropDownBtn no={todo.no} progress={todo.progress}/></th>
+                <th>{todo.title}</th>
+                <th>{todo.name}</th>
                 <th>{this.setDateToString()}</th>
-                <th>{this.props.level}</th>
-                <th>
-                    <DetailTodoModal no={this.props.no}/>
-                    <DeleteTodoAlert no={this.props.no}/>
-                </th>
+                <th>{todo.level}</th>
+                <th><DetailTodoModalContainer todo={todo}/></th>
+                <th><DeleteTodoAlertContainer no={todo.no}/></th>
             </tr>
         );
     }
 }
 
-export default TodoItem;
+const TodoItemContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList')
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(TodoItem);
+
+export default TodoItemContainer;

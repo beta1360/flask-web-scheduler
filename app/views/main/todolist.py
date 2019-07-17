@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_user, login_required, current_user, logout_user
 from data.user import User
 from db.user_handler import modify_user, delete_user
-from db.todo_handler import select_todo_list, get_todo_component_by_no, add_todo, modify_todo, delete_todo
+from db.todo_handler import select_todo_list, add_todo, modify_todo, delete_todo
 from message import response, msg
 from home import login_manager
 from logger import logger, logging_route
@@ -50,18 +50,6 @@ def get_todo_list_in_main():
 
     list = select_todo_list(id)
     return jsonify({"todos": list})
-
-
-@todolist_app.route("/todo/component", methods=["GET"])
-@logging_route(url="/todo/component", method="GET")
-@login_required
-def get_todo_component():
-    no = int(request.args.get("no"))
-    logger.info(">> Request to select todo(no: %d) by user_id::%s" % (no, id))
-
-    component = get_todo_component_by_no(no)
-    logger.info(">> Todo component: %s" % str(component))
-    return jsonify(component)
 
 
 @todolist_app.route("/todo/add", methods=["POST"])

@@ -1,9 +1,11 @@
+import '@babel/polyfill';
 import React from 'react'; 
-
 import { Button, Form, Modal, ButtonGroup } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Axios from 'axios';
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
 
 
 class WriteTodoBtn extends React.Component {
@@ -18,41 +20,35 @@ class WriteTodoBtn extends React.Component {
             content: '',
             level: ''
         };
-
-        this.handleClose = this.handleClose.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleContentChange = this.handleContentChange.bind(this);
-        this.handleToggleChange = this.handleToggleChange.bind(this);
-        this.submitWritingTodoForm = this.submitWritingTodoForm.bind(this);
     }
 
-    handleClose(){
+    handleClose = () => {
         this.setState({ show: false });
     }
 
-    handleShow(){
+    handleShow = () => {
         this.setState({ show: true });
     }
 
-    handleTitleChange(event){
-        this.setState({ title: event.target.value });
+    handleTitleChange = (e) => {
+        this.setState({ title: e.target.value });
     }
 
-    handleDateChange(date) {
+    handleDateChange = (date) => {
         this.setState({ startDate: date });
     }
 
-    handleContentChange(event){
-        this.setState({ content: event.target.value });
+    handleContentChange = (e) => {
+        this.setState({ content: e.target.value });
     }
 
-    handleToggleChange(event){
-        this.setState({ level: event.target.value });
+    handleToggleChange = (e) => {
+        this.setState({ level: e.target.value });
     }
 
-    submitWritingTodoForm(){
+    submitWritingTodoForm = async () => {
+        const { TodoActions } = this.props;
+
         const thisDate = new Date(this.state.startDate);
 
         const date_y = Number(thisDate.getFullYear());
@@ -63,21 +59,13 @@ class WriteTodoBtn extends React.Component {
         const body = this.state.content;
         const level = Number(this.state.level);
 
-        Axios.post('http://localhost:13609/todo/add', {
-            title: title,
-            date_y: date_y,
-            date_m: date_m,
-            date_d: date_d,
-            body: body,
-            level: level
-        }).then((response)=>{
-            alert(response.data.message);
-            this.handleClose();
-            location.reload();
-        });
+        await TodoActions.addTodo(title, date_y, date_m, date_d, body, level);
+        TodoActions.todoRerender();
+
+        this.handleClose();
     }
 
-    render(){
+    render = () => {
         return (
             <div>
                 <Button variant="primary" onClick={this.handleShow}>추가</Button>
@@ -137,4 +125,13 @@ class WriteTodoBtn extends React.Component {
     }
 }
 
-export default WriteTodoBtn;
+const WriteTodoBtnContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList')
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(WriteTodoBtn);
+
+export default WriteTodoBtnContainer;

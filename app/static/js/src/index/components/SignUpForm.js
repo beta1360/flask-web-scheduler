@@ -1,25 +1,12 @@
+import '@babel/polyfill';
 import React, { Component, Fragment } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 
 class SignUpForm extends Component {
+
     constructor(props, context){
         super(props, context);
-
-        this.handleIdCheckPass = this.handleIdCheckPass.bind(this);
-        this.handleIdCheckNotPass = this.handleIdCheckNotPass.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleChangeId = this.handleChangeId.bind(this);
-        this.handleChangePw = this.handleChangePw.bind(this);
-        this.handleChangeCpw = this.handleChangeCpw.bind(this);
-        this.handleChangeName = this.handleChangeName.bind(this);
-        this.handleChangeRank = this.handleChangeRank.bind(this);
-        this.onClickIdCheckBtn = this.onClickIdCheckBtn.bind(this);
-        this.checkValidId = this.checkValidId.bind(this);
-        this.isEqualPasswords = this.isEqualPasswords.bind(this);
-        this.checkValidate = this.checkValidate.bind(this);
-        this.submitSignForm = this.submitSignForm.bind(this);
 
         this.state = {
             show: false,
@@ -32,66 +19,62 @@ class SignUpForm extends Component {
         };
     }
 
-    handleIdCheckPass(){
+    handleIdCheckPass = () => {
         this.setState({ idPass: true});
     }
 
-    handleIdCheckNotPass(){
+    handleIdCheckNotPass = () => {
         this.setState({ idPass: false});
     }
 
-    handleClose(){
+    handleClose = () => {
         this.setState({ show: false });
     }
 
-    handleShow(){
+    handleShow = () => {
         this.setState({ show: true });
     }
 
-    handleChangeId(event){
-        this.setState({id: event.target.value});
+    handleChangeId = (e) => {
+        this.setState({id: e.target.value});
         this.checkValidId;
     }
 
-    handleChangePw(event){
-        this.setState({pw: event.target.value});
+    handleChangePw = (e) => {
+        this.setState({pw: e.target.value});
     }
 
-    handleChangeCpw(event){
-        this.setState({cpw: event.target.value});
+    handleChangeCpw = (e) => {
+        this.setState({cpw: e.target.value});
     }
 
-    handleChangeName(event){
-        this.setState({name: event.target.value});
+    handleChangeName = (e) => {
+        this.setState({name: e.target.value});
     }
 
-    handleChangeRank(event){
-        this.setState({rank: event.target.value});
+    handleChangeRank = (e) => {
+        this.setState({rank: e.target.value});
     }
 
-    onClickIdCheckBtn(){
-        this.checkValidId()
-            .then((response)=>{
-                let code = response.data.code;
-                let message = response.data.message;
+    onClickIdCheckBtn = async () => {
+        const response = await this.checkValidId();
+        const code = response.data.code;
+        const message = response.data.message;
 
-                this.setState({idPass: code});
-                alert(message);
-        });
+        this.setState({idPass: code});
+        alert(message);
     }
 
-    checkValidId(){
-        return Promise.resolve( 
-            axios.post(
-            'http://localhost:13609/user/check', 
-            {user_id: this.state.id} ));
+    checkValidId = () => {
+        return axios.post('http://localhost:13609/user/check'
+                            , {user_id: this.state.id} );
     }
 
-    isEqualPasswords(){
+    isEqualPasswords = () => {
         return (this.state.pw == this.state.cpw);
     }
 
-    checkValidate(){
+    checkValidate = () => {
         let isValidatedForm = false;
 
         if(this.state.id == '' 
@@ -103,7 +86,7 @@ class SignUpForm extends Component {
             alert("두 비밀번호가 다릅니다.");
 
         else { 
-            this.checkValidId;
+            this.checkValidId();
             if(this.state.idPass)
                 isValidatedForm = true;
         }
@@ -111,7 +94,7 @@ class SignUpForm extends Component {
         return isValidatedForm;
     }
 
-    submitSignForm(){
+    submitSignForm = () => {
         if(this.checkValidate()){
             axios.post('http://localhost:13609/user/add', {
                 id: this.state.id,
@@ -127,7 +110,7 @@ class SignUpForm extends Component {
         } 
     }
 
-    render(){
+    render = () => {
         return (
             <Fragment>
                 <div>

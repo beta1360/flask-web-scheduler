@@ -27,24 +27,28 @@ python app/app.py
 - React.js 적용
 - UI의 Bootstrap화 (React-bootstrap)
 
-### v0.60 (예정)
+### v0.60
 - Redux 적용
 - immutable.js 적용
-- 테이블 분리
+
+### v0.62 (예정)
+- ProgressBar 적용
+- Todo 라벨 적용
 
 ## Next Plans...
 ### Front-end side
 - [x] ```Bootstrap```을 통한 UI 개선 작업
 - [x] Code Refactorying
 - [ ] 세 테이블의 Todo로 개선하기
-- [ ] ```Redux``` 적용
-- [ ] ```immutable.js``` 적용
-- [ ] ```Duck Pattern``` 적용
+- [x] ```Redux``` 적용
+- [x] ```immutable.js``` 적용
+- [x] ```Duck Pattern``` 적용
+- [ ] ```Progress Bar``` 적용
 
 ### Back-end side
 - [x] ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
-- [ ] UI 수정에 따른 서버 개선
+- [x] UI 수정에 따른 서버 개선
 - [x] Code Refactorying
 - [x] ```logging``` 기능 추가하기
 - [x] ```Blueprint``` 적용하기
-- [ ] ```Doing, Todo Done``` 테이블 추가
+- [x] ```Doing, Todo Done``` 테이블 추가

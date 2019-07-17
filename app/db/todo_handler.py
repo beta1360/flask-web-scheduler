@@ -7,6 +7,7 @@
 from home import database
 from data.todo import Todo
 from logger import logger
+from util.convert_progress import progress_converter, progress_deconverter
 
 
 def add_todo(req, user):
@@ -18,8 +19,9 @@ def add_todo(req, user):
     level = req[u"level"]
     id = user.id
     name = user.name
+    progress = 0
 
-    todo = Todo(id, name, title, date_y, date_m, date_d, body, level)
+    todo = Todo(id, name, title, date_y, date_m, date_d, body, level, progress)
     logger.info(">>>> Provided Todo instance todo: %s" % str(todo))
 
     database.session.add(todo)
@@ -37,6 +39,7 @@ def modify_todo(no, req):
     todo.date_d = req[u"date_d"]
     todo.body = req[u"body"]
     todo.level = req[u"level"]
+    todo.progress = progress_converter(req[u"progress"])
 
     logger.info(">>>> Modified Todo(no: %d) by user_id::%s" % (todo.no, todo.id))
     logger.info(">>>> Todo::%s" % str(todo))
@@ -65,25 +68,11 @@ def select_todo_list(id):
             "date_y": todo.date_y,
             "date_m": todo.date_m,
             "date_d": todo.date_d,
+            "body": todo.body,
             "level": todo.level,
-            "id": todo.id
+            "id": todo.id,
+            "progress": progress_deconverter(todo.progress)
         })
 
     logger.info(">>>> Selected todo-list::%s (user_id::%s)" % (str(todo_table), id))
     return todo_table
-
-
-def get_todo_component_by_no(no):
-    todo = Todo.query.filter_by(no=no).first()
-    logger.info(">>>> Select todo(no: %d) by user_id::%s" % (no, todo.id))
-    return {
-        "no": todo.no,
-        "name": todo.name,
-        "title": todo.title,
-        "date_y": todo.date_y,
-        "date_m": todo.date_m,
-        "date_d": todo.date_d,
-        "body": todo.body,
-        "level": todo.level,
-        "id": todo.id
-    }
