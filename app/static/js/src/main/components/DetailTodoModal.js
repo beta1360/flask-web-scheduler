@@ -1,7 +1,10 @@
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Badge } from 'react-bootstrap';
 import React, { Component } from 'react';
-import DeleteTodoAlert from './DeleteTodoAlert'
-import ModifyTodoModal from './ModifyTodoModal'
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
+import DeleteTodoAlertContainer from './DeleteTodoAlert'
+import ModifyTodoModalContainer from './ModifyTodoModal'
 
 class DetailTodoModal extends Component {
 
@@ -41,13 +44,24 @@ class DetailTodoModal extends Component {
         return str;
     }
 
+    getBadgeColorByProgress = () => {
+        switch(this.props.todo.progress){
+            case "TODO":
+                return "danger";
+            case "DOING":
+                return "primary";
+            default:
+                return "success";
+        }
+    }
+
     shouldComponentUpdate = (nextProps, nextState) => {
         return ( nextProps !== this.props
             || nextState !== this.state );
     }
 
     render = () => {
-        const todo = this.props.todo;
+        const { todo } = this.props;
 
         return(
             <div>
@@ -55,7 +69,9 @@ class DetailTodoModal extends Component {
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>#{todo.no} <b>{todo.title}</b></Modal.Title>
+                        <Modal.Title>
+                            <Badge variant={this.getBadgeColorByProgress()}>{todo.progress}</Badge>#{todo.no} <b>{todo.title}</b>
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <p><label><b>우선 순위: </b> {todo.level}</label></p>
@@ -63,10 +79,11 @@ class DetailTodoModal extends Component {
                         <p><label><b>상세 내용: </b></label></p>{todo.body}
                     </Modal.Body>
                     <Modal.Footer>
-                        <ModifyTodoModal no={todo.no} title={todo.title} 
+                        <ModifyTodoModalContainer no={todo.no} title={todo.title} 
                             startDate={this.setDateToString()} 
-                            content={todo.body} level = {todo.level}/>
-                        <DeleteTodoAlert no={todo.no}/>
+                            content={todo.body} level = {todo.level}
+                            progress={todo.progress}/>
+                        <DeleteTodoAlertContainer no={todo.no}/>
                         <Button variant="dark" onClick={this.handleClose}>닫기</Button>
                     </Modal.Footer>
                 </Modal>
@@ -75,4 +92,13 @@ class DetailTodoModal extends Component {
     }
 };
 
-export default DetailTodoModal;
+const DetailTodoModalContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList'),
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(DetailTodoModal);
+
+export default DetailTodoModalContainer;

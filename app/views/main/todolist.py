@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_user, login_required, current_user, logout_user
 from data.user import User
 from db.user_handler import modify_user, delete_user
-from db.todo_handler import select_todo_list, get_todo_component_by_no, add_todo, modify_todo, delete_todo
+from db.todo_handler import select_todo_list, add_todo, modify_todo, delete_todo
 from message import response, msg
 from home import login_manager
 from logger import logger, logging_route

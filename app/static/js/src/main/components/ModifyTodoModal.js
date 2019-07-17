@@ -3,7 +3,9 @@ import { Button, Modal, ButtonGroup, Form } from 'react-bootstrap';
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Axios from 'axios';
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
 
 class ModifyTodoModal extends Component {
 
@@ -23,7 +25,8 @@ class ModifyTodoModal extends Component {
             title: this.props.title,
             startDate: this.startDate,
             content: this.props.content,
-            level: this.props.level
+            level: this.props.level,
+            progress: this.props.progress
         };
     }
 
@@ -52,6 +55,7 @@ class ModifyTodoModal extends Component {
     }
 
     submitModifyingTodoForm = async () => {
+        const { TodoActions } = this.props;
         const thisDate = new Date(this.state.startDate);
 
         const date_y = Number(thisDate.getFullYear());
@@ -61,20 +65,13 @@ class ModifyTodoModal extends Component {
         const title = this.state.title;
         const body = this.state.content;
         const level = Number(this.state.level);
+        const progress = this.state.progress;
 
-        const response = await Axios.post('http://localhost:13609/todo/modify', {
-            no: this.props.no,
-            title: title,
-            date_y: date_y,
-            date_m: date_m,
-            date_d: date_d,
-            body: body,
-            level: level
-        });
-            
-        alert(response.data.message);
+        await TodoActions.modifyTodo(this.props.no, title, 
+                    date_y, date_m, date_d, body, level, progress);
+
+        TodoActions.todoRerender();
         this.handleClose();
-        //location.reload();
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
@@ -151,4 +148,13 @@ class ModifyTodoModal extends Component {
     }
 }
 
-export default ModifyTodoModal;
+const ModifyTodoModalContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList'),
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(ModifyTodoModal);
+
+export default ModifyTodoModalContainer;

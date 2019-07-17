@@ -3,7 +3,9 @@ import React from 'react';
 import { Button, Form, Modal, ButtonGroup } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Axios from 'axios';
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
 
 
 class WriteTodoBtn extends React.Component {
@@ -45,6 +47,8 @@ class WriteTodoBtn extends React.Component {
     }
 
     submitWritingTodoForm = async () => {
+        const { TodoActions } = this.props;
+
         const thisDate = new Date(this.state.startDate);
 
         const date_y = Number(thisDate.getFullYear());
@@ -55,16 +59,9 @@ class WriteTodoBtn extends React.Component {
         const body = this.state.content;
         const level = Number(this.state.level);
 
-        const response = await Axios.post('http://localhost:13609/todo/add', {
-            title: title,
-            date_y: date_y,
-            date_m: date_m,
-            date_d: date_d,
-            body: body,
-            level: level
-        });
-        
-        alert(response.data.message);
+        await TodoActions.addTodo(title, date_y, date_m, date_d, body, level);
+        TodoActions.todoRerender();
+
         this.handleClose();
     }
 
@@ -128,4 +125,13 @@ class WriteTodoBtn extends React.Component {
     }
 }
 
-export default WriteTodoBtn;
+const WriteTodoBtnContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList')
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(WriteTodoBtn);
+
+export default WriteTodoBtnContainer;
