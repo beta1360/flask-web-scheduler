@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_user, login_required, current_user, logout_user
 from data.user import User
 from db.user_handler import modify_user, delete_user
-from db.todo_handler import select_todo_list, add_todo, modify_todo, delete_todo
+from db.todo_handler import select_todo_list, add_todo, modify_todo, delete_todo, modify_todo_progress
 from message import response, msg
 from home import login_manager
 from logger import logger, logging_route
@@ -97,3 +97,22 @@ def delete_todo_no():
     return jsonify(
         response.build(code_num=msg.SUCCESS,
                        code_message=msg.SUCCESS_DELETE_TODO))
+
+
+@todolist_app.route("/todo/modify/progress", methods=["POST"])
+@logging_route(url="/todo/modify/progress", method="POST")
+@login_required
+def modify_progress():
+    req = request.get_json()
+    logger.info(">> Request data: %s" % str(req))
+
+    no = req["no"]
+    progress = req["progress"]
+    logger.info(">> Request to modify todo(no: %d) by user_id::%s" % (no, current_user.id))
+
+    modify_todo_progress(no, progress)
+
+    logger.info(">> %d:: %s" % (msg.SUCCESS, msg.SUCCESS_MODIFY_TODO_PROGRESS))
+    return jsonify(
+        response.build(code_num=msg.SUCCESS,
+                       code_message=msg.SUCCESS_MODIFY_TODO_PROGRESS))

@@ -76,3 +76,17 @@ def select_todo_list(id):
 
     logger.info(">>>> Selected todo-list::%s (user_id::%s)" % (str(todo_table), id))
     return todo_table
+
+
+def modify_todo_progress(no, progress):
+    todo = Todo.query.filter_by(no=no).first()
+    logger.info(">>>> Select Todo instance todo(no: %d): %s" % (todo.no, str(todo)))
+
+    logger.info(">>>> Before progress -> %s ( to %s )" % (progress_deconverter(todo.progress), progress))
+    todo.progress = int(progress_converter(progress))
+    logger.info(">>>> After progress -> %s" % progress_deconverter(todo.progress))
+
+    logger.info(">>>> Modified Todo-progress(no: %d) by user_id::%s" % (todo.no, todo.id))
+    logger.info(">>>> Todo::%s" % str(todo))
+    database.session.commit()
+    logger.info(">>>> Modified todo in DB (todo_no::%s & user_id::%s)" % (todo.no, todo.id))

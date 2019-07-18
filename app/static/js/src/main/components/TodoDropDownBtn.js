@@ -1,6 +1,9 @@
 import '@babel/polyfill';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import * as todoActions from '../store/modules/reducers/TodoActions'
+import { connect } from 'react-redux';
 
 class TodoDropDownBtn extends Component {
 
@@ -14,8 +17,26 @@ class TodoDropDownBtn extends Component {
 
     handleToggleChange = (e) => {
         this.setState({ progress: e.target.value });
+        this.changeToggledProgress(e.target.value);
     }
 
+    changeToggledProgress = async (progress) => {
+        const { TodoActions, no } = this.props;
+
+        await TodoActions.modifyProgress(no, progress);
+        TodoActions.todoRerender();
+    }
+/*
+    componentDidUpdate = (prevProps, prevState) => {
+        if(prevState.progress != this.state.progress){
+            this.changeToggledProgress();
+        }
+    }
+
+    shouldComponentUpdate = (nextProps, nextState) =>{
+        return nextState.progress != this.state.progress;
+    }
+*/
     getColorByProgress = () => {
         switch(this.state.progress){
             case "TODO":
@@ -38,4 +59,15 @@ class TodoDropDownBtn extends Component {
     }
 }
 
-export default TodoDropDownBtn;
+const TodoDropDownBtnContainer = connect(
+    (state) => ({
+        todoList: state.todo.get('todoList'),
+        rerender: state.todo.get('rerender'),
+        pending: state.todo.get('pending')
+    }),
+    (dispatch) => ({
+        TodoActions: bindActionCreators(todoActions, dispatch)
+    })
+)(TodoDropDownBtn);
+
+export default TodoDropDownBtnContainer;
