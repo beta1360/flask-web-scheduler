@@ -8,6 +8,7 @@ const ADD_TODO = "TODO/ADD";
 const MODIFY_TODO = "TODO/MODIFY";
 const DELETE_TODO = "TODO/DELETE";
 const TODO_RERENDER = "TODO/RERENDER";
+const MODIFY_PROGRESS = "TODO/MODIFY_PROGRESS";
 
 export const getTodoList = (userId) => {
     return (dispatch) => {
@@ -82,6 +83,19 @@ export const todoRerender = () => {
     }
 }
 
+export const modifyProgress = (no, progress) => {
+    return (dispatch) => {
+        dispatch({type: GET_PENDING});
+
+        return axios.post("http://localhost:13609/todo/modify/progress", {
+            no: no,
+            progress: progress
+        }).then((response)=>{
+            dispatch({ type: MODIFY_PROGRESS })
+        });
+    }
+}
+
 const initialState = Map({    
     pending: false,
     todoList: List([]),
@@ -112,6 +126,10 @@ export default handleActions(
         )
         ,[TODO_RERENDER]: (state, action) => (
             state.set('rerender', false)
+        )
+        ,[MODIFY_PROGRESS]: (state, action) => (
+            state.set('pending', false)
+                .set('rerender', true)
         )
     }, 
     initialState

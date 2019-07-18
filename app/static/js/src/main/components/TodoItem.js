@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import * as todoActions from '../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
-import TodoDropDownBtn from './TodoDropDownBtn'
+import TodoDropDownBtnCotainer from './TodoDropDownBtn'
 import DetailTodoModalContainer from './DetailTodoModal';
 import DeleteTodoAlertContainer from './DeleteTodoAlert';
 
@@ -46,7 +46,7 @@ class TodoItem extends Component {
 
         return(
             <tr>
-                <th><TodoDropDownBtn no={todo.no} progress={todo.progress}/></th>
+                <th><TodoDropDownBtnCotainer no={todo.no} progress={todo.progress}/></th>
                 <th>{todo.title}</th>
                 <th>{todo.name}</th>
                 <th>{this.setDateToString()}</th>
