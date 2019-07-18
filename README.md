@@ -43,7 +43,7 @@ python app/app.py
 - [x] ```Redux``` 적용
 - [x] ```immutable.js``` 적용
 - [x] ```Duck Pattern``` 적용
-- [ ] ```Progress Bar``` 적용
+- [x] ```Progress Bar``` 적용
 
 ### Back-end side
 - [x] ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
