@@ -31,9 +31,14 @@ python app/app.py
 - Redux 적용
 - immutable.js 적용
 
-### v0.62 (예정)
+### v0.62
 - ProgressBar 적용
 - Todo 라벨 적용
+
+### v0.70 (예정)
+- Typescript 적용
+- 일부 버그 수정
+- 코드 최적화
 
 ## Next Plans...
 ### Front-end side
@@ -44,6 +49,7 @@ python app/app.py
 - [x] ```immutable.js``` 적용
 - [x] ```Duck Pattern``` 적용
 - [x] ```Progress Bar``` 적용
+- [ ] ```Typescript``` 적용
 
 ### Back-end side
 - [x] ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
