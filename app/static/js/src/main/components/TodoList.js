@@ -41,7 +41,6 @@ class TodoList extends Component {
         this.handleToBeInvisibleTodoTable();
 
         const { todoList } = this.props;
-
         this.setState({todoList: todoList})
 
         this.handleToBeVisibleTodoTable();

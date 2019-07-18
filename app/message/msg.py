@@ -18,6 +18,8 @@ SUCCESS_ADD_TODO = "Todo를 등록하였습니다."
 SUCCESS_MODIFY_TODO = "해당 Todo 수정에 성공하였습니다."
 SUCCESS_DELETE_TODO = "해당 Todo를 삭제하였습니다."
 
+SUCCESS_MODIFY_TODO_PROGRESS = "TODO의 진행상황을 변경하였습니다."
+
 FAIL_ADD_USER = "유저 등록 실패"
 FAIL_MODIFY_USER = "회원정보 수정 실패"
 FAIL_DELETE_USER = "회원탈퇴 실패"

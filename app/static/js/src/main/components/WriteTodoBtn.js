@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux';
 import * as todoActions from '../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
-
 class WriteTodoBtn extends React.Component {
 
     constructor(props, context){
