@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import { Table, Spinner, ProgressBar } from 'react-bootstrap';
+import { Table, Spinner } from 'react-bootstrap';
 import { Map } from 'immutable';
 import { bindActionCreators } from 'redux';
 import * as todoActions from '../store/modules/reducers/TodoActions'
@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 
 import WriteTodoBtnContainer from './WriteTodoBtn';
 import TodoListContainer from './TodoList';
+import TodoProgressBarContainer from './TodoProgressBar';
 
 class TodoTable extends Component {
 
@@ -36,16 +37,6 @@ class TodoTable extends Component {
         });
     }
 
-    getProgressBar = () => {
-        return(
-            <ProgressBar>
-                <ProgressBar animated variant="danger" now={35} key={1} label={`${35}%`}/>
-                <ProgressBar animated variant="primary" now={20} key={2} label={`${20}%`}/>
-                <ProgressBar animated variant="success" now={10} key={3} label={`${10}%`}/>
-            </ProgressBar>
-        );
-    }
-
     componentDidMount = () => {
         this.setTodoTableInformation();
     }
@@ -61,8 +52,9 @@ class TodoTable extends Component {
         if(userId){
             return (
                 <div>
+                    <TodoProgressBarContainer />
+
                     <Fragment>
-                        {this.getProgressBar()}
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
