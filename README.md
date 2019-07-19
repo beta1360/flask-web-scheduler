@@ -36,9 +36,11 @@ python app/app.py
 - Todo 라벨 적용
 
 ### v0.70 (예정)
-- Typescript 적용
 - 일부 버그 수정
 - 코드 최적화
+- React-router 적용
+- private/public todo 생성
+- 그룹별 todo List 만들기
 
 ## Next Plans...
 ### Front-end side
@@ -50,6 +52,7 @@ python app/app.py
 - [x] ```Duck Pattern``` 적용
 - [x] ```Progress Bar``` 적용
 - [ ] ```Typescript``` 적용
+- [ ] ```react-router``` 적용
 
 ### Back-end side
 - [x] ```Sql-Alchemy```를 통한 ORM방식의 DB 관리
@@ -58,3 +61,5 @@ python app/app.py
 - [x] ```logging``` 기능 추가하기
 - [x] ```Blueprint``` 적용하기
 - [x] ```Doing, Todo Done``` 테이블 추가
+- [ ] ```public, private``` 테이블 추가
+- [ ] ```user group``` 테이블 추가
