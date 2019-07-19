@@ -13,12 +13,14 @@ class User(database.Model):
     password = database.Column(database.String(100), nullable=False)
     name = database.Column(database.String(30), nullable=False)
     rank = database.Column(database.String(50), nullable=False)
+    group_num = database.Column(database.Integer, nullable=False)
 
-    def __init__(self, id, password, name, rank):
+    def __init__(self, id, password, name, rank, group_num):
         self.id = id
         self.password = password
         self.name = name
         self.rank = rank
+        self.group_num = group_num
         self.is_authenticated = False
 
     def is_authenticated(self):

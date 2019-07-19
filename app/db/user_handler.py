@@ -10,7 +10,7 @@ from logger import logger
 
 
 def add_user(req):
-    user = User(req["id"], bcrypt.generate_password_hash(req["password"]), req["name"], req["rank"])
+    user = User(req["id"], bcrypt.generate_password_hash(req["password"]), req["name"], req["rank"], 0)
     logger.info(">>>> Provided User instance user: %s" % str(user))
     if not is_registed_user(user.id):
         database.session.add(user)
@@ -64,3 +64,8 @@ def get_login_user(id, pw):
 
 def provide_user_instance(id):
     return User.query.filter_by(id=id).first()
+
+
+def get_user_group(id):
+    user = User.query.filter_by(id=id).first()
+    return user.group_num
