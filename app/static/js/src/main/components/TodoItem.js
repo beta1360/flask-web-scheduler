@@ -1,7 +1,7 @@
 import '@babel/polyfill';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 import TodoDropDownBtnCotainer from './TodoDropDownBtn'
 import DetailTodoModalContainer from './DetailTodoModal';
@@ -37,6 +37,16 @@ class TodoItem extends Component {
         }
     }
 
+    isSameUser = (id) => {
+        return this.props.userId == id;
+    }
+
+    getDeleteButtonByUserId = (id, no) => {
+        if(this.isSameUser(id))
+            return <th><DeleteTodoAlertContainer no={no}/></th>;
+        else return <th></th>
+    }
+    
     shouldComponentUpdate = (nextProps, nextState) => {
         return (nextProps !== this.props);
     }
@@ -46,13 +56,14 @@ class TodoItem extends Component {
 
         return(
             <tr>
-                <th><TodoDropDownBtnCotainer no={todo.no} progress={todo.progress}/></th>
+                <th><TodoDropDownBtnCotainer no={todo.no} 
+                    progress={todo.progress} isEqual={this.isSameUser(todo.id)}/></th>
                 <th>{todo.title}</th>
                 <th>{todo.name}</th>
                 <th>{this.setDateToString()}</th>
                 <th>{todo.level}</th>
-                <th><DetailTodoModalContainer todo={todo}/></th>
-                <th><DeleteTodoAlertContainer no={todo.no}/></th>
+                <th><DetailTodoModalContainer todo={todo} isEqual={this.isSameUser(todo.id)}/></th>
+                {this.getDeleteButtonByUserId(todo.id, todo.no)}
             </tr>
         );
     }

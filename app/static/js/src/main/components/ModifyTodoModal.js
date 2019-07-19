@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
 class ModifyTodoModal extends Component {

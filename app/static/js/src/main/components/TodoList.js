@@ -4,7 +4,7 @@ import { List } from 'immutable';
 import { Spinner } from 'react-bootstrap';
 import TodoItemContainer from './TodoItem';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
 class TodoList extends Component {
@@ -51,7 +51,7 @@ class TodoList extends Component {
 
         return todoList.map((todo) => {
             const todoComp = todo.toJS();
-            return <TodoItemContainer todo={todoComp} key={todo.get("no")}/>
+            return <TodoItemContainer todo={todoComp} key={todo.get("no")} userId={this.props.userId}/>
         });
     }
 

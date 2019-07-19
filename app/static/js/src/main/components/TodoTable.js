@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Table, Spinner } from 'react-bootstrap';
 import { Map } from 'immutable';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
 import WriteTodoBtnContainer from './WriteTodoBtn';
@@ -61,7 +61,7 @@ class TodoTable extends Component {
                                     <th>진행상황</th>
                                     <th>제목</th>
                                     <th>작성자</th>
-                                    <th>작성일</th>
+                                    <th>일정</th>
                                     <th>우선순위</th>
                                     <th>상세보기</th>
                                     <th>삭제</th>

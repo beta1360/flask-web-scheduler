@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import LogoutBtn from './components/LogoutBtn';
 import TodoTableContainer from './components/TodoTable';
-import store from './store';
+import store from '../store';
 
 ReactDOM.render(
     <Provider store={store}><LogoutBtn /></Provider>, 

@@ -2,7 +2,7 @@ import '@babel/polyfill'
 import { Button } from 'react-bootstrap';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
 class DeleteTodoAlert extends Component {

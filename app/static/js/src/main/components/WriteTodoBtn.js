@@ -1,10 +1,10 @@
 import '@babel/polyfill';
 import React from 'react'; 
-import { Button, Form, Modal, ButtonGroup } from 'react-bootstrap';
+import { Button, Form, Modal, ButtonGroup, OverlayTrigger } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
 class WriteTodoBtn extends React.Component {
@@ -64,10 +64,29 @@ class WriteTodoBtn extends React.Component {
         this.handleClose();
     }
 
+    getTooltip = () => {
+        return (
+            <div
+                style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                    padding: '2px 10px',
+                    color: 'white',
+                    borderRadius: 3,
+            }}>
+            Todo를 작성하시면, Todo 상태로 시작합니다.
+          </div>
+        );
+    }
+
     render = () => {
         return (
             <div>
-                <Button variant="primary" onClick={this.handleShow}>추가</Button>
+                <OverlayTrigger   
+                    placement="top-start"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={this.getTooltip()}>
+                    <Button variant="primary" onClick={this.handleShow}>추가</Button>
+                </OverlayTrigger>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>

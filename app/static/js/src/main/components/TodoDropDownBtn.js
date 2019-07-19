@@ -1,8 +1,8 @@
 import '@babel/polyfill';
-import { DropdownButton, Dropdown } from 'react-bootstrap';
+import { DropdownButton, Dropdown, Button, OverlayTrigger } from 'react-bootstrap';
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
 class TodoDropDownBtn extends Component {
@@ -26,17 +26,7 @@ class TodoDropDownBtn extends Component {
         await TodoActions.modifyProgress(no, progress);
         TodoActions.todoRerender();
     }
-/*
-    componentDidUpdate = (prevProps, prevState) => {
-        if(prevState.progress != this.state.progress){
-            this.changeToggledProgress();
-        }
-    }
 
-    shouldComponentUpdate = (nextProps, nextState) =>{
-        return nextState.progress != this.state.progress;
-    }
-*/
     getColorByProgress = () => {
         switch(this.state.progress){
             case "TODO":
@@ -48,14 +38,38 @@ class TodoDropDownBtn extends Component {
         }
     }
 
-    render = () => {
+    getTooltip = () => {
         return (
-            <DropdownButton variant={this.getColorByProgress()} title={this.state.progress} id="dropdown-item-button">
-                <Dropdown.Item as="button" onClick={this.handleToggleChange} value="TODO">TODO</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={this.handleToggleChange} value="DOING">DOING</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={this.handleToggleChange} value="DONE">DONE</Dropdown.Item>
-            </DropdownButton>
+            <div
+                style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                    padding: '2px 10px',
+                    color: 'white',
+                    borderRadius: 3,
+            }}>
+            다른 유저/팀원의 Todo의 진행상황은 수정이 불가능합니다.
+          </div>
         );
+    }
+
+    render = () => {
+        if(this.props.isEqual)
+            return (
+                <DropdownButton variant={this.getColorByProgress()} title={this.state.progress} id="dropdown-item-button">
+                    <Dropdown.Item as="button" onClick={this.handleToggleChange} value="TODO">TODO</Dropdown.Item>
+                    <Dropdown.Item as="button" onClick={this.handleToggleChange} value="DOING">DOING</Dropdown.Item>
+                    <Dropdown.Item as="button" onClick={this.handleToggleChange} value="DONE">DONE</Dropdown.Item>
+                </DropdownButton>
+            );
+        else
+            return (
+                <OverlayTrigger   
+                    placement="top-start"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={this.getTooltip()}>
+                    <Button variant={this.getColorByProgress()}>{this.state.progress}</Button>
+                </OverlayTrigger> 
+            );
     }
 }
 
