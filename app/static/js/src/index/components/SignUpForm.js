@@ -16,6 +16,7 @@ class SignUpForm extends Component {
             cpw: 'x',
             name: '',
             rank: '사원',
+            groupCode: '',
         };
     }
 
@@ -54,6 +55,10 @@ class SignUpForm extends Component {
 
     handleChangeRank = (e) => {
         this.setState({rank: e.target.value});
+    }
+
+    handleGroupCode = (e) => {
+        this.setState({groupCode: e.tartget.value});
     }
 
     onClickIdCheckBtn = async () => {
@@ -167,6 +172,11 @@ class SignUpForm extends Component {
                                     <option>상무</option>
                                 </Form.Control>
                             </Form.Group>
+                            <Form.Group controlId="formBasicName">
+                                <Form.Label>그룹코드</Form.Label>
+                                <Form.Control type="text" placeholder="그룹코드를 입력하세요." onChange={this.handleGroupCode}/>
+                            </Form.Group>
+
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="primary" onClick={this.submitSignForm}>

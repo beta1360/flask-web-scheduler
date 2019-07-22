@@ -10,12 +10,12 @@ const DELETE_TODO = "TODO/DELETE";
 const TODO_RERENDER = "TODO/RERENDER";
 const MODIFY_PROGRESS = "TODO/MODIFY_PROGRESS";
 
-export const getTodoList = (userId) => {
+export const getTodoList = (userId, range) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
         return axios.get('http://localhost:13609/todo/list', {
-            params: {id: userId}}
+            params: {id: userId, range: range}}
         ).then((response) => {
             const { todos } = response.data;
             const mappingTodo = todos.map(todo=>Map(todo));
@@ -28,7 +28,7 @@ export const getTodoList = (userId) => {
     }
 }
 
-export const addTodo = (title, date_y, date_m, date_d, body, level) => {
+export const addTodo = (title, date_y, date_m, date_d, body, level, privacy) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
         
@@ -38,14 +38,15 @@ export const addTodo = (title, date_y, date_m, date_d, body, level) => {
             date_m: date_m,
             date_d: date_d,
             body: body,
-            level: level
+            level: level,
+            privacy: privacy
         }).then((response) => {
             dispatch({type: ADD_TODO});
         });
     }
 }
 
-export const modifyTodo = (no, title, date_y, date_m, date_d, body, level, progress) => {
+export const modifyTodo = (no, title, date_y, date_m, date_d, body, level, progress, privacy) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
         
@@ -57,7 +58,8 @@ export const modifyTodo = (no, title, date_y, date_m, date_d, body, level, progr
             date_d: date_d,
             body: body,
             level: level,
-            progress: progress
+            progress: progress,
+            privacy: privacy
         }).then((response) => {
             dispatch({type: MODIFY_TODO});
         });
