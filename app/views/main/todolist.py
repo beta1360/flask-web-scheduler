@@ -46,9 +46,10 @@ def delete_user_id():
 @login_required
 def get_todo_list_in_main():
     id = request.args.get("id")
+    range = request.args.get("range")
     logger.info(">> Request to select todo-list by user_id::%s" % id)
 
-    list = select_todo_list(id)
+    list = select_todo_list(id, range)
     return jsonify({"todos": list})
 
 

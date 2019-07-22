@@ -1,5 +1,5 @@
 def privacy_converter(privacy):
-    if progress == "public":
+    if privacy == "public":
         return 0
     else:  # progress == "private":
         return 1
