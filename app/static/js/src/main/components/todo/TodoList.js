@@ -4,7 +4,7 @@ import { List } from 'immutable';
 import { Spinner } from 'react-bootstrap';
 import TodoItemContainer from './TodoItem';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
 class TodoList extends Component {
@@ -13,7 +13,8 @@ class TodoList extends Component {
         super(props, context);
 
         this.defaultProps = {
-            userId: ''
+            userId: '',
+            range: 'all'
         }
 
         this.state = {
@@ -31,8 +32,9 @@ class TodoList extends Component {
     }
 
     getTodoList = async () => {
-        const { userId, TodoActions } = this.props;
-        await TodoActions.getTodoList(userId);
+        const { userId, TodoActions, range } = this.props;
+
+        await TodoActions.getTodoList(userId, range);
 
         this.getStateFromProps();
     }
@@ -51,13 +53,8 @@ class TodoList extends Component {
 
         return todoList.map((todo) => {
             const todoComp = todo.toJS();
-            return <TodoItemContainer todo={todoComp} key={todo.get("no")}/>
+            return <TodoItemContainer todo={todoComp} key={todo.get("no")} userId={this.props.userId}/>
         });
-    }
-
-    shouldComponentUpdate = (nextProps, nextState) => {
-        return nextProps !== this.props
-                || nextState !== this.state;
     }
 
     componentDidMount = () =>{
@@ -69,7 +66,8 @@ class TodoList extends Component {
         const prevRerender = prevProps.rerender;
         const pending = prevProps.pending;
 
-        if(prevRerender && !rerender && !pending){
+        if(prevRerender && !rerender && !pending
+            || prevProps.range != this.props.range){
             this.getTodoList();
             TodoActions.todoRerender();
         }

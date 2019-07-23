@@ -1,32 +1,24 @@
 import '@babel/polyfill';
-import { Button, Modal, ButtonGroup, Form } from 'react-bootstrap';
-import React, { Component } from 'react';
+import React from 'react'; 
+import { Button, Form, Modal, ButtonGroup, OverlayTrigger } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
-class ModifyTodoModal extends Component {
+class WriteTodoBtn extends React.Component {
 
     constructor(props, context){
         super(props, context);
 
-        this.defaultProps = {
-            no: '',
+        this.state = {
+            show: false,
             title: '',
             startDate: '',
             content: '',
-            level: ''
-        }
-
-        this.state = {
-            show: false,
-            title: this.props.title,
-            startDate: this.startDate,
-            content: this.props.content,
-            level: this.props.level,
-            progress: this.props.progress
+            level: '',
+            isPrivate: false
         };
     }
 
@@ -54,8 +46,13 @@ class ModifyTodoModal extends Component {
         this.setState({ level: e.target.value });
     }
 
-    submitModifyingTodoForm = async () => {
+    handleCheckBoxChange = (e) => {
+        this.setState({ isPrivate: e.target.checked });
+    }
+
+    submitWritingTodoForm = async () => {
         const { TodoActions } = this.props;
+
         const thisDate = new Date(this.state.startDate);
 
         const date_y = Number(thisDate.getFullYear());
@@ -65,37 +62,47 @@ class ModifyTodoModal extends Component {
         const title = this.state.title;
         const body = this.state.content;
         const level = Number(this.state.level);
-        const progress = this.state.progress;
 
-        await TodoActions.modifyTodo(this.props.no, title, 
-                    date_y, date_m, date_d, body, level, progress);
+        const privacy = this.state.isPrivate? "private": "public";
 
+        await TodoActions.addTodo(title, date_y, date_m, date_d, body, level, privacy);
         TodoActions.todoRerender();
+
         this.handleClose();
     }
 
-    shouldComponentUpdate = (nextProps, nextState) => {
-        return ( nextProps !== this.props
-            || nextState !== this.state );
+    getTooltip = () => {
+        return (
+            <div
+                style={{
+                    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                    padding: '2px 10px',
+                    color: 'white',
+                    borderRadius: 3,
+            }}>
+            Todo를 작성하시면, Todo 상태로 시작합니다.
+          </div>
+        );
     }
 
     render = () => {
         return (
             <div>
-                <Button variant="primary" onClick={this.handleShow}>수정</Button>
+                <OverlayTrigger   
+                    placement="top-start"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={this.getTooltip()}>
+                    <Button variant="primary" onClick={this.handleShow}>Todo 추가</Button>
+                </OverlayTrigger>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Todo#{this.props.no} 수정하기</Modal.Title>
+                        <Modal.Title>Todo 쓰기</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>제목</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                placeholder="제목을 작성해주세요." 
-                                onChange={this.handleTitleChange} 
-                                value={this.state.title}/>
+                            <Form.Control type="text" placeholder="제목을 작성해주세요." onChange={this.handleTitleChange}/>
                         </Form.Group>
 
                         <Form.Group>
@@ -106,18 +113,13 @@ class ModifyTodoModal extends Component {
                                     selected={this.state.startDate}
                                     onChange={this.handleDateChange}
                                     isClearable={true}
-                                    value={this.state.startDate}
                                     placeholderText="Click to select a date"/>   
                             </p>                        
                         </Form.Group>
 
                         <Form.Group controlId="exampleForm.ControlTextarea1">
                             <Form.Label>내용</Form.Label>
-                            <Form.Control 
-                                as="textarea" 
-                                rows="5" 
-                                onChange={this.handleContentChange} 
-                                value={this.state.content}/>
+                            <Form.Control as="textarea" rows="5" onChange={this.handleContentChange}/>
                         </Form.Group>
 
                         <Form.Group controlId="exampleForm.ControlButtonGroup">
@@ -132,10 +134,18 @@ class ModifyTodoModal extends Component {
                                 </ButtonGroup>
                             </p>
                         </Form.Group>
+                        <Form.Group>
+                            <Form.Check
+                                custom="true"
+                                label="비공개로 하실 거면, 체크를 해주세요."
+                                onChange={this.handleCheckBoxChange}
+                                id="validationFormik0"
+                                />
+                        </Form.Group>
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="primary" onClick={this.submitModifyingTodoForm}>
+                        <Button variant="primary" onClick={this.submitWritingTodoForm}>
                             작성완료
                         </Button>
                         <Button variant="secondary" onClick={this.handleClose}>
@@ -148,13 +158,13 @@ class ModifyTodoModal extends Component {
     }
 }
 
-const ModifyTodoModalContainer = connect(
+const WriteTodoBtnContainer = connect(
     (state) => ({
-        todoList: state.todo.get('todoList'),
+        todoList: state.todo.get('todoList')
     }),
     (dispatch) => ({
         TodoActions: bindActionCreators(todoActions, dispatch)
     })
-)(ModifyTodoModal);
+)(WriteTodoBtn);
 
-export default ModifyTodoModalContainer;
+export default WriteTodoBtnContainer;

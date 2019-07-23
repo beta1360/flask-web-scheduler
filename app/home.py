@@ -51,6 +51,7 @@ from views.index.signup import signup_app
 from views.main.logout import logout_app
 from views.main.main_view import main_view_app
 from views.main.todolist import todolist_app
+from views.main.group import group_app
 
 app.register_blueprint(index_view_app)
 app.register_blueprint(login_app)
@@ -58,6 +59,7 @@ app.register_blueprint(signup_app)
 app.register_blueprint(logout_app)
 app.register_blueprint(main_view_app)
 app.register_blueprint(todolist_app)
+app.register_blueprint(group_app)
 
 from views.error.error import error_handler
 

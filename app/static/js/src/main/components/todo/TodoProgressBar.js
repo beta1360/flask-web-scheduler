@@ -2,7 +2,7 @@ import '@babel/polyfill';
 import React, { Component } from 'react';
 import { ProgressBar } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 
 class TodoProgressBar extends Component {
@@ -22,27 +22,29 @@ class TodoProgressBar extends Component {
 
         let todoCount = 0;
         let doingCount = 0;
-        let doneCount = 0;
 
         todoList.map((todo)=>{
             const progress = todo.get('progress');
 
             if(progress == "TODO") todoCount++;
             else if(progress == "DOING") doingCount++;
-            else doneCount++;
         });
 
+        let todoPercent = parseInt(Number((todoCount/todoListSize)*100));
+        let doingPercent = parseInt(Number((doingCount/todoListSize)*100));
+        let donePercent = 100 - (todoPercent + doingPercent);
+
         return {
-            "todoPercent": parseInt(Number((todoCount/todoListSize)*100)),
-            "doingPercent": parseInt(Number((doingCount/todoListSize)*100)),
-            "donePercent": parseInt(Number((doneCount/todoListSize)*100))
+            "todoPercent": todoPercent,
+            "doingPercent": doingPercent,
+            "donePercent": donePercent
         }
     }
 
     setProgressPercent = (todoPercent, doingPercent, donePercent) => {
-        this.setState({todoPercent: todoPercent})
-        this.setState({doingPercent: doingPercent})
-        this.setState({donePercent: donePercent})
+        this.setState({todoPercent: todoPercent
+                    ,doingPercent: doingPercent
+                    ,donePercent: donePercent})
     }
 
     componentDidMount = () => {
@@ -85,11 +87,11 @@ class TodoProgressBar extends Component {
         const { todoPercent, doingPercent, donePercent } = this.state;
 
         return (
-            <ProgressBar>
-                <ProgressBar animated variant="danger" now={todoPercent} key={1} label={`${todoPercent}%`}/>
-                <ProgressBar animated variant="primary" now={doingPercent} key={2} label={`${doingPercent}%`}/>
-                <ProgressBar animated variant="success" now={donePercent} key={3} label={`${donePercent}%`}/>
-            </ProgressBar>
+                <ProgressBar>
+                    <ProgressBar animated variant="danger" now={todoPercent} key={1} label={`${todoPercent}%`}/>
+                    <ProgressBar animated variant="primary" now={doingPercent} key={2} label={`${doingPercent}%`}/>
+                    <ProgressBar animated variant="success" now={donePercent} key={3} label={`${donePercent}%`}/>
+                </ProgressBar>
         );
     }
 };
