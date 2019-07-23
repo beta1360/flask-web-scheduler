@@ -20,12 +20,40 @@ class TodoHome extends Component {
         this.setState({selected: eventKey});
     }
 
+    getMyTodoNavTab = (groupNum) => {
+        if(groupNum != 0){
+            return (
+                <Nav.Item>
+                    <Nav.Link eventKey="my" href="#MyTodo" 
+                        onSelect={this.onSelectedNavItem}>나의 Todo</Nav.Link>
+                </Nav.Item>
+            );
+        } else {
+            return <></>;
+        }
+    }
+
+    getTeamTodoNavTab = (groupNum) => {
+        if(groupNum != 0){
+            return (
+                <Nav.Item>
+                    <Nav.Link eventKey="team" href="#TeamTodo" 
+                        onSelect={this.onSelectedNavItem}> 팀원</Nav.Link>
+                </Nav.Item>
+            );
+        } else {
+            return <></>;
+        }
+    }
+
+
     shouldComponentUpdate = (nextProps, nextState) => {
         return this.state.selected !== nextState.selected;
     }
 
     render = () => {
         const { selected } = this.state;
+        const { groupNum, userId, userName } = this.props;
 
         return (
             <div>
@@ -34,14 +62,10 @@ class TodoHome extends Component {
                     <Nav.Item>
                         <Nav.Link eventKey="all" href="#AllTodo" onSelect={this.onSelectedNavItem}>전체</Nav.Link>
                     </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="my" href="#MyTodo" onSelect={this.onSelectedNavItem}>나의 Todo</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link eventKey="team" href="#TeamTodo" onSelect={this.onSelectedNavItem}> 팀원</Nav.Link>
-                    </Nav.Item>
+                    {this.getMyTodoNavTab(groupNum)}
+                    {this.getTeamTodoNavTab(groupNum)}
                 </Nav>
-                <TodoTableContainer range={selected}/>
+                <TodoTableContainer range={selected} userId={userId} userName={userName} groupNum={groupNum}/>
             </div>
         );
     }

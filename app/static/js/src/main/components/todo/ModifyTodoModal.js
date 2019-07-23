@@ -113,7 +113,7 @@ class ModifyTodoModal extends Component {
                                     onChange={this.handleDateChange}
                                     isClearable={true}
                                     value={this.state.startDate}
-                                    placeholderText="Click to select a date"/>   
+                                    placeholderText="수정할 날짜를 선택해주세요."/>   
                             </p>                        
                         </Form.Group>
 

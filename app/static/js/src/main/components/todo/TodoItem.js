@@ -1,6 +1,7 @@
 import '@babel/polyfill';
 import React, { Component } from 'react';
 import { Badge } from 'react-bootstrap';
+import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import * as todoActions from '../../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
@@ -64,17 +65,19 @@ class TodoItem extends Component {
     
     render = () => {
         const { todo } = this.props;
+        const { no, id, title, name, privacy, level } = todo;
 
         return(
             <tr>
-                <th><TodoDropDownBtnCotainer no={todo.no} 
-                    progress={todo.progress} isEqual={this.isSameUser(todo.id)}/></th>
-                <th>{todo.title + "  "}{this.getTodoBadge(todo.id, todo.privacy)}</th>
-                <th>{todo.name}</th>
+                <th><TodoDropDownBtnCotainer no={no} 
+                    progress={todo.progress} isEqual={this.isSameUser(id)}/></th>
+                <th>{title + "  "}{this.getTodoBadge(id, privacy)}</th>
+                <th>{name}</th>
                 <th>{this.setDateToString()}</th>
-                <th>{todo.level}</th>
-                <th><DetailTodoModalContainer todo={todo} isEqual={this.isSameUser(todo.id)}/></th>
-                {this.getDeleteButtonByUserId(todo.id, todo.no)}
+                <th>{level}</th>
+                <th><DetailTodoModalContainer 
+                    todo={todo} isEqual={this.isSameUser(id)}/></th>
+                {this.getDeleteButtonByUserId(id, no)}
             </tr>
         );
     }

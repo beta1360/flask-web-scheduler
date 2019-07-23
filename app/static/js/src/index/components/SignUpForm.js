@@ -58,7 +58,7 @@ class SignUpForm extends Component {
     }
 
     handleGroupCode = (e) => {
-        this.setState({groupCode: e.tartget.value});
+        this.setState({groupCode: e.target.value});
     }
 
     onClickIdCheckBtn = async () => {
@@ -105,7 +105,8 @@ class SignUpForm extends Component {
                 id: this.state.id,
                 password: this.state.pw,
                 name: this.state.name,
-                rank: this.state.rank
+                rank: this.state.rank,
+                group_code: this.state.groupCode
             }).then((response)=>{
                 alert(response.data.message);
                 this.handleClose();
@@ -172,9 +173,12 @@ class SignUpForm extends Component {
                                     <option>상무</option>
                                 </Form.Control>
                             </Form.Group>
-                            <Form.Group controlId="formBasicName">
+                            <Form.Group controlId="formBasicGroup">
                                 <Form.Label>그룹코드</Form.Label>
                                 <Form.Control type="text" placeholder="그룹코드를 입력하세요." onChange={this.handleGroupCode}/>
+                                <Form.Text className="text-muted">
+                                    만약 존재하지 않는 그룹이면, 익명 그룹으로 분류됩니다.
+                                </Form.Text>
                             </Form.Group>
 
                         </Modal.Body>
