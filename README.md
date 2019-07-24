@@ -35,18 +35,28 @@ python app/app.py
 - ProgressBar 적용
 - Todo 라벨 적용
 
-### v0.70 (예정)
+### v0.70
 - 일부 버그 수정
 - 코드 최적화
-- React-router 적용
 - private/public todo 생성
 - 그룹별 todo List 만들기
+
+### v0.80 (예정)
+- 공개/비공개 그룹 추가
+- 그룹 상세 내용 추가
+- 그룹장, 그룹원 개념 추가
+
+### v0.82 (예정)
+- 유저 페이지 추가
+
+### v0.90 (예정)
+- Todo Scheduler 기능 추가
 
 ## Next Plans...
 ### Front-end side
 - [x] ```Bootstrap```을 통한 UI 개선 작업
 - [x] Code Refactorying
-- [ ] 세 테이블의 Todo로 개선하기
+- [x] 세 테이블의 Todo로 개선하기
 - [x] ```Redux``` 적용
 - [x] ```immutable.js``` 적용
 - [x] ```Duck Pattern``` 적용
@@ -61,5 +71,5 @@ python app/app.py
 - [x] ```logging``` 기능 추가하기
 - [x] ```Blueprint``` 적용하기
 - [x] ```Doing, Todo Done``` 테이블 추가
-- [ ] ```public, private``` 테이블 추가
-- [ ] ```user group``` 테이블 추가
+- [x] ```public, private``` 테이블 추가
+- [x] ```user group``` 테이블 추가
