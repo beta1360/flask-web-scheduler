@@ -2,6 +2,12 @@
 > flask 복습을 위한 To-do 스케줄러 웹 어플리케이션<br>
 > 달력에서 자신의 일정과 팀원들의 일정을 관리할 수 있습니다.
 
+## Before to start
+```bash
+cd /app/static/js
+npm install
+```
+
 ## Usage
 ```bash
 python app/app.py
