@@ -6,11 +6,17 @@
 
 from home import database, bcrypt
 from data.user import User
+from data.groups import Groups
 from logger import logger
+from db.group_handler import find_group_num_by_code
 
 
 def add_user(req):
-    user = User(req["id"], bcrypt.generate_password_hash(req["password"]), req["name"], req["rank"])
+    logger.info(">>>> Check group_code : %s", req["group_code"])
+    group_num = find_group_num_by_code(req["group_code"])
+    logger.info(">>>> Check group_num : %d", group_num)
+
+    user = User(req["id"], bcrypt.generate_password_hash(req["password"]), req["name"], req["rank"], group_num)
     logger.info(">>>> Provided User instance user: %s" % str(user))
     if not is_registed_user(user.id):
         database.session.add(user)
@@ -64,3 +70,8 @@ def get_login_user(id, pw):
 
 def provide_user_instance(id):
     return User.query.filter_by(id=id).first()
+
+
+def get_user_group(id):
+    user = User.query.filter_by(id=id).first()
+    return user.group_num

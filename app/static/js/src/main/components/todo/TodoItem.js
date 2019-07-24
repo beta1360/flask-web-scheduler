@@ -1,7 +1,9 @@
 import '@babel/polyfill';
 import React, { Component } from 'react';
+import { Badge } from 'react-bootstrap';
+import axios from 'axios';
 import { bindActionCreators } from 'redux';
-import * as todoActions from '../store/modules/reducers/TodoActions'
+import * as todoActions from '../../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
 import TodoDropDownBtnCotainer from './TodoDropDownBtn'
 import DetailTodoModalContainer from './DetailTodoModal';
@@ -37,22 +39,45 @@ class TodoItem extends Component {
         }
     }
 
+    isSameUser = (id) => {
+        return this.props.userId == id;
+    }
+
+    getDeleteButtonByUserId = (id, no) => {
+        if(this.isSameUser(id))
+            return <th><DeleteTodoAlertContainer no={no}/></th>;
+        else return <th></th>
+    }
+
+    getTodoBadge = (id, privacy) => {
+        if(!this.isSameUser(id)){
+            return <Badge variant="info">Team</Badge>;
+        } else if(privacy == "public"){
+            return <Badge variant="primary">public</Badge>;
+        } else { // privacy == 1
+            return <Badge variant="secondary">private</Badge>;
+        }
+    }
+    
     shouldComponentUpdate = (nextProps, nextState) => {
         return (nextProps !== this.props);
     }
     
     render = () => {
         const { todo } = this.props;
+        const { no, id, title, name, privacy, level } = todo;
 
         return(
             <tr>
-                <th><TodoDropDownBtnCotainer no={todo.no} progress={todo.progress}/></th>
-                <th>{todo.title}</th>
-                <th>{todo.name}</th>
+                <th><TodoDropDownBtnCotainer no={no} 
+                    progress={todo.progress} isEqual={this.isSameUser(id)}/></th>
+                <th>{title + "  "}{this.getTodoBadge(id, privacy)}</th>
+                <th>{name}</th>
                 <th>{this.setDateToString()}</th>
-                <th>{todo.level}</th>
-                <th><DetailTodoModalContainer todo={todo}/></th>
-                <th><DeleteTodoAlertContainer no={todo.no}/></th>
+                <th>{level}</th>
+                <th><DetailTodoModalContainer 
+                    todo={todo} isEqual={this.isSameUser(id)}/></th>
+                {this.getDeleteButtonByUserId(id, no)}
             </tr>
         );
     }

@@ -19,7 +19,7 @@ class LogoutBtn extends Component {
     render = () => {
         return(
             <div>
-                <Button variant="primary" onClick={this.onClickLogoutBtn}>
+                <Button variant="outline-light" onClick={this.onClickLogoutBtn}>
                     로그아웃
                 </Button>
             </div>
