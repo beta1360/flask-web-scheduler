@@ -42,7 +42,7 @@ class GroupHome extends Component {
                 </Accordion>
                 
                 <hr/>
-                <CreateGroupBtnContainer />
+                <CreateGroupBtnContainer userId={userId} userName={userName} groupNum={groupNum}/>
             </div>
         );
     }

@@ -62,8 +62,12 @@ def select_todo_list(id, range):
     logger.info(">>>> Select (by user_id::%s), range = %s => group_num of user::%d" % (id, range, group_num))
 
     if range == "all":
-        list = Todo.query.filter((Todo.id == id) | ((Todo.privacy ==0) & (Todo.group_num == group_num)))\
-            .order_by(Todo.no.desc()).all()
+        if group_num == 1:
+            list = Todo.query.filter_by(id=id).order_by(Todo.no.desc()).all()
+        else:
+            list = Todo.query.filter((Todo.id == id) | ((Todo.privacy ==0) & (Todo.group_num == group_num)))\
+                .order_by(Todo.no.desc()).all()
+
     elif range == "my":
         list = Todo.query.filter(Todo.id == id).order_by(Todo.no.desc()).all()
     else:

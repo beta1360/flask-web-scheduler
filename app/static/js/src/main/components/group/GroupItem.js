@@ -14,7 +14,7 @@ class GroupItem extends Component {
     }
 
     getEnterGroupButton = (groupNum, groupCode, groupName) => {
-        if(groupNum == 0) {
+        if(groupNum == 1) {
             return <EnterGroupBtnContainer 
                     groupCode={groupCode} groupName={groupName}/>;
         }

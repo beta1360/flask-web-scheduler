@@ -34,8 +34,7 @@ export const checkGroup = (groupCode) => {
         return axios.post('http://localhost:13609/group/check', {
                 group_code: groupCode
             }).then((response) => {
-                const message = response.data.message;
-
+                const { message } = response.data;
                 dispatch({
                     type: CHECK_GROUP,
                     payload: message
@@ -55,7 +54,7 @@ export const addGroup = (groupCode, groupName) => {
                 dispatch({
                     type: ADD_GROUP,
                     payload: response.data
-                })
+                });
             });
     }
 }
@@ -71,7 +70,7 @@ export const enterGroup = (groupCode) => {
 
                 dispatch({
                     type: ENTER_GROUP,
-                    payload: message
+                    payload: message 
                 });
             })
     }
@@ -121,9 +120,9 @@ export default handleActions(
                 .set('message', action.payload)
         )
         ,[ADD_GROUP]: (state, action) => (
-            state.set('message', action.payload.messsage)
+            state.set('pending', false)
+                .set('message', action.payload.message)
                 .set('statusCode', action.payload.code)
-                .set('pending', false)
                 .set('rerender', true) 
         )
         ,[ENTER_GROUP]: (state, action) => (
