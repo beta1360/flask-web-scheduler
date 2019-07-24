@@ -59,7 +59,7 @@ class SearchGroupLabel extends Component {
         const response = await this.getGroupInformation(inputGroupCode);
         const { group } = response.data;
 
-        if(group != 0){
+        if(group != 1){
             const { group_num, group_name } = group;
             const groupNum = group_num;
             const groupName = group_name;
@@ -106,7 +106,7 @@ class SearchGroupLabel extends Component {
         const { groupNum } = this.props;
         const { groupInfoVisible } = this.state;
 
-        if(groupNum != 0)
+        if(groupNum != 1)
             return <></>;
          
         else {

@@ -21,7 +21,7 @@ class TodoHome extends Component {
     }
 
     getMyTodoNavTab = (groupNum) => {
-        if(groupNum != 0){
+        if(groupNum != 1){
             return (
                 <Nav.Item>
                     <Nav.Link eventKey="my" href="#MyTodo" 
@@ -34,7 +34,7 @@ class TodoHome extends Component {
     }
 
     getTeamTodoNavTab = (groupNum) => {
-        if(groupNum != 0){
+        if(groupNum != 1){
             return (
                 <Nav.Item>
                     <Nav.Link eventKey="team" href="#TeamTodo" 

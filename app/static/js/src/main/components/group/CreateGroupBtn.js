@@ -34,10 +34,11 @@ class CreateGroupBtn extends Component {
     }
 
     onClickCheckingGroupCode = async () => {
-        const { GroupActions, message } = this.props;
+        const { GroupActions } = this.props;
         const { groupCode } = this.state;
         await GroupActions.checkGroup(groupCode);
-        
+        const { message } = this.props;
+
         alert(message);
     }
 
@@ -55,11 +56,14 @@ class CreateGroupBtn extends Component {
             alert(message);
     }
 
-    render = () => {
-        const { show } = this.state;
+    getCreateGroupBtn = () => {
+        const { groupNum } = this.props;
 
-        return (
-            <div>
+        if(groupNum == 1){
+            const { show } = this.state;
+
+            return (
+                <div>
                 <Button variant="success" onClick={this.handleShow}>그룹 생성</Button>
 
                 <Modal show={show} onHide={this.handleClose}>
@@ -94,7 +98,14 @@ class CreateGroupBtn extends Component {
                     </Modal.Footer>
                 </Modal>
             </div>
-        );
+            );
+        }
+        else
+            return <></>;
+    }
+
+    render = () => {
+        return this.getCreateGroupBtn();
     }
 }
 

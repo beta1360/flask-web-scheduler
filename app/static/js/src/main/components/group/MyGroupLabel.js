@@ -32,7 +32,9 @@ class MyGroupLabel extends Component {
     getCurrentGroup = () => {
         const { groupName, groupNum } = this.props;
 
-        if(groupNum != 0){
+        if(groupNum == 1)
+            return <div><b>현재 참여 중인 그룹이 없습니다. 그룹에 참여해보세요.</b></div>
+        else {
             return (
                 <div>
                     <b>나의 그룹: </b>{groupName}  <Badge pill variant="primary">public</Badge>
@@ -40,8 +42,7 @@ class MyGroupLabel extends Component {
                 </div>
             );
         } 
-        else 
-            return <div><b>현재 참여 중인 그룹이 없습니다. 그룹에 참여해보세요.</b></div>
+
         
     }
 
