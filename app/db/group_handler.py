@@ -25,7 +25,7 @@ def add_group(id, req):
     group_name = req[u"group_name"]
     logger.info(">>>> group_code: %s, group_name: %s " % (group_code, group_name))
 
-    if get_user_group_num_by_id(id) != 0:
+    if get_user_group_num_by_id(id) != 1:
         logger.info(">>>> Duplicated group user... (user_id: %s) " % id)
         return False
 
@@ -48,7 +48,7 @@ def add_group(id, req):
 
 def select_groups():
     list = []
-    groups = Groups.query.filter(Groups.group_num != 0).order_by(Groups.group_num.desc()).all()
+    groups = Groups.query.filter(Groups.group_num != 1).order_by(Groups.group_num.desc()).all()
     logger.info(">>>> Select groups-len:: %d" % len(groups))
 
     for group in groups:
@@ -67,7 +67,7 @@ def enter_group(id, group_code):
         logger.info(">>>> Not exist group code: %s " % group_code)
         return False
 
-    if get_user_group_num_by_id(id) != 0:
+    if get_user_group_num_by_id(id) != 1:
         logger.info(">>>> Duplicated group user... (user_id: %s) " % id)
         return False
 
@@ -86,7 +86,7 @@ def enter_group(id, group_code):
 def leave_group(id):
     user = User.query.filter_by(id=id).first()
     logger.info(">>>> User group_num: %d (user_id: %s)" % (user.group_num, id))
-    user.group_num = 0
+    user.group_num = 1
     database.session.add(user)
     database.session.commit()
 
@@ -95,7 +95,7 @@ def find_group_num_by_code(group_code):
     group = Groups.query.filter_by(group_code=group_code).all()
 
     if len(group) == 0:
-        return 0
+        return 1
 
     return group[0].group_num
 
@@ -119,4 +119,4 @@ def get_group_by_code(group_code):
             "group_name": group.group_name
         }
     else:
-        return 0
+        return 1
