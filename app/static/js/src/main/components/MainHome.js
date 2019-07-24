@@ -6,8 +6,9 @@ import { Navbar, Nav, Spinner  } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import * as todoActions from '../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
-import LogoutBtn from './user/LogoutBtn';
+import LogoutBtn from './main/LogoutBtn';
 import TodoHomeContainer from './TodoHome';
+import UserHome from './UserHome';
 import GroupHome from './GroupHome';
 
 class MainHome extends Component {
@@ -69,7 +70,7 @@ class MainHome extends Component {
         else if(selected == "groups")
             return <GroupHome user={userId} userName={userName} groupNum={groupNum} groupName={groupName}/>
         else // selectedItem == "myinfo"
-            alert("개발 중입니다.");
+            return <UserHome userId={userId} />;
     }
 
     getMainPage = () => {
