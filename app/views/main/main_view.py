@@ -8,7 +8,7 @@ from flask import Blueprint, render_template, jsonify
 from flask_login import login_required, current_user
 from data.user import User
 from util.timestamp import build_timestamp
-from db.group_handler import find_group_name_by_num
+from db.group_handler import find_group_info_by_num
 from home import login_manager
 from logger import logger, logging_route
 
@@ -30,9 +30,12 @@ def main_home():
 @login_required
 def who_am_i():
     user = current_user
+    info = find_group_info_by_num(user.group_num)
+
     return jsonify({
         "user_id": user.id,
         "user_name": user.name,
         "group_num": user.group_num,
-        "group_name": find_group_name_by_num(user.group_num)
+        "group_name": info["group_name"],
+        "group_privacy": info["group_privacy"]
     })

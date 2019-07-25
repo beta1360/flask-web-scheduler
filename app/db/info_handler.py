@@ -4,11 +4,12 @@
  email: beta1360@naver.com
 """
 
-from home import database
+from home import database, bcrypt
 from data.groups import Groups
 from data.user import User
 from data.todo import Todo
 from logger import logger
+from util.convert_group_privacy import group_private_deconverter
 
 
 def get_min_info(id):
@@ -82,6 +83,25 @@ def get_detail_info(id):
         , "group": {
             "group_num": group.group_num,
             "group_name": group.group_name,
-            "group_code": group.group_code
+            "group_code": group.group_code,
+            "group_privacy": group_private_deconverter(group.privacy)
         }
+    }
+
+
+def check_user_password(id, req):
+    pwd = req["password"]
+    user = User.query.filter(User.id == id).first()
+    logger.info(">>>> Select user (by user_id: %s):: %s" % (id, user))
+
+    return bcrypt.check_password_hash(user.password, pwd)
+
+
+def get_user_information(id):
+    user = User.query.filter_by(id=id).first()
+    logger.info(">>>> Select user (by user_id: %s):: %s" % (id, user))
+
+    return {
+        "name": user.name,
+        "rank": user.rank
     }
