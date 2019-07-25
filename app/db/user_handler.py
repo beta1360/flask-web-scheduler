@@ -6,6 +6,7 @@
 
 from home import database, bcrypt
 from data.user import User
+from data.todo import Todo
 from data.groups import Groups
 from logger import logger
 from db.group_handler import find_group_num_by_code
@@ -30,10 +31,11 @@ def add_user(req):
 
 
 def modify_user(id, req):
+    logger.info(">>>> Modify info form from front-end: %s" % req)
     user = User.query.filter_by(id=id).first()
 
     if req["password"] != '':
-        user.password = req["password"]
+        user.password = bcrypt.generate_password_hash(req["password"])
 
     if req["name"] != '':
         user.name = req["name"]
@@ -46,6 +48,12 @@ def modify_user(id, req):
 
 def delete_user(id):
     User.query.filter_by(id=id).delete()
+
+    todo_list = Todo.query.filter_by(id=id).all()
+    logger.info(">>>> Searching Result todolist in DB::(user: %s):: todolist: %s" % (id,todo_list))
+    for todo in todo_list:
+        todo.id = ""
+
     database.session.commit()
 
 

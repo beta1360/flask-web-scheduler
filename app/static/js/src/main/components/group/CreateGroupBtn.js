@@ -13,7 +13,8 @@ class CreateGroupBtn extends Component {
         this.state = {
             show: false,
             groupName: '',
-            groupCode: ''
+            groupCode: '',
+            isPrivate: false
         }
     }
 
@@ -33,6 +34,10 @@ class CreateGroupBtn extends Component {
         this.setState({groupCode: e.target.value});
     }
 
+    handleCheckBoxChange = (e) => {
+        this.setState({ isPrivate: e.target.checked });
+    }
+
     onClickCheckingGroupCode = async () => {
         const { GroupActions } = this.props;
         const { groupCode } = this.state;
@@ -45,8 +50,9 @@ class CreateGroupBtn extends Component {
     onCreateGroup = async () => {
         const { GroupActions } = this.props;
         const { groupName, groupCode } = this.state;
+        const privacy = this.state.isPrivate? "private": "public";
 
-        await GroupActions.addGroup(groupCode, groupName);
+        await GroupActions.addGroup(groupCode, groupName, privacy);
         const { message, statusCode } = this.props;
         
         if(statusCode == 200){
@@ -86,6 +92,15 @@ class CreateGroupBtn extends Component {
                         </Form.Group>
 
                         <Button variant="success" onClick={this.onClickCheckingGroupCode}>그룹 코드 중복 체크</Button>
+
+                        <Form.Group>
+                            <Form.Check
+                                custom="true"
+                                label="비공개로 하실 거면, 체크를 해주세요."
+                                onChange={this.handleCheckBoxChange}
+                                id="validationFormik0"
+                                />
+                        </Form.Group>
                     </Modal.Body>
 
                     <Modal.Footer>
