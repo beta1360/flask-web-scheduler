@@ -46,11 +46,13 @@ class LevelProgressBar extends Component {
 
         return (
             <div>
-                <ProgressBar animated striped variant="danger" now={onePercent} label={`${onePercent}%`}/>
-                <ProgressBar animated striped variant="warning" now={twoPercent} label={`${twoPercent}%`}/>
-                <ProgressBar animated striped variant="success" now={threePercent} label={`${threePercent}%`}/>
-                <ProgressBar animated striped variant="info" now={fourPercent} label={`${fourPercent}%`}/>
-                <ProgressBar animated striped variant="secondary" now={fivePercent} label={`${fivePercent}%`}/>
+                <ProgressBar>
+                    <ProgressBar animated striped variant="danger" now={onePercent} key={6} label={`${onePercent}%`}/>
+                    <ProgressBar animated striped variant="warning" now={twoPercent} key={7} label={`${twoPercent}%`}/>
+                    <ProgressBar animated striped variant="success" now={threePercent} key={8} label={`${threePercent}%`}/>
+                    <ProgressBar animated striped variant="info" now={fourPercent} key={9} label={`${fourPercent}%`}/>
+                    <ProgressBar animated striped variant="secondary" now={fivePercent} key={10} label={`${fivePercent}%`}/>
+                </ProgressBar>
             </div>
         );
     }

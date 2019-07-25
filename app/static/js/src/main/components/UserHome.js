@@ -3,6 +3,7 @@ import { Nav, Tab, Col, Row } from 'react-bootstrap';
 import MyInfoPage from './user/MyInfoPage';
 import MinInfoPage from './user/MinInfoPage';
 import DeleteInfoPage from './user/DeleteInfoPage';
+import ModifyInfoPage from './user/ModifyInfoPage';
 
 class UserHome extends Component {
 
@@ -29,12 +30,6 @@ class UserHome extends Component {
                                     <Nav.Link eventKey="me" href="#myinfo">상세정보</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="todo" href="#mytodo">Todo관리</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
-                                    <Nav.Link eventKey="group" href="#mygroup">그룹관리</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
                                     <Nav.Link eventKey="modifyInfo" href="#modifyInfo">내 정보수정</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
@@ -50,14 +45,8 @@ class UserHome extends Component {
                                 <Tab.Pane eventKey="me">
                                     <MyInfoPage userId={userId} />
                                 </Tab.Pane>
-                                <Tab.Pane eventKey="todo">
-                                    칭구들
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="group">
-                                    칭구
-                                </Tab.Pane>
                                 <Tab.Pane eventKey="modifyInfo">
-                                    칭구들
+                                    <ModifyInfoPage userId={userId} />
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="deleteInfo">
                                     <DeleteInfoPage userId={userId} />

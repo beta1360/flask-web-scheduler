@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Badge } from 'react-bootstrap';
 import { Map } from 'immutable';
 import axios from 'axios';
 
@@ -43,7 +43,8 @@ class MyInfoPage extends Component {
                 , group: Map({
                     groupNum: 0,
                     groupName: '',
-                    groupCode: ''
+                    groupCode: '',
+                    groupPrivacy: ''
                 })
             })
         }
@@ -61,6 +62,31 @@ class MyInfoPage extends Component {
         return axios.get('http://localhost:13609/info/detail');
     }
 
+    getGroupBadge = (groupPrivacy) => (groupPrivacy == "public"?
+        <Badge variant="primary">public</Badge>
+        :<Badge variant="secondary">private</Badge>
+    )
+
+    getGroupInfo = () => {
+        const { data } = this.state;
+        const groupNum = data.getIn(['group', 'groupNum']);
+        const groupName = data.getIn(['group', 'groupName']);
+        const groupCode = data.getIn(['group', 'groupCode']);
+        const groupPrivacy = data.getIn(['group', 'groupPrivacy']);
+
+        if(groupNum == 1)
+            return "소속 그룹 없음.";
+
+        else {
+            return (
+                <div>
+                    {this.getGroupBadge(groupPrivacy)} {groupName} (#{groupNum})
+                    <br />(<b>그룹코드:</b> {groupCode})  
+                </div>
+            );
+        }
+    }
+
     getDetailInfo = async () => {
         this.loadingPage();
 
@@ -71,7 +97,7 @@ class MyInfoPage extends Component {
         const { to_do, doing, done } = progress;
         const { _public, _private } = privacy;
         const { one, two, three, four, five } = level;
-        const { group_num, group_name, group_code } = group;
+        const { group_num, group_name, group_code, group_privacy } = group;
 
         const { data } = this.state;
         this.setState({
@@ -95,7 +121,8 @@ class MyInfoPage extends Component {
                 }).setIn(['group'], {
                     groupNum: group_num,
                     groupName: group_name,
-                    groupCode: group_code
+                    groupCode: group_code,
+                    groupPrivacy: group_privacy
                 })
         })
 
@@ -121,10 +148,6 @@ class MyInfoPage extends Component {
         const levelFour = data.getIn(['todo', 'num', 'level', 'four']);
         const levelFive = data.getIn(['todo', 'num', 'level', 'five']);
 
-        const groupNum = data.getIn(['group', 'groupNum']);
-        const groupName = data.getIn(['group', 'groupName']);
-        const groupCode = data.getIn(['group', 'groupCode']);
-
         return (
             <div>
                 <h3><b>유저 기본 정보</b></h3>
@@ -137,7 +160,7 @@ class MyInfoPage extends Component {
 
                 <h4><b>소속 그룹</b></h4>
                 <hr />
-                {groupName} (#{groupNum})<br />(<b>그룹코드:</b> {groupCode})    
+                {this.getGroupInfo()}
                 <br /><br />
 
                 <h4><b>직책</b></h4>

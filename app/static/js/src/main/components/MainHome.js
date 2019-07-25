@@ -23,7 +23,8 @@ class MainHome extends Component {
                 userId: '',
                 userName: '',
                 groupNum: 0,
-                groupName: ''
+                groupName: '',
+                groupPrivacy: ''
             })
         }
     }
@@ -43,7 +44,7 @@ class MainHome extends Component {
     setTodoTableInformation = async () => {
         const res = await axios.get('http://localhost:13609/user/whoami');
                 
-        const { user_id, user_name, group_num, group_name } = res.data;
+        const { user_id, user_name, group_num, group_name, group_privacy } = res.data;
         const { data } = this.state;
 
         this.setState({
@@ -51,6 +52,7 @@ class MainHome extends Component {
                     .set('userName', user_name)
                     .set('groupNum', group_num)
                     .set('groupName', group_name)
+                    .set('groupPrivacy', group_privacy)
         });
 
         this.handleOnStart();
@@ -62,13 +64,14 @@ class MainHome extends Component {
         const userName = data.get('userName');
         const groupNum = data.get('groupNum');
         const groupName = data.get('groupName');
+        const groupPrivacy = data.get('groupPrivacy');
 
         if(selected == "todo")
             return <TodoHomeContainer userId={userId} userName={userName} groupNum={groupNum}/>;
         else if(selected == "calendar")
             alert("개발 중입니다.");
         else if(selected == "groups")
-            return <GroupHome user={userId} userName={userName} groupNum={groupNum} groupName={groupName}/>
+            return <GroupHome user={userId} userName={userName} groupNum={groupNum} groupName={groupName} groupPrivacy={groupPrivacy}/>
         else // selectedItem == "myinfo"
             return <UserHome userId={userId} />;
     }

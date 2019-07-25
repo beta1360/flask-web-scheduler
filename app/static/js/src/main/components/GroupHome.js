@@ -13,14 +13,14 @@ class GroupHome extends Component {
     }
 
     render = () => {
-        const { userId, userName, groupNum, groupName } = this.props;
+        const { userId, userName, groupNum, groupName, groupPrivacy } = this.props;
 
         return (
             <div>
                 <hr/>
                     <MyGroupLabelContainer 
                         userId={userId} userName={userName} 
-                        groupNum={groupNum} groupName={groupName}/>
+                        groupNum={groupNum} groupName={groupName} groupPrivacy={groupPrivacy}/>
                 <hr/>
                     <SearchGroupLabelContainer 
                         userId={userId} userName={userName} 

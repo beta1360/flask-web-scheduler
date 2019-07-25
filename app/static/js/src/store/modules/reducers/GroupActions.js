@@ -43,13 +43,14 @@ export const checkGroup = (groupCode) => {
     }
 }
 
-export const addGroup = (groupCode, groupName) => {
+export const addGroup = (groupCode, groupName, privacy) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
         return axios.post('http://localhost:13609/group/add', {
                 group_name: groupName,
-                group_code: groupCode
+                group_code: groupCode,
+                privacy: privacy
             }).then((response) => {
                 dispatch({
                     type: ADD_GROUP,
