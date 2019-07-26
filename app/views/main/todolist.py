@@ -7,38 +7,12 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_user, login_required, current_user, logout_user
 from data.user import User
-from db.user_handler import modify_user, delete_user
 from db.todo_handler import select_todo_list, add_todo, modify_todo, delete_todo, modify_todo_progress
 from message import response, msg
 from home import login_manager
 from logger import logger, logging_route
 
 todolist_app = Blueprint('todolist', __name__)
-
-
-@todolist_app.route("/user/modify", methods=["POST"])
-@logging_route(url="/user/modify", method="POST")
-@login_required
-def update_modify_user():
-    modify_user(current_user.id)
-    '''
-    Not support, yet...
-    '''
-    return 200
-
-
-@todolist_app.route("/user/delete", methods=["DELETE"])
-@logging_route(url="/user/delete", method="DELETE")
-@login_required
-def delete_user_id():
-    user = current_user
-    user.is_authenticated = False
-    logout_user()
-    delete_user(current_user.id)
-    '''
-    Not support, yet...
-    '''
-    return 200
 
 
 @todolist_app.route("/todo/list", methods=["GET"])

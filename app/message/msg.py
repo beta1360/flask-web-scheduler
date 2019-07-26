@@ -42,6 +42,8 @@ REGISTED_USER = "이미 등록된 유저입니다. ID를 확인해주세요."
 NOT_REGISTED_USER = "이 ID는 사용하실 수 있습니다."
 NOT_REGISTED_GROUP = "이 그룹코드는 사용하실 수 있습니다."
 
+GET_AUTH_FROM_INFO = "로그인되었습니다."
 LOGOUT_MESSAGE = "로그아웃에 성공하였습니다."
+NOT_VALID_PASSWORD_MSG = "비밀번호가 일치하지 않습니다."
 NOT_VALID_USER_MSG = "ID 혹은 비밀번호가 일치하지 않습니다.\n 다시 확인해주세요."
 

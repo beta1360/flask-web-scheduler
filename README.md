@@ -2,6 +2,12 @@
 > flask 복습을 위한 To-do 스케줄러 웹 어플리케이션<br>
 > 달력에서 자신의 일정과 팀원들의 일정을 관리할 수 있습니다.
 
+## Before to start
+```bash
+cd /app/static/js
+npm install
+```
+
 ## Usage
 ```bash
 python app/app.py
@@ -41,13 +47,13 @@ python app/app.py
 - private/public todo 생성
 - 그룹별 todo List 만들기
 
-### v0.80 (예정)
+### v0.80
 - 공개/비공개 그룹 추가
-- 그룹 상세 내용 추가
-- 그룹장, 그룹원 개념 추가
+- 유저 페이지 추가
 
 ### v0.82 (예정)
-- 유저 페이지 추가
+- 그룹 상세 내용 추가
+- 그룹장, 그룹원 개념 추가
 
 ### v0.90 (예정)
 - Todo Scheduler 기능 추가

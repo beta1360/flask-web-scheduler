@@ -29,15 +29,20 @@ class MyGroupLabel extends Component {
         GroupActions.groupRerender();
     }
 
+    getGroupBadge = (groupPrivacy) => (groupPrivacy == "public"?
+        <Badge variant="primary">public</Badge>
+        :<Badge variant="secondary">private</Badge>
+    )
+
     getCurrentGroup = () => {
-        const { groupName, groupNum } = this.props;
+        const { groupName, groupNum, groupPrivacy } = this.props;
 
         if(groupNum == 1)
             return <div><b>현재 참여 중인 그룹이 없습니다. 그룹에 참여해보세요.</b></div>
         else {
             return (
                 <div>
-                    <b>나의 그룹: </b>{groupName}  <Badge pill variant="primary">public</Badge>
+                    <b>나의 그룹: </b>{this.getGroupBadge(groupPrivacy)}{groupName}
                     <Button className="float-right" variant="outline-danger" onClick={this.onClickLeaveGroupBtn}>그룹 나가기</Button>
                 </div>
             );

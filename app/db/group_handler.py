@@ -8,6 +8,7 @@ from home import database
 from data.groups import Groups
 from data.user import User
 from logger import logger
+from util.convert_group_privacy import group_private_deconverter, group_private_converter
 
 
 def check_duplicated_group(group_code):
@@ -23,7 +24,8 @@ def check_duplicated_group(group_code):
 def add_group(id, req):
     group_code = req[u"group_code"]
     group_name = req[u"group_name"]
-    logger.info(">>>> group_code: %s, group_name: %s " % (group_code, group_name))
+    privacy = group_private_converter(req[u"privacy"])
+    logger.info(">>>> group_code: %s, group_name: %s, privacy: %s" % (group_code, group_name, privacy))
 
     if get_user_group_num_by_id(id) != 1:
         logger.info(">>>> Duplicated group user... (user_id: %s) " % id)
@@ -33,7 +35,7 @@ def add_group(id, req):
         logger.info(">>>> Duplicated group code: %s " % group_code)
         return False
 
-    group = Groups(None, group_name, group_code)
+    group = Groups(None, group_name, group_code, privacy)
     database.session.add(group)
     database.session.commit()
     logger.info(">>>> Insert group in groups table. Group(null, %s, %s)" % (group_name, group_code))
@@ -48,7 +50,8 @@ def add_group(id, req):
 
 def select_groups():
     list = []
-    groups = Groups.query.filter(Groups.group_num != 1).order_by(Groups.group_num.desc()).all()
+    groups = Groups.query.filter((Groups.group_num != 1) & (Groups.privacy == 0))\
+        .order_by(Groups.group_num.desc()).all()
     logger.info(">>>> Select groups-len:: %d" % len(groups))
 
     for group in groups:
@@ -100,8 +103,12 @@ def find_group_num_by_code(group_code):
     return group[0].group_num
 
 
-def find_group_name_by_num(group_num):
-    return Groups.query.filter_by(group_num=group_num).first().group_name
+def find_group_info_by_num(group_num):
+    group = Groups.query.filter_by(group_num=group_num).first()
+    return {
+        "group_name": group.group_name,
+        "group_privacy": group.privacy
+    }
 
 
 def get_user_group_num_by_id(id):
@@ -113,7 +120,7 @@ def get_group_by_code(group_code):
     group = Groups.query.filter_by(group_code=group_code).first()
     logger.info(">>>> Get group by group_code: %s " % group_code)
 
-    if group != None:
+    if group is not None:
         return {
             "group_num": group.group_num,
             "group_name": group.group_name
