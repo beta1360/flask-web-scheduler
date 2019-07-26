@@ -44,6 +44,7 @@ def user_loader(user_id):
     return provide_user_instance(user_id)
 
 
+from views.error.error import error_app
 from views.index.index_view import index_view_app
 from views.index.login import login_app
 from views.index.signup import signup_app
@@ -52,7 +53,7 @@ from views.main.main_view import main_view_app
 from views.main.todolist import todolist_app
 from views.main.group import group_app
 from views.main.info import info_app
-
+app.register_blueprint(error_app)
 app.register_blueprint(index_view_app)
 app.register_blueprint(login_app)
 app.register_blueprint(signup_app)
@@ -62,8 +63,6 @@ app.register_blueprint(todolist_app)
 app.register_blueprint(group_app)
 app.register_blueprint(info_app)
 
-from views.error.error import error_app
 
-app.register_blueprint(error_app)
 logger.info(">> Blueprint setting.")
 logger.info("===========================================================")
