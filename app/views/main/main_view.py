@@ -17,12 +17,18 @@ main_view_app = Blueprint('main_view', __name__)
 
 @main_view_app.route("/main", methods=["GET"])
 @logging_route(url="/main", method="GET")
-@login_required
 def main_home():
     user = current_user
-    logger.info(">> Render \"/main\"(\"main.html\") about user::%s" % user.id)
-    return render_template("main.html",
-                           t=build_timestamp(), user=user.name, user_id=user.id)
+
+    if user.is_authenticated:
+        logger.info(">> Render \"/main\"(\"main.html\") about user::%s" % user.id)
+        return render_template("main.html",
+                            t=build_timestamp(), user=user.name, user_id=user.id)
+
+    else:
+        logger.waning("#################### Not authenticated user access!")
+        logger.info(">> Render \"/\"(\"index.html\")")
+        return render_template("index.html", t=build_timestamp())
 
 
 @main_view_app.route("/user/whoami", methods=["GET"])
