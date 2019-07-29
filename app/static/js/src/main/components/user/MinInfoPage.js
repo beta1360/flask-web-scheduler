@@ -4,6 +4,8 @@ import { Spinner } from 'react-bootstrap';
 import { Map } from 'immutable';
 import axios from 'axios';
 
+import * as url from '../../../config';
+
 class MinInfoPage extends Component {
 
     constructor(props, context){
@@ -29,7 +31,7 @@ class MinInfoPage extends Component {
     }
 
     requestMinimumInfo = () =>{
-        return axios.get('http://localhost:13609/info/min');
+        return axios.get(url.GET_MIN_USER_INFO_URL);
     }
 
     getMinimumInfo = async () => {

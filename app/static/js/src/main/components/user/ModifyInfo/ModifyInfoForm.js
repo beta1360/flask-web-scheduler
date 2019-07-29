@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
+import * as url from '../../../../config';
 import axios from 'axios';
 
 class ModifyInfoForm extends Component {
@@ -49,7 +50,7 @@ class ModifyInfoForm extends Component {
         const { name, rank, pwd } = this.state;
 
         if(this.isEqualPwdAndCpwd()){
-            await axios.post('http://localhost:13609/user/modify', {
+            await axios.post(url.MODIFY_USER_URL, {
                 name: name,
                 password: pwd,
                 rank: rank
@@ -60,8 +61,8 @@ class ModifyInfoForm extends Component {
                 location.reload();
             } else {
                 alert('개인 정보가 수정되었습니다. 다시 로그인해주세요.');
-                await axios.post('http://localhost:13609/api/logout');
-                location.href = "http://localhost:13609";
+                await axios.post(url.LOGOUT_API_URL);
+                location.href = url.GET_INDEX_PAGE_URL;
             }
         }
         else
@@ -71,7 +72,7 @@ class ModifyInfoForm extends Component {
     recieveUserInfo = async () => {
         this.loadingForm();
 
-        const response = await axios.get('http://localhost:13609/info/form');
+        const response = await axios.get(url.MODIFY_USER_INFO_FORM_URL);
 
         const { name, rank } = response.data;
         this.setState({

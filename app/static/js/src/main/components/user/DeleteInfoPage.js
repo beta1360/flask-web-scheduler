@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Jumbotron, Button, Alert } from 'react-bootstrap';
+import * as url from '../../../config';
 import axios from 'axios';
 
 class DeleteInfoPage extends Component {
@@ -40,10 +41,10 @@ class DeleteInfoPage extends Component {
     }
 
     onClickInfoDeleteBtn = async () => {
-        await axios.delete('http://localhost:13609/user/delete');
+        await axios.delete(url.DELETE_USER_URL);
 
         alert("회원 정보가 모두 삭제되었습니다.");
-        location.href="http://localhost:13609";
+        location.href=url.GET_INDEX_PAGE_URL;
     }
     
     drawAlert = () => (

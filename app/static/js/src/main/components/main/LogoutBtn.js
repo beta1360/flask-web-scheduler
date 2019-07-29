@@ -1,16 +1,17 @@
 import '@babel/polyfill'
 import React, {Component} from 'react';
 import { Button } from 'react-bootstrap';
+import * as url from '../../../config';
 import axios from 'axios';
 
 class LogoutBtn extends Component {
     
     onClickLogoutBtn = () => {
-        axios.post('http://localhost:13609/api/logout')
+        axios.post(url.LOGOUT_API_URL)
         .then( (response) =>{
             const message = response.data.message;
             alert(message);
-            location.replace("http://localhost:13609");
+            location.replace(url.GET_INDEX_PAGE_URL);
         }).catch( (error) => {
             alert(error.data.message);
         });

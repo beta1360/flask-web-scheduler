@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Form, Spinner, Button } from 'react-bootstrap';
 import axios from 'axios';
 
+import * as url from '../../../config';
 import ModifyInfoForm from './ModifyInfo/ModifyInfoForm';
 
 class ModifyInfoPage extends Component {
@@ -35,7 +36,7 @@ class ModifyInfoPage extends Component {
     onClickAuthBtn = async () => {
         const { password } = this.state;
 
-        const response = await axios.post('http://localhost:13609/info/check', {
+        const response = await axios.post(url.CHECK_USER_INFO_URL, {
                                         password: password});
 
         const { code, message } = response.data;
