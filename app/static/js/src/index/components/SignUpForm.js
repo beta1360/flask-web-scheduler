@@ -1,6 +1,7 @@
 import '@babel/polyfill';
 import React, { Component, Fragment } from 'react';
-import { Form, Modal, Button } from 'react-bootstrap';
+import { Form, Modal, Button, Spinner } from 'react-bootstrap';
+import * as url from '../../config';
 import axios from 'axios';
 
 class SignUpForm extends Component {
@@ -17,6 +18,8 @@ class SignUpForm extends Component {
             name: '',
             rank: '사원',
             groupCode: '',
+            onReadyCheckId: true,
+            onReadySignUp: true
         };
     }
 
@@ -38,7 +41,6 @@ class SignUpForm extends Component {
 
     handleChangeId = (e) => {
         this.setState({id: e.target.value});
-        this.checkValidId;
     }
 
     handleChangePw = (e) => {
@@ -61,62 +63,90 @@ class SignUpForm extends Component {
         this.setState({groupCode: e.target.value});
     }
 
+    disableCheckIdBtn = () => {
+        this.setState({onReadyCheckId: false});
+    }
+
+    enableCheckIdBtn = () => {
+        this.setState({onReadyCheckId: true});
+    }
+
+    disableSignUpBtn = () => {
+        this.setState({onReadySignUp: false});
+    }
+
+    enableSignUpBtn = () => {
+        this.setState({onReadySignUp: true});
+    }
+
     onClickIdCheckBtn = async () => {
+        this.disableCheckIdBtn();
+
         const response = await this.checkValidId();
-        const code = response.data.code;
-        const message = response.data.message;
+        const { code, message } = response.data;
 
-        this.setState({idPass: code});
+        let result = code != 200 ? true:false;
+        this.setState({idPass: result});
         alert(message);
+
+        this.enableCheckIdBtn();
     }
 
-    checkValidId = () => {
-        return axios.post('http://localhost:13609/user/check'
-                            , {user_id: this.state.id} );
-    }
+    checkValidId = () => axios.post(url.CHECK_ID_URL, {user_id: this.state.id} )
 
-    isEqualPasswords = () => {
-        return (this.state.pw == this.state.cpw);
-    }
+    isEqualPasswords = () => this.state.pw == this.state.cpw
 
-    checkValidate = () => {
+    checkValidate = async () => {
         let isValidatedForm = false;
+        const { id, pw, cpw, name } = this.state;
 
-        if(this.state.id == '' 
-            || this.pw == '' || this.cpw == ''
-            || this.name == '')
+        if(id == ''  || pw == '' || cpw == '' || name == '')
             alert("회원가입 폼에 빈칸이 존재해선 안됩니다.");
 
         else if(!this.isEqualPasswords())
             alert("두 비밀번호가 다릅니다.");
 
         else { 
-            this.checkValidId();
-            if(this.state.idPass)
+            const response = await this.checkValidId();
+            const { code } = response.data;
+            const { idPass } = this.state;
+
+            if(code == 200 && idPass)
                 isValidatedForm = true;
         }
 
         return isValidatedForm;
     }
 
-    submitSignForm = () => {
+    submitSignForm = async () => {
+        this.disableSignUpBtn();
+
+        const {id, pw, name, rank, groupCode } = this.state;
+
         if(this.checkValidate()){
-            axios.post('http://localhost:13609/user/add', {
-                id: this.state.id,
-                password: this.state.pw,
-                name: this.state.name,
-                rank: this.state.rank,
-                group_code: this.state.groupCode
-            }).then((response)=>{
-                alert(response.data.message);
-                this.handleClose();
-            }).catch((error)=>{
-                alert("에러:" + error);
+            const response = await axios.post(url.ADD_USER_URL, {
+                id: id,
+                password: pw,
+                name: name,
+                rank: rank,
+                group_code: groupCode
             });
-        } 
+
+            const { message } = response.data;
+            alert(message);
+            this.handleClose();
+        }
+
+        this.enableSignUpBtn();
+    }
+
+    shouldComponentUpdate = (prevProps, prevState) => {
+        return this.state !== prevState;
     }
 
     render = () => {
+        const { onReadyCheckId, onReadySignUp } = this.state;
+
         return (
             <Fragment>
                 <div>
@@ -134,7 +164,11 @@ class SignUpForm extends Component {
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>ID</Form.Label>
                                 <Form.Control type="text" placeholder="사용하실 아이디를 입력하세요." onChange={this.handleChangeId}/>
-                                <Button variant="info" onClick={this.onClickIdCheckBtn}>중복 체크</Button>
+                                {
+                                    onReadyCheckId?
+                                    <Button variant="info" onClick={this.onClickIdCheckBtn}>중복 체크</Button>
+                                    : <Button variant="info">중복 체크</Button>
+                                }
                                 <Form.Text className="text-muted">
                                     원하시는 ID를 입력하시고, 중복여부를 체크해주시길 바랍니다.
                                 </Form.Text>
@@ -183,9 +217,11 @@ class SignUpForm extends Component {
 
                         </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="primary" onClick={this.submitSignForm}>
-                                회원가입
-                            </Button>
+                            {
+                                onReadySignUp?
+                                <Button variant="primary" onClick={this.submitSignForm}>회원가입</Button>
+                                : <Button variant="primary">회원가입</Button>
+                            }
                             <Button variant="secondary" onClick={this.handleClose}>
                                 취소
                             </Button>

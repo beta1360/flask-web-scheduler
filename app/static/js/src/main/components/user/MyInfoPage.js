@@ -3,6 +3,7 @@ import { Spinner, Badge } from 'react-bootstrap';
 import { Map } from 'immutable';
 import axios from 'axios';
 
+import * as url from '../../../config';
 import ProgressProgressBar from './MyInfo/ProgressProgressBar';
 import PrivacyProgressBar from './MyInfo/PrivacyProgressBar';
 import LevelProgressBar from './MyInfo/LevelProgressBar';
@@ -59,7 +60,7 @@ class MyInfoPage extends Component {
     }
 
     requestDetailInfo = () => {
-        return axios.get('http://localhost:13609/info/detail');
+        return axios.get(url.GET_DETAIL_USER_INFO_URL);
     }
 
     getGroupBadge = (groupPrivacy) => (groupPrivacy == "public"?

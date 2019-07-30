@@ -1,6 +1,7 @@
 import '@babel/polyfill';
 import React, { Component, Fragment } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Spinner } from 'react-bootstrap';
+import * as url from '../../config';
 import axios from 'axios';
 
 class LogInForm extends Component {
@@ -11,7 +12,8 @@ class LogInForm extends Component {
         this.state = {
             show: false,
             id: '',
-            pwd: ''
+            pwd: '',
+            onReadyLogin: true
         };
     }
 
@@ -32,46 +34,55 @@ class LogInForm extends Component {
         this.setState({ show: true });
     }
 
-    onClickLogInBtn = () => {
-        let loginId = this.state.id;
-        let loginPwd = this.state.pwd;
+    disableLoginBtn = () => {
+        this.setState({ onReadyLogin: false });
+    }
 
-        if(loginId.length == 0 || loginPwd.length == 0)
-            alert("Please input user id or password in this boxes.");
+    enableLoginBtn = () => {
+        this.setState({ onReadyLogin: true });
+    }
+
+    onClickLogInBtn = async () => {
+        const { id, pwd } = this.state;
+
+        this.disableLoginBtn();
+
+        if(id.length == 0 || pwd.length == 0)
+            alert("id 혹은 비밀번호 칸을 채워주세요.");
 
         else {       
-            axios.post('http://localhost:13609/api/login', {
-                user_id: loginId,
-                user_pw: loginPwd
-            }).then( (response) =>{
-                this.getMessageByStatusCode(response);
-            }).catch( (error) => {
-                alert("로그인 에러입니다.\n" + error.message);
-            });
-                
+            const response = await axios.post(
+                url.LOGIN_API_URL, {
+                user_id: id, user_pw: pwd});
+
+            this.getMessageByStatusCode(response);
         }
+
+        this.enableLoginBtn();
     }
 
     getMessageByStatusCode = (response) => {
-        let status_code = response.data.code;
-        let message = response.data.message;
+        const { code, message } = response.data;
 
-        if(status_code == 200) {
+        if(code == 200) {
             alert(message);
-            this.initLogInForm;
-            location.replace("http://localhost:13609/main");
-        } else if(status_code == 601)
+            location.replace(url.GET_MAIN_PAGE_URL);
+        } 
+        
+        else if(code == 601)
             alert(message);
+
         else 
             alert("로그인 에러입니다.");
     }
 
-    initLogInForm = () => {
-        this.setState({id: '', pwd: ''});
-        this.handleClose;
+    shouldComponentUpdate = (prevProps, prevState) => {
+        return this.state !== prevState;
     }
 
     render = () => {
+        const { onReadyLogin } = this.state;
+
         return (
             <Fragment>
                 <div>
@@ -99,10 +110,11 @@ class LogInForm extends Component {
                                     <Form.Label>PW</Form.Label>
                                     <Form.Control type="password" placeholder="Password" onChange={this.handleChangePwd}/>
                                 </Form.Group>
-
-                                <Button variant="primary" onClick={this.onClickLogInBtn}>
-                                    로그인
-                                </Button>
+                                {
+                                    onReadyLogin?
+                                    <Button variant="primary" onClick={this.onClickLogInBtn}>로그인</Button>
+                                    : <Button variant="primary">로그인</Button>
+                                }
                                 <Button variant="secondary" onClick={this.handleClose}>
                                     취소
                                 </Button>

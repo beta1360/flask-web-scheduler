@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { List, Map } from 'immutable';
 import { handleActions } from 'redux-actions';
+import * as url from '../../../config';
 
 const GET_PENDING = 'GET_PENDING';
 const GET_TODOLIST = "TODO/TODOLIST";
@@ -14,7 +15,7 @@ export const getTodoList = (userId, range) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
-        return axios.get('http://localhost:13609/todo/list', {
+        return axios.get(url.GET_TODO_LIST_URL, {
             params: {id: userId, range: range}}
         ).then((response) => {
             const { todos } = response.data;
@@ -32,7 +33,7 @@ export const addTodo = (title, date_y, date_m, date_d, body, level, privacy) => 
     return (dispatch) => {
         dispatch({type: GET_PENDING});
         
-        return axios.post('http://localhost:13609/todo/add', {
+        return axios.post(url.ADD_TODO_URL, {
             title: title,
             date_y: date_y,
             date_m: date_m,
@@ -50,7 +51,7 @@ export const modifyTodo = (no, title, date_y, date_m, date_d, body, level, progr
     return (dispatch) => {
         dispatch({type: GET_PENDING});
         
-        return axios.post('http://localhost:13609/todo/modify', {
+        return axios.post(url.MODIFY_TODO_URL, {
             no: no,
             title: title,
             date_y: date_y,
@@ -70,7 +71,7 @@ export const deleteTodo = (no) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
-        return axios.delete("http://localhost:13609/todo/delete", {
+        return axios.delete(url.DELETE_TODO_URL, {
             params: {no: no}
         }).then((response) => {
             dispatch({type: DELETE_TODO});
@@ -88,7 +89,7 @@ export const modifyProgress = (no, progress) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
-        return axios.post("http://localhost:13609/todo/modify/progress", {
+        return axios.post(url.MODIFY_PROGRESS_TODO_URL, {
             no: no,
             progress: progress
         }).then((response)=>{

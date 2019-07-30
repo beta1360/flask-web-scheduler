@@ -13,6 +13,7 @@ class SearchGroupLabel extends Component {
         super(props, context);
 
         this.state = {
+            disable: false,
             updated: false,
             loading: false,
             groupInfoVisible: false,
@@ -43,20 +44,26 @@ class SearchGroupLabel extends Component {
         this.setState({inputGroupCode: e.target.value});
     }
 
-    getGroupInformation = (groupCode) => {
-        return axios.post('http://localhost:13609/group/info',{
-            group_code: groupCode
-        });
+    disableSearchGroupLabel = () => {
+        this.setState({ disable: true });
+    }
+
+    enableSearchGroupLabel = () => {
+        this.setState({ disable : false });
     }
 
     findGroup = async () => {
+        this.disableSearchGroupLabel();
+
         this.setState({updated: true});
         this.unshowGroupInfo();
         this.onLoading();
 
         const { inputGroupCode } = this.state;
 
-        const response = await this.getGroupInformation(inputGroupCode);
+        const response = await axios.post('http://localhost:13609/group/info',{
+            group_code: inputGroupCode
+        });
         const { group } = response.data;
 
         if(group != 1){
@@ -74,6 +81,7 @@ class SearchGroupLabel extends Component {
         }
 
         this.unLoading();
+        this.enableSearchGroupLabel();
     }
 
     getGroupInfo = (groupInfoVisible) => {
@@ -104,7 +112,7 @@ class SearchGroupLabel extends Component {
 
     getSearchGroupForm = () => {
         const { groupNum } = this.props;
-        const { groupInfoVisible } = this.state;
+        const { groupInfoVisible, disable } = this.state;
 
         if(groupNum != 1)
             return <></>;
@@ -119,7 +127,11 @@ class SearchGroupLabel extends Component {
                             onChange={this.onChangeGroupCodeForm}/>
                     </Form.Group>
                     {this.getGroupInfo(groupInfoVisible)}
-                    <Button variant="info" onClick={this.findGroup}>찾기</Button>
+                    {
+                        disable?
+                        <Button variant="info">찾기</Button>
+                        :<Button variant="info" onClick={this.findGroup}>찾기</Button>
+                    }
                 </div>
             )
         }

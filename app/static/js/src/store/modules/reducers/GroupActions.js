@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { List, Map } from 'immutable';
 import { handleActions } from 'redux-actions';
+import * as url from '../../../config';
 
 const GET_GROUPLIST = "GROUP/GET_LIST";
 const CHECK_GROUP = "GROUP/CHECK"
@@ -14,7 +15,7 @@ export const getGroupList = () => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
-        return axios.get('http://localhost:13609/group/list')
+        return axios.get(url.GET_GROUP_LIST_URL)
             .then((response) => {
                 const { groups } = response.data;
                 const mappingGroups = groups.map(group=>Map(group));
@@ -31,7 +32,7 @@ export const checkGroup = (groupCode) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
-        return axios.post('http://localhost:13609/group/check', {
+        return axios.post(url.GROUP_CHECK_URL, {
                 group_code: groupCode
             }).then((response) => {
                 const { message } = response.data;
@@ -47,7 +48,7 @@ export const addGroup = (groupCode, groupName, privacy) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
-        return axios.post('http://localhost:13609/group/add', {
+        return axios.post(url.ADD_GROUP_URL, {
                 group_name: groupName,
                 group_code: groupCode,
                 privacy: privacy
@@ -64,7 +65,7 @@ export const enterGroup = (groupCode) => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
-        return axios.post('http://localhost:13609/group/enter', {
+        return axios.post(url.ENTER_GROUP_URL, {
                 group_code: groupCode
             }).then((response) => {
                 const { message } = response.data;
@@ -81,7 +82,7 @@ export const leaveGroup = () => {
     return (dispatch) => {
         dispatch({type: GET_PENDING});
 
-        return axios.delete('http://localhost:13609/group/leave')
+        return axios.delete(url.LEAVE_GROUP_URL)
             .then((response) => {
                 dispatch({type: LEAVE_GROUP});
             });

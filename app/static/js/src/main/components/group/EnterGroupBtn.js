@@ -10,6 +10,17 @@ class EnterGroupBtn extends Component {
     constructor(props, context){
         super(props, context);
 
+        this.state = {
+            disable: false
+        }
+    }
+
+    disableEnterGroupBtn = () => {
+        this.setState({ disable: true });
+    }
+
+    enableEnterGroupBtn = () => {
+        this.setState({ disable: false });
     }
 
     enterGroup = async (groupCode) => {
@@ -19,6 +30,8 @@ class EnterGroupBtn extends Component {
     }
 
     onClickEnterGroupBtn = () => {
+        this.disableEnterGroupBtn();
+
         const { groupCode, groupName } = this.props;
         
         if(confirm(groupName + " 그룹에 참여하시겠습니까?")){
@@ -26,12 +39,22 @@ class EnterGroupBtn extends Component {
             alert(groupName + " 그룹에 오신 것을 환영합니다!");
             location.reload();
         }
+
+        this.enableEnterGroupBtn();
     }
 
     render = () => {
+        const { disable } = this.state;
+
+
         return (
-            <Button variant="primary" 
-                onClick={this.onClickEnterGroupBtn}>참여하기</Button>
+            <div>
+            {
+                disable?
+                <Button variant="primary">참여하기</Button>
+                :<Button variant="primary" onClick={this.onClickEnterGroupBtn}>참여하기</Button>
+            }
+            </div>
         );
     }
 }
