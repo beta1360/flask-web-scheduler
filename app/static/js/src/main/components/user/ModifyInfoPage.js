@@ -11,6 +11,7 @@ class ModifyInfoPage extends Component {
         super(props, context);
 
         this.state = {
+            disable: false,
             visible: true,
             isAuth: false,
             password: ''
@@ -33,7 +34,17 @@ class ModifyInfoPage extends Component {
         this.setState({password: e.target.value});
     }
 
+    disableModifyInfoPage = () => {
+        this.setState({ disable: true });
+    }
+
+    enableModifyInfoPage = () => {
+        this.setState({ disable: false });
+    }
+
     onClickAuthBtn = async () => {
+        this.disableModifyInfoPage();
+
         const { password } = this.state;
 
         const response = await axios.post(url.CHECK_USER_INFO_URL, {
@@ -49,9 +60,13 @@ class ModifyInfoPage extends Component {
             alert(message);
             this.showForms();
         }
+
+        this.enableModifyInfoPage();
     }
 
     drawAuthForm = () => {
+        const { disable } = this.state;
+
         return (
             <div>
                 <hr />
@@ -62,7 +77,11 @@ class ModifyInfoPage extends Component {
                         <Form.Control type="password" placeholder="Password" onChange={this.handleChangePwd}/>
                     </Form.Group>
                     <br/>
-                    <Button variant="primary" onClick={this.onClickAuthBtn}>제출</Button>
+                    {
+                        disable?
+                        <Button variant="primary">제출</Button>
+                        :<Button variant="primary" onClick={this.onClickAuthBtn}>제출</Button>
+                    }
                 </p>
                 <hr />
             </div>

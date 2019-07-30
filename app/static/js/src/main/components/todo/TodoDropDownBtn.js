@@ -16,8 +16,13 @@ class TodoDropDownBtn extends Component {
     }
 
     handleToggleChange = (e) => {
-        this.setState({ progress: e.target.value });
-        this.changeToggledProgress(e.target.value);
+        const nextValue = e.target.value;
+        const { progress } = this.state;
+
+        if(nextValue != progress){
+            this.setState({ progress: e.target.value });
+            this.changeToggledProgress(e.target.value);
+        }
     }
 
     changeToggledProgress = async (progress) => {
@@ -28,7 +33,9 @@ class TodoDropDownBtn extends Component {
     }
 
     getColorByProgress = () => {
-        switch(this.state.progress){
+        const { progress } = this.state;
+
+        switch(progress){
             case "TODO":
                 return "danger";
             case "DOING":

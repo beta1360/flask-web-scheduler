@@ -11,6 +11,7 @@ class CreateGroupBtn extends Component {
         super(props, context);
 
         this.state = {
+            disable: false,
             show: false,
             groupName: '',
             groupCode: '',
@@ -38,6 +39,14 @@ class CreateGroupBtn extends Component {
         this.setState({ isPrivate: e.target.checked });
     }
 
+    disableCreateGroupBtn = () => {
+        this.setState({ disable: true });
+    }
+
+    enableCreateGroupBtn = () => {
+        this.setState({ disable: false });
+    }
+
     onClickCheckingGroupCode = async () => {
         const { GroupActions } = this.props;
         const { groupCode } = this.state;
@@ -48,6 +57,8 @@ class CreateGroupBtn extends Component {
     }
 
     onCreateGroup = async () => {
+        this.disableCreateGroupBtn();
+
         const { GroupActions } = this.props;
         const { groupName, groupCode } = this.state;
         const privacy = this.state.isPrivate? "private": "public";
@@ -60,6 +71,8 @@ class CreateGroupBtn extends Component {
             location.reload();
         } else
             alert(message);
+
+        this.enableCreateGroupBtn();
     }
 
     getCreateGroupBtn = () => {
@@ -104,9 +117,11 @@ class CreateGroupBtn extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="primary" onClick={this.onCreateGroup}>
-                            그룹 생성
-                        </Button>
+                        {
+                            disable?
+                            <Button variant="primary">그룹 생성</Button>
+                            :<Button variant="primary" onClick={this.onCreateGroup}>그룹 생성</Button>
+                        }
                         <Button variant="secondary" onClick={this.handleClose}>
                             취소
                         </Button>
