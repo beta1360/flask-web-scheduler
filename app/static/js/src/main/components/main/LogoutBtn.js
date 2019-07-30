@@ -42,7 +42,8 @@ class LogoutBtn extends Component {
             {
                 disable?
                 <Button variant="outline-light">로그아웃</Button>
-                :<Button variant="outline-light" onClick={this.onClickLogoutBtn}>로그아웃</Button>
+                :<Button variant="outline-light" 
+                    onClick={this.onClickLogoutBtn}>로그아웃</Button>
             }
             </div>
         );

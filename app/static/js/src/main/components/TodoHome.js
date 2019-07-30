@@ -60,12 +60,17 @@ class TodoHome extends Component {
                 <hr />
                 <Nav variant="tabs" defaultActiveKey="#AllTodo">
                     <Nav.Item>
-                        <Nav.Link eventKey="all" href="#AllTodo" onSelect={this.onSelectedNavItem}>전체</Nav.Link>
+                        <Nav.Link eventKey="all" href="#AllTodo" 
+                            onSelect={this.onSelectedNavItem}>전체</Nav.Link>
                     </Nav.Item>
                     {this.getMyTodoNavTab(groupNum)}
                     {this.getTeamTodoNavTab(groupNum)}
                 </Nav>
-                <TodoTableContainer range={selected} userId={userId} userName={userName} groupNum={groupNum}/>
+                <TodoTableContainer 
+                    range={selected} 
+                    userId={userId} 
+                    userName={userName} 
+                    groupNum={groupNum}/>
             </div>
         );
     }

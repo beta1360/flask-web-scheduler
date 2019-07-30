@@ -37,7 +37,11 @@ class TodoTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <TodoListContainer range={range} userId={userId} userName={userName} groupNum={groupNum}/>
+                            <TodoListContainer 
+                                range={range} 
+                                userId={userId} 
+                                userName={userName} 
+                                groupNum={groupNum}/>
                         </tbody>
                     </Table>
                     <hr />

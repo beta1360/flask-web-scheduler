@@ -1,7 +1,6 @@
 import '@babel/polyfill';
 import React, { Component } from 'react';
 import { Badge } from 'react-bootstrap';
-import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import * as todoActions from '../../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
@@ -17,10 +16,10 @@ class TodoItem extends Component {
 
     setDateToString = () => {
         const { date_y, date_m, date_d } = this.props.todo;
-        let str = date_y + ".";
+        let str = date_y + "/";
 
         if(date_m < 10) str += "0";
-        str += date_m + ".";
+        str += date_m + "/";
 
         if(date_d < 10) str += "0";
         str += date_d;

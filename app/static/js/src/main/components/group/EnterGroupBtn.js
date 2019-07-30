@@ -52,7 +52,8 @@ class EnterGroupBtn extends Component {
             {
                 disable?
                 <Button variant="primary">참여하기</Button>
-                :<Button variant="primary" onClick={this.onClickEnterGroupBtn}>참여하기</Button>
+                :<Button variant="primary" 
+                    onClick={this.onClickEnterGroupBtn}>참여하기</Button>
             }
             </div>
         );

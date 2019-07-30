@@ -30,14 +30,12 @@ class DetailTodoModal extends Component {
     }
 
     setDateToString = () => {
-        const date_y = this.props.todo.date_y;
-        const date_m = this.props.todo.date_m;
-        const date_d = this.props.todo.date_d;
+        const { date_y, date_m, date_d } = this.props.todo;
 
-        let str = date_y + ".";
+        let str = date_y + "/";
 
         if(date_m < 10) str += "0";
-        str += date_m + ".";
+        str += date_m + "/";
 
         if(date_d < 10) str += "0";
         str += date_d;
@@ -82,28 +80,31 @@ class DetailTodoModal extends Component {
     }
 
     render = () => {
-        const { todo } = this.props;
+        const { progress, no, title, level, body, privacy } = this.props.todo;
+        const { show } = this.state;
 
         return(
             <div>
                 <Button variant="primary" onClick={this.handleShow}>상세보기</Button>
 
-                <Modal show={this.state.show} onHide={this.handleClose}>
+                <Modal show={show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            <Badge variant={this.getBadgeColorByProgress()}>{todo.progress}</Badge>#{todo.no} <b>{todo.title}</b>
+                            <Badge variant={this.getBadgeColorByProgress()}>{progress}
+                                </Badge>#{no} <b>{title}</b>
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p><label><b>우선 순위: </b> {todo.level}</label></p>
+                        <p><label><b>우선 순위: </b> {level}</label></p>
                         <p><label><b>해야될 날짜: </b> {this.setDateToString()}</label></p>
                         <p><label><b>상세 내용: </b></label></p>
                         <div className="content"
-                            dangerouslySetInnerHTML={this.getRawMarkup(todo.body)}/>
+                            dangerouslySetInnerHTML={this.getRawMarkup(body)}/>
                     </Modal.Body>
                     <Modal.Footer>
-                        {this.getModifyButton(todo.no, todo.title, this.setDateToString(), todo.body, todo.level, todo.progress, todo.privacy)}
-                        {this.getDeleteButton(todo.no)}
+                        {this.getModifyButton(no, title, this.setDateToString(), 
+                            body, level, progress, privacy)}
+                        {this.getDeleteButton(no)}
                         <Button variant="dark" onClick={this.handleClose}>닫기</Button>
                     </Modal.Footer>
                 </Modal>

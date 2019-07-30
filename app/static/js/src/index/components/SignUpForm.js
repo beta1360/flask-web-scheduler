@@ -1,6 +1,6 @@
 import '@babel/polyfill';
 import React, { Component, Fragment } from 'react';
-import { Form, Modal, Button, Spinner } from 'react-bootstrap';
+import { Form, Modal, Button } from 'react-bootstrap';
 import * as url from '../../config';
 import axios from 'axios';
 
@@ -145,7 +145,7 @@ class SignUpForm extends Component {
     }
 
     render = () => {
-        const { onReadyCheckId, onReadySignUp } = this.state;
+        const { onReadyCheckId, onReadySignUp, show } = this.state;
 
         return (
             <Fragment>
@@ -156,17 +156,20 @@ class SignUpForm extends Component {
                 </div>
 
                 <div>
-                    <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal show={show} onHide={this.handleClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>회원 가입</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>ID</Form.Label>
-                                <Form.Control type="text" placeholder="사용하실 아이디를 입력하세요." onChange={this.handleChangeId}/>
+                                <Form.Control type="text" 
+                                    placeholder="사용하실 아이디를 입력하세요." 
+                                    onChange={this.handleChangeId}/>
                                 {
                                     onReadyCheckId?
-                                    <Button variant="info" onClick={this.onClickIdCheckBtn}>중복 체크</Button>
+                                    <Button variant="info" 
+                                        onClick={this.onClickIdCheckBtn}>중복 체크</Button>
                                     : <Button variant="info">중복 체크</Button>
                                 }
                                 <Form.Text className="text-muted">
@@ -176,10 +179,12 @@ class SignUpForm extends Component {
 
                             <Form.Group controlId="formBasicPassword">
                                 <Form.Label>PW</Form.Label>
-                                <Form.Control type="password" placeholder="사용하실 비밀번호를 입력하세요." onChange={this.handleChangePw}/>
+                                <Form.Control type="password" 
+                                    placeholder="사용하실 비밀번호를 입력하세요." 
+                                    onChange={this.handleChangePw}/>
                                 <Form.Text className="text-muted">
-                                    { this.isEqualPasswords()
-                                        ? "두 비밀번호가 같습니다. 다음 가입 절차를 진행해주세요."
+                                    { this.isEqualPasswords()? 
+                                        "두 비밀번호가 같습니다. 다음 가입 절차를 진행해주세요."
                                         : "두 비밀번호가 다릅니다."
                                     }
                                 </Form.Text>
@@ -187,12 +192,16 @@ class SignUpForm extends Component {
 
                             <Form.Group controlId="formBasicPassword2">
                                 <Form.Label>PW 확인</Form.Label>
-                                <Form.Control type="password" placeholder="비밀번호를 한번 더 입력하세요." onChange={this.handleChangeCpw}/>
+                                <Form.Control type="password" 
+                                    placeholder="비밀번호를 한번 더 입력하세요." 
+                                    onChange={this.handleChangeCpw}/>
                             </Form.Group>
 
                             <Form.Group controlId="formBasicName">
                                 <Form.Label>이름</Form.Label>
-                                <Form.Control type="text" placeholder="이름을 입력하세요." onChange={this.handleChangeName}/>
+                                <Form.Control type="text" 
+                                    placeholder="이름을 입력하세요." 
+                                    onChange={this.handleChangeName}/>
                             </Form.Group>
 
                             <Form.Group controlId="formGridState">
@@ -209,7 +218,9 @@ class SignUpForm extends Component {
                             </Form.Group>
                             <Form.Group controlId="formBasicGroup">
                                 <Form.Label>그룹코드</Form.Label>
-                                <Form.Control type="text" placeholder="그룹코드를 입력하세요." onChange={this.handleGroupCode}/>
+                                <Form.Control type="text" 
+                                    placeholder="그룹코드를 입력하세요." 
+                                    onChange={this.handleGroupCode}/>
                                 <Form.Text className="text-muted">
                                     만약 존재하지 않는 그룹이면, 익명 그룹으로 분류됩니다.
                                 </Form.Text>
@@ -219,7 +230,8 @@ class SignUpForm extends Component {
                         <Modal.Footer>
                             {
                                 onReadySignUp?
-                                <Button variant="primary" onClick={this.submitSignForm}>회원가입</Button>
+                                <Button variant="primary" 
+                                    onClick={this.submitSignForm}>회원가입</Button>
                                 : <Button variant="primary">회원가입</Button>
                             }
                             <Button variant="secondary" onClick={this.handleClose}>

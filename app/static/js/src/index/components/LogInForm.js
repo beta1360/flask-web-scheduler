@@ -81,7 +81,7 @@ class LogInForm extends Component {
     }
 
     render = () => {
-        const { onReadyLogin } = this.state;
+        const { onReadyLogin, show } = this.state;
 
         return (
             <Fragment>
@@ -92,7 +92,7 @@ class LogInForm extends Component {
                 </div>
 
                 <div>
-                    <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal show={show} onHide={this.handleClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>로그인</Modal.Title>
                         </Modal.Header>
@@ -100,7 +100,9 @@ class LogInForm extends Component {
                             <Form>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>ID</Form.Label>
-                                    <Form.Control type="text" placeholder="Enter ID" onChange={this.handleChangeID}/>
+                                    <Form.Control type="text" 
+                                        placeholder="Enter ID" 
+                                        onChange={this.handleChangeID}/>
                                     <Form.Text className="text-muted">
                                         We'll never share your id with anyone else.
                                     </Form.Text>
@@ -108,11 +110,14 @@ class LogInForm extends Component {
 
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>PW</Form.Label>
-                                    <Form.Control type="password" placeholder="Password" onChange={this.handleChangePwd}/>
+                                    <Form.Control type="password" 
+                                        placeholder="Password" 
+                                        onChange={this.handleChangePwd}/>
                                 </Form.Group>
                                 {
                                     onReadyLogin?
-                                    <Button variant="primary" onClick={this.onClickLogInBtn}>로그인</Button>
+                                    <Button variant="primary" 
+                                        onClick={this.onClickLogInBtn}>로그인</Button>
                                     : <Button variant="primary">로그인</Button>
                                 }
                                 <Button variant="secondary" onClick={this.handleClose}>
