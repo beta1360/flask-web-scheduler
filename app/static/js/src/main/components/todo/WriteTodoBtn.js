@@ -13,7 +13,7 @@ class WriteTodoBtn extends React.Component {
         super(props, context);
 
         this.state = {
-            disable: true,
+            disable: false,
             show: false,
             title: '',
             startDate: '',
@@ -99,7 +99,7 @@ class WriteTodoBtn extends React.Component {
     }
 
     render = () => {
-        const { disable } = this.state;
+        const { disable, startDate, show } = this.state;
 
         return (
             <div>
@@ -107,25 +107,28 @@ class WriteTodoBtn extends React.Component {
                     placement="top-start"
                     delay={{ show: 250, hide: 400 }}
                     overlay={this.getTooltip()}>
-                    <Button variant="primary" onClick={this.handleShow}>Todo 추가</Button>
+                    <Button variant="primary" 
+                        onClick={this.handleShow}>Todo 추가</Button>
                 </OverlayTrigger>
 
-                <Modal show={this.state.show} onHide={this.handleClose}>
+                <Modal show={show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                         <Modal.Title>Todo 쓰기</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>제목</Form.Label>
-                            <Form.Control type="text" placeholder="제목을 작성해주세요." onChange={this.handleTitleChange}/>
+                            <Form.Control type="text" 
+                                placeholder="제목을 작성해주세요." 
+                                onChange={this.handleTitleChange}/>
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>일정</Form.Label>
                             <p>
                                 <DatePicker
-                                    dateFormat="yyyy.MM.dd"
-                                    selected={this.state.startDate}
+                                    dateFormat="yyyy/MM/dd"
+                                    selected={startDate}
                                     onChange={this.handleDateChange}
                                     isClearable={true}
                                     placeholderText="Click to select a date"/>   
@@ -134,18 +137,24 @@ class WriteTodoBtn extends React.Component {
 
                         <Form.Group controlId="exampleForm.ControlTextarea1">
                             <Form.Label>내용</Form.Label>
-                            <Form.Control as="textarea" rows="5" onChange={this.handleContentChange}/>
+                            <Form.Control as="textarea" rows="5" 
+                                onChange={this.handleContentChange}/>
                         </Form.Group>
 
                         <Form.Group controlId="exampleForm.ControlButtonGroup">
                             <Form.Label>작업 우선순위</Form.Label>
                             <p>
-                                <ButtonGroup aria-label="Basic example">
-                                    <Button variant="danger" value='1' onClick={this.handleToggleChange}>1</Button>
-                                    <Button variant="warning" value='2' onClick={this.handleToggleChange}>2</Button>
-                                    <Button variant="success" value='3' onClick={this.handleToggleChange}>3</Button>
-                                    <Button variant="info" value='4' onClick={this.handleToggleChange}>4</Button>
-                                    <Button variant="secondary" value='5' onClick={this.handleToggleChange}>5</Button>
+                                <ButtonGroup aria-label="Basic example" toggle="true">
+                                    <Button variant="danger" value='1' 
+                                        onClick={this.handleToggleChange}>1</Button>
+                                    <Button variant="warning" value='2' 
+                                        onClick={this.handleToggleChange}>2</Button>
+                                    <Button variant="success" value='3' 
+                                        onClick={this.handleToggleChange}>3</Button>
+                                    <Button variant="info" value='4' 
+                                        onClick={this.handleToggleChange}>4</Button>
+                                    <Button variant="secondary" value='5' 
+                                        onClick={this.handleToggleChange}>5</Button>
                                 </ButtonGroup>
                             </p>
                         </Form.Group>
@@ -163,7 +172,8 @@ class WriteTodoBtn extends React.Component {
                         {
                             disable?
                             <Button variant="primary">작성완료</Button>
-                            :<Button variant="primary" onClick={this.submitWritingTodoForm}>작성완료</Button>
+                            :<Button variant="primary" 
+                                onClick={this.submitWritingTodoForm}>작성완료</Button>
                         }
                         <Button variant="secondary" onClick={this.handleClose}>
                             취소

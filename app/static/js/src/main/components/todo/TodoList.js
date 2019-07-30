@@ -50,10 +50,12 @@ class TodoList extends Component {
 
     drawTodoTable = () => {
         const { todoList } = this.state;
+        const { userId } = this.props;
 
         return todoList.map((todo) => {
             const todoComp = todo.toJS();
-            return <TodoItemContainer todo={todoComp} key={todo.get("no")} userId={this.props.userId}/>
+            return <TodoItemContainer todo={todoComp} 
+                    key={todo.get("no")} userId={userId}/>
         });
     }
 

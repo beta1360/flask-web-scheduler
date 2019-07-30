@@ -68,11 +68,13 @@ class MainHome extends Component {
         const groupPrivacy = data.get('groupPrivacy');
 
         if(selected == "todo")
-            return <TodoHomeContainer userId={userId} userName={userName} groupNum={groupNum}/>;
+            return <TodoHomeContainer userId={userId} 
+                    userName={userName} groupNum={groupNum}/>;
         else if(selected == "calendar")
             alert("개발 중입니다.");
         else if(selected == "groups")
-            return <GroupHome user={userId} userName={userName} groupNum={groupNum} groupName={groupName} groupPrivacy={groupPrivacy}/>
+            return <GroupHome user={userId} userName={userName} 
+                    groupNum={groupNum} groupName={groupName} groupPrivacy={groupPrivacy}/>
         else // selectedItem == "myinfo"
             return <UserHome userId={userId} />;
     }
@@ -83,10 +85,14 @@ class MainHome extends Component {
                 <Navbar bg="primary" variant="dark">
                     <Navbar.Brand href="/">Todo Scheduler</Navbar.Brand>
                     <Nav className="mr-auto">
-                        <Nav.Link eventKey="todo" href="#todo" onSelect={this.onSelectedNavItem}>Todo List</Nav.Link>
-                        <Nav.Link eventKey="calendar" href="#calendar" onSelect={this.onSelectedNavItem}>Calendar</Nav.Link>
-                        <Nav.Link eventKey="groups" href="#groups" onSelect={this.onSelectedNavItem}>Groups</Nav.Link>
-                        <Nav.Link eventKey="myinfo" href="#myinfo" onSelect={this.onSelectedNavItem}>My Info</Nav.Link>
+                        <Nav.Link eventKey="todo" href="#todo" 
+                            onSelect={this.onSelectedNavItem}>Todo List</Nav.Link>
+                        <Nav.Link eventKey="calendar" href="#calendar" 
+                            onSelect={this.onSelectedNavItem}>Calendar</Nav.Link>
+                        <Nav.Link eventKey="groups" href="#groups" 
+                            onSelect={this.onSelectedNavItem}>Groups</Nav.Link>
+                        <Nav.Link eventKey="myinfo" href="#myinfo" 
+                            onSelect={this.onSelectedNavItem}>My Info</Nav.Link>
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
                         <LogoutBtn />

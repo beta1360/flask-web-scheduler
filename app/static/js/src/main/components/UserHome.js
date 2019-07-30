@@ -22,18 +22,27 @@ class UserHome extends Component {
                 <Tab.Container id="left-tabs-example" defaultActiveKey="min">
                     <Row>
                         <Col sm={3}>
-                            <Nav variant="pills" defaultActiveKey="#min" className="flex-column">
+                            <Nav variant="pills" defaultActiveKey="#min" 
+                                className="flex-column">
                                 <Nav.Item>
-                                    <Nav.Link eventKey="min" href="#min">개요</Nav.Link>
+                                    <Nav.Link 
+                                        eventKey="min" 
+                                        href="#min">개요</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="me" href="#myinfo">상세정보</Nav.Link>
+                                    <Nav.Link 
+                                        eventKey="me" 
+                                        href="#myinfo">상세정보</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="modifyInfo" href="#modifyInfo">내 정보수정</Nav.Link>
+                                    <Nav.Link 
+                                        eventKey="modifyInfo" 
+                                        href="#modifyInfo">내 정보수정</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="deleteInfo" href="#deleteInfo">회원탈퇴</Nav.Link>
+                                    <Nav.Link 
+                                        eventKey="deleteInfo" 
+                                        href="#deleteInfo">회원탈퇴</Nav.Link>
                                 </Nav.Item>
                             </Nav>
                         </Col>

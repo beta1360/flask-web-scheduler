@@ -27,9 +27,9 @@ class DeleteTodoAlert extends Component {
     deleteTodo = async () => {
         this.disableDeleteTodoBtn();
 
-        const { TodoActions } = this.props;
+        const { TodoActions, no } = this.props;
 
-        await TodoActions.deleteTodo(this.props.no);
+        await TodoActions.deleteTodo(no);
         TodoActions.todoRerender();
 
         this.enableDeleteTodoBtn();
