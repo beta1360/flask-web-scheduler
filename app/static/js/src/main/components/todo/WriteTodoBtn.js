@@ -13,6 +13,7 @@ class WriteTodoBtn extends React.Component {
         super(props, context);
 
         this.state = {
+            disable: true,
             show: false,
             title: '',
             startDate: '',
@@ -50,7 +51,17 @@ class WriteTodoBtn extends React.Component {
         this.setState({ isPrivate: e.target.checked });
     }
 
+    disableWriteTodoBtn = () => {
+        this.setState({ disable: true });
+    }
+
+    enableWriteTodoBtn = () => {
+        this.setState({ disable: false });
+    }
+
     submitWritingTodoForm = async () => {
+        this.disableWriteTodoBtn();
+
         const { TodoActions } = this.props;
 
         const thisDate = new Date(this.state.startDate);
@@ -69,6 +80,8 @@ class WriteTodoBtn extends React.Component {
         TodoActions.todoRerender();
 
         this.handleClose();
+
+        this.enableWriteTodoBtn();
     }
 
     getTooltip = () => {
@@ -86,6 +99,8 @@ class WriteTodoBtn extends React.Component {
     }
 
     render = () => {
+        const { disable } = this.state;
+
         return (
             <div>
                 <OverlayTrigger   
@@ -145,9 +160,11 @@ class WriteTodoBtn extends React.Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="primary" onClick={this.submitWritingTodoForm}>
-                            작성완료
-                        </Button>
+                        {
+                            disable?
+                            <Button variant="primary">작성완료</Button>
+                            :<Button variant="primary" onClick={this.submitWritingTodoForm}>작성완료</Button>
+                        }
                         <Button variant="secondary" onClick={this.handleClose}>
                             취소
                         </Button>

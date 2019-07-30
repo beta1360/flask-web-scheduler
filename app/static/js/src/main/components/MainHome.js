@@ -6,6 +6,7 @@ import { Navbar, Nav, Spinner  } from 'react-bootstrap';
 import { bindActionCreators } from 'redux';
 import * as todoActions from '../../store/modules/reducers/TodoActions'
 import { connect } from 'react-redux';
+import * as url from '../../config';
 import LogoutBtn from './main/LogoutBtn';
 import TodoHomeContainer from './TodoHome';
 import UserHome from './UserHome';
@@ -42,7 +43,7 @@ class MainHome extends Component {
     }
 
     setTodoTableInformation = async () => {
-        const res = await axios.get('http://localhost:13609/user/whoami');
+        const res = await axios.get(url.WHOAMI_API_URL);
                 
         const { user_id, user_name, group_num, group_name, group_privacy } = res.data;
         const { data } = this.state;

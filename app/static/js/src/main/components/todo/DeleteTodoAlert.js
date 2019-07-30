@@ -11,21 +11,38 @@ class DeleteTodoAlert extends Component {
         super(props, context);
 
         this.state = {
+            disable: false,
             show: false
         };
     }
 
+    disableDeleteTodoBtn = () => {
+        this.setState({disable: true});
+    }
+
+    enableDeleteTodoBtn = () => {
+        this.setState({disable: false});
+    }
+
     deleteTodo = async () => {
+        this.disableDeleteTodoBtn();
+
         const { TodoActions } = this.props;
 
         await TodoActions.deleteTodo(this.props.no);
         TodoActions.todoRerender();
+
+        this.enableDeleteTodoBtn();
     }
 
     render = () => {
-        return(
-            <Button variant="danger" onClick={this.deleteTodo}>삭제</Button>
-        );
+        const { disable } = this.state;
+
+        if(disable)
+            return <Button variant="danger">삭제</Button>
+
+        else
+            return <Button variant="danger" onClick={this.deleteTodo}>삭제</Button>;
     }
 }
 

@@ -21,6 +21,7 @@ class ModifyTodoModal extends Component {
         }
 
         this.state = {
+            disable: false,
             show: false,
             title: this.props.title,
             startDate: this.startDate,
@@ -59,7 +60,17 @@ class ModifyTodoModal extends Component {
         this.setState({ privacy: e.target.checked?"private":"public" });
     }
 
+    disableModifyTodoBtn = () => {
+        this.setState({ disable: true });
+    }
+
+    enableModifyTodoBtn = () => {
+        this.setState({ disable: false});
+    }
+
     submitModifyingTodoForm = async () => {
+        this.disableModifyTodoBtn();
+
         const { TodoActions } = this.props;
         const thisDate = new Date(this.state.startDate);
 
@@ -78,6 +89,8 @@ class ModifyTodoModal extends Component {
 
         TodoActions.todoRerender();
         this.handleClose();
+
+        this.enableModifyTodoBtn();
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
@@ -86,6 +99,8 @@ class ModifyTodoModal extends Component {
     }
 
     render = () => {
+        const { disable } = this.state;
+
         return (
             <div>
                 <Button variant="primary" onClick={this.handleShow}>수정</Button>
@@ -150,9 +165,11 @@ class ModifyTodoModal extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="primary" onClick={this.submitModifyingTodoForm}>
-                            작성완료
-                        </Button>
+                        {
+                            disable?
+                            <Button variant="primary">작성완료</Button>
+                            :<Button variant="primary" onClick={this.submitModifyingTodoForm}>작성완료</Button>
+                        }
                         <Button variant="secondary" onClick={this.handleClose}>
                             취소
                         </Button>
